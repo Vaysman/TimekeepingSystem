@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.wkn</groupId>
-    <artifactId>timekeeping_system</artifactId>
+    <artifactId>timekeeping-system</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -14,24 +14,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>pl.pragmatists</groupId>
-            <artifactId>JUnitParams</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
@@ -61,7 +43,7 @@
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                         <manifestEntries>
-                            <Main-Class>ru.wkn.timekeepingsystem.Launcher</Main-Class>
+                            <Main-Class>ru.wkn.timekeepingsystem.ServerLauncher</Main-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>

@@ -1,4 +1,6 @@
 package ru.wkn.timekeepingsystem.model.timekeeping.timekeepingunits.event.events;
 
-public class Break {
+import ru.wkn.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
+
+public class Break extends TimekeepingEvent {
 }

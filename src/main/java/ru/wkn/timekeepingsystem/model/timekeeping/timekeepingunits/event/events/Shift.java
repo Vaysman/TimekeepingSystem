@@ -1,4 +1,6 @@
 package ru.wkn.timekeepingsystem.model.timekeeping.timekeepingunits.event.events;
 
-public class Shift {
+import ru.wkn.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
+
+public class Shift extends TimekeepingEvent {
 }

@@ -5,6 +5,10 @@ public abstract class TimekeepingEvent {
     private String startTime;
     private String endTime;
 
+    public TimekeepingEvent(String startTime) {
+        this.startTime = startTime;
+    }
+
     public String getStartTime() {
         return startTime;
     }

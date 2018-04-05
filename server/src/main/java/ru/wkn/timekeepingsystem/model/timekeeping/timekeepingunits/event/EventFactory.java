@@ -6,15 +6,7 @@ import ru.wkn.timekeepingsystem.model.timekeeping.timekeepingunits.event.events.
 public class EventFactory implements EventFactoryIF<TimekeepingEvent> {
 
     @Override
-    public TimekeepingEvent createTimekeepingEvent(String type, String time) {
-        if (type.equals("shift")) {
-            return new Shift();
-        }
-        if (type.equals("break")) {
-            return new Break();
-        }
-        else {
-            return null;
-        }
+    public TimekeepingEvent createTimekeepingEvent(String type, String startTime) {
+        return (type.equals("shift")) ? new Shift(startTime) : (type.equals("break")) ? new Break(startTime) : null;
     }
 }

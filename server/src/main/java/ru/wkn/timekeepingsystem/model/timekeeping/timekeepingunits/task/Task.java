@@ -7,6 +7,7 @@ public class Task {
     private String definition;
     private String startTime;
     private String endTime;
+    private boolean isAccomplished;
 
     public Task(String definition, String startTime, String endTime) {
         this.definition = definition;
@@ -26,19 +27,28 @@ public class Task {
         return endTime;
     }
 
+    public boolean isAccomplished() {
+        return isAccomplished;
+    }
+
+    public void setAccomplished(boolean accomplished) {
+        isAccomplished = accomplished;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(definition, task.definition) &&
+        return isAccomplished == task.isAccomplished &&
+                Objects.equals(definition, task.definition) &&
                 Objects.equals(startTime, task.startTime) &&
                 Objects.equals(endTime, task.endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(definition, startTime, endTime);
+        return Objects.hash(definition, startTime, endTime, isAccomplished);
     }
 
     @Override
@@ -47,6 +57,7 @@ public class Task {
                 "definition='" + definition + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
+                ", isAccomplished=" + isAccomplished +
                 '}';
     }
 }

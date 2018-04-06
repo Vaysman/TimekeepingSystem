@@ -12,4 +12,12 @@ public class Employee {
     private EmployeeStatus employeeStatus;
     private Task task;
     private EventFactoryIF<TimekeepingEvent> eventEventFactoryIF;
+
+    public Employee(String name, String surname, EmployeeStatus employeeStatus, Task task, EventFactoryIF<TimekeepingEvent> eventEventFactoryIF) {
+        this.name = name;
+        this.surname = surname;
+        this.employeeStatus = employeeStatus;
+        this.task = task;
+        this.eventEventFactoryIF = eventEventFactoryIF;
+    }
 }

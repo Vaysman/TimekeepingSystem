@@ -4,16 +4,16 @@ import java.util.Objects;
 
 public class EmployeeAuthorizationData {
 
-    private String employeeID;
+    private String login;
     private String password;
 
-    public EmployeeAuthorizationData(String employeeID, String password) {
-        this.employeeID = employeeID;
+    public EmployeeAuthorizationData(String login, String password) {
+        this.login = login;
         this.password = password;
     }
 
-    public String getEmployeeID() {
-        return employeeID;
+    public String getLogin() {
+        return login;
     }
 
     public String getPassword() {
@@ -25,19 +25,19 @@ public class EmployeeAuthorizationData {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EmployeeAuthorizationData that = (EmployeeAuthorizationData) o;
-        return Objects.equals(employeeID, that.employeeID) &&
+        return Objects.equals(login, that.login) &&
                 Objects.equals(password, that.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(employeeID, password);
+        return Objects.hash(login, password);
     }
 
     @Override
     public String toString() {
         return "EmployeeAuthorizationData{" +
-                "employeeID='" + employeeID + '\'' +
+                "login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

@@ -1,4 +1,4 @@
-package ru.wkn.timekeepingsystem.model.timekeeping.log.persistent;
+package ru.wkn.timekeepingsystem.model.dao.persistent;
 
 public class PersistentException extends Exception {
 

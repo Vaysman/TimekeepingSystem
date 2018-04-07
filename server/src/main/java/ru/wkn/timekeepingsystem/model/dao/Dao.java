@@ -1,12 +1,14 @@
-package ru.wkn.timekeepingsystem.model.timekeeping.log.persistent;
+package ru.wkn.timekeepingsystem.model.dao;
+
+import ru.wkn.timekeepingsystem.model.dao.persistent.PersistentException;
 
 import java.util.List;
 
-public interface Dao<K, V> {
+public interface Dao<V> {
 
     V create(V newInstance) throws PersistentException;
 
-    V read(K id) throws PersistentException;
+    V read(int id) throws PersistentException;
 
     void update(V transientObject) throws PersistentException;
 

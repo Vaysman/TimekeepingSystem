@@ -43,7 +43,7 @@
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                         <manifestEntries>
-                            <Main-Class>ru.wkn.timekeepingsystem.ServerLauncher</Main-Class>
+                            <Main-Class>ru.wkn.server.timekeepingsystem.ServerLauncher</Main-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>

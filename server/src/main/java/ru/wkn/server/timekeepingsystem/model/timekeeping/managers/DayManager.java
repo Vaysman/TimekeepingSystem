@@ -1,0 +1,15 @@
+package ru.wkn.server.timekeepingsystem.model.timekeeping.managers;
+
+import ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee.Employee;
+import ru.wkn.server.timekeepingsystem.model.dao.Dao;
+import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.Day;
+import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
+import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.task.Task;
+
+public class DayManager {
+
+    private Dao<Day> dayDao;
+    private Dao<Employee> employeeDao;
+    private Dao<Task> taskDao;
+    private Dao<TimekeepingEvent> timekeepingEventDao;
+}

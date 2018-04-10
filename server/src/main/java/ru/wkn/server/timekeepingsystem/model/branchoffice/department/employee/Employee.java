@@ -2,7 +2,7 @@ package ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee;
 
 import ru.wkn.server.timekeepingsystem.model.branchoffice.BranchOffice;
 import ru.wkn.server.timekeepingsystem.model.branchoffice.department.Department;
-import ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee.status.EmployeeStatus;
+import ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee.status.EmployeeStatusEnum;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.summary.CalendarEvent;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.EventFactoryIF;
@@ -15,7 +15,7 @@ public class Employee {
     private String name;
     private String surname;
     private String telephoneNumber;
-    private EmployeeStatus employeeStatus;
+    private EmployeeStatusEnum employeeStatusEnum;
     private EmployeeAuthorizationData employeeAuthorizationData;
     private Department department;
     private BranchOffice branchOffice;
@@ -28,7 +28,7 @@ public class Employee {
         this.name = name;
         this.surname = surname;
         this.telephoneNumber = telephoneNumber;
-        this.employeeStatus = EmployeeStatus.valueOf(employeeStatus);
+        this.employeeStatusEnum = EmployeeStatusEnum.valueOf(employeeStatus);
         this.employeeAuthorizationData = new EmployeeAuthorizationData(login, password);
         this.department = new Department(department);
         this.branchOffice = new BranchOffice(branchOffice);
@@ -69,12 +69,12 @@ public class Employee {
         this.telephoneNumber = telephoneNumber;
     }
 
-    public EmployeeStatus getEmployeeStatus() {
-        return employeeStatus;
+    public EmployeeStatusEnum getEmployeeStatusEnum() {
+        return employeeStatusEnum;
     }
 
-    public void setEmployeeStatus(String employeeStatus) {
-        this.employeeStatus = EmployeeStatus.valueOf(employeeStatus);
+    public void setEmployeeStatusEnum(String employeeStatusEnum) {
+        this.employeeStatusEnum = EmployeeStatusEnum.valueOf(employeeStatusEnum);
     }
 
     public EmployeeAuthorizationData getEmployeeAuthorizationData() {

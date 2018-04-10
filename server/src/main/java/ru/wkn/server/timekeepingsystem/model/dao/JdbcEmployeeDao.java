@@ -27,7 +27,7 @@ public class JdbcEmployeeDao implements Dao<Employee> {
         statement.setString(2, currentInstance.getName());
         statement.setString(3, currentInstance.getSurname());
         statement.setString(4, currentInstance.getTelephoneNumber());
-        statement.setString(5, currentInstance.getEmployeeStatus().toString());
+        statement.setString(5, currentInstance.getEmployeeStatusEnum().toString());
         statement.setString(6, currentInstance.getEmployeeAuthorizationData().getLogin());
         statement.setString(7, currentInstance.getEmployeeAuthorizationData().getPassword());
         statement.setString(8, currentInstance.getDepartment().toString());
@@ -79,7 +79,7 @@ public class JdbcEmployeeDao implements Dao<Employee> {
     @Override
     public void update(Employee transientObject) throws PersistentException {
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = getPreparedStatement(connection, "UPDATE app.employees SET name = ?, address = ?, telephone_number = ?, employee_status = ?, login = ?, password = ?, department = ?, branch_office = ?  WHERE id = ?;", 4, transientObject.getEmployeeID())) {
+             PreparedStatement statement = getPreparedStatement(connection, "UPDATE app.employees SET name = ?, surname = ?, telephone_number = ?, employee_status = ?, login = ?, password = ?, department = ?, branch_office = ?  WHERE id = ?;", 4, transientObject.getEmployeeID())) {
             setStatements(statement, transientObject);
             statement.executeUpdate();
         } catch (SQLException e) {

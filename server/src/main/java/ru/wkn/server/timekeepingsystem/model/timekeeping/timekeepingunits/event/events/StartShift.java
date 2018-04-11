@@ -1,10 +1,12 @@
 package ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.events;
 
-import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
+import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEventIF;
 
-public class StartShift extends TimekeepingEvent {
+public class StartShift implements TimekeepingEventIF {
+
+    private String time;
 
     public StartShift(String time) {
-        super(time);
+        this.time = time;
     }
 }

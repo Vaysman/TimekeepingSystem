@@ -4,9 +4,8 @@ import ru.wkn.server.timekeepingsystem.model.branchoffice.BranchOffice;
 import ru.wkn.server.timekeepingsystem.model.branchoffice.department.Department;
 import ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee.status.EmployeeStatusEnum;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.data.EmployeeAuthorizationData;
+import ru.wkn.server.timekeepingsystem.model.timekeeping.managers.TimekeepingEventManager;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.summary.CalendarEvent;
-import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.EventFactoryIF;
-import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.task.Task;
 
 public class Employee {
@@ -20,10 +19,10 @@ public class Employee {
     private Department department;
     private BranchOffice branchOffice;
     private Task currentTask;
-    private EventFactoryIF<TimekeepingEvent> eventEventFactoryIF;
+    private TimekeepingEventManager timekeepingEventManager;
     private CalendarEvent calendarEvent;
 
-    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, Task currentTask, EventFactoryIF<TimekeepingEvent> eventEventFactoryIF, CalendarEvent calendarEvent) {
+    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, Task currentTask, TimekeepingEventManager timekeepingEventManager, CalendarEvent calendarEvent) {
         this.employeeID = employeeID;
         this.name = name;
         this.surname = surname;
@@ -33,7 +32,7 @@ public class Employee {
         this.department = new Department(department);
         this.branchOffice = new BranchOffice(branchOffice);
         this.currentTask = currentTask;
-        this.eventEventFactoryIF = eventEventFactoryIF;
+        this.timekeepingEventManager = timekeepingEventManager;
         this.calendarEvent = calendarEvent;
     }
 
@@ -109,12 +108,12 @@ public class Employee {
         this.currentTask = currentTask;
     }
 
-    public EventFactoryIF<TimekeepingEvent> getEventEventFactoryIF() {
-        return eventEventFactoryIF;
+    public TimekeepingEventManager getTimekeepingEventManager() {
+        return timekeepingEventManager;
     }
 
-    public void setEventEventFactoryIF(EventFactoryIF<TimekeepingEvent> eventEventFactoryIF) {
-        this.eventEventFactoryIF = eventEventFactoryIF;
+    public void setTimekeepingEventManager(TimekeepingEventManager timekeepingEventManager) {
+        this.timekeepingEventManager = timekeepingEventManager;
     }
 
     public CalendarEvent getCalendarEvent() {

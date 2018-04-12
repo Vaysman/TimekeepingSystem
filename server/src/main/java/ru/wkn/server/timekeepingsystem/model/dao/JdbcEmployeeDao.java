@@ -30,8 +30,8 @@ public class JdbcEmployeeDao implements Dao<Employee> {
         statement.setString(5, currentInstance.getEmployeeStatusEnum().toString());
         statement.setString(6, currentInstance.getEmployeeAuthorizationData().getLogin());
         statement.setString(7, currentInstance.getEmployeeAuthorizationData().getPassword());
-        statement.setString(8, currentInstance.getDepartment().toString());
-        statement.setString(9, currentInstance.getBranchOffice().toString());
+        statement.setString(8, currentInstance.getDepartment().getDepartmentName());
+        statement.setString(9, currentInstance.getDepartment().getBranchOffice().getBranchOfficeName());
     }
 
     private Employee getEntry(ResultSet set) throws SQLException {

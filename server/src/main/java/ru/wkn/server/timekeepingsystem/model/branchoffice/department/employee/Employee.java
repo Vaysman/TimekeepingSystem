@@ -17,7 +17,6 @@ public class Employee {
     private EmployeeStatusEnum employeeStatusEnum;
     private EmployeeAuthorizationData employeeAuthorizationData;
     private Department department;
-    private BranchOffice branchOffice;
     private Task currentTask;
     private TimekeepingEventManager timekeepingEventManager;
     private CalendarEvent calendarEvent;
@@ -29,8 +28,7 @@ public class Employee {
         this.telephoneNumber = telephoneNumber;
         this.employeeStatusEnum = EmployeeStatusEnum.valueOf(employeeStatus);
         this.employeeAuthorizationData = new EmployeeAuthorizationData(login, password);
-        this.department = new Department(department);
-        this.branchOffice = new BranchOffice(branchOffice);
+        this.department = new Department(department, new BranchOffice(branchOffice));
         this.currentTask = currentTask;
         this.timekeepingEventManager = timekeepingEventManager;
         this.calendarEvent = calendarEvent;
@@ -90,14 +88,6 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
-    }
-
-    public BranchOffice getBranchOffice() {
-        return branchOffice;
-    }
-
-    public void setBranchOffice(BranchOffice branchOffice) {
-        this.branchOffice = branchOffice;
     }
 
     public Task getCurrentTask() {

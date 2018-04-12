@@ -26,11 +26,23 @@ public class TaskManager {
         taskDao.delete(persistentTask);
     }
 
+    public void deleteAll() throws PersistentException {
+        for (int i = 0; i < taskDao.getAll().size(); i++) {
+            deleteTask(taskDao.read(i));
+        }
+    }
+
+    public void deleteOnlyFromDatabase() throws PersistentException {
+        for (int i = 0; i < taskDao.getAll().size(); i++) {
+            taskDao.delete(taskDao.read(i));
+        }
+    }
+
     public void editTask(Task transientTask, Task newTask) throws PersistentException {
         int i = taskDao.getAll().size() - 1;
         String definition = transientTask.getDefinition();
         while (!taskDao.getAll().get(i).getDefinition().equals(definition)) {
-            i --;
+            i--;
         }
         taskDao.getAll().get(i).setDefinition(newTask.getDefinition());
         taskDao.getAll().get(i).setStartTime(newTask.getStartTime());

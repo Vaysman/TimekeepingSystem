@@ -7,4 +7,8 @@ public class BranchOffice {
     public BranchOffice(String branchOfficeName) {
         this.branchOfficeName = branchOfficeName;
     }
+
+    public String getBranchOfficeName() {
+        return branchOfficeName;
+    }
 }

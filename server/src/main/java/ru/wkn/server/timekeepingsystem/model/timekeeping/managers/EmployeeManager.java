@@ -22,6 +22,10 @@ public class EmployeeManager {
         return employeeDao.getAll().get(id);
     }
 
+    public void updateEmployee(Employee transientEmployee) throws PersistentException {
+        employeeDao.update(transientEmployee);
+    }
+
     public void deleteEmployee(Employee persistentEmployee) throws PersistentException {
         employeeDao.delete(persistentEmployee);
         for (int i = persistentEmployee.getEmployeeID(); i < employeeDao.getAll().size() - 1; i++) {

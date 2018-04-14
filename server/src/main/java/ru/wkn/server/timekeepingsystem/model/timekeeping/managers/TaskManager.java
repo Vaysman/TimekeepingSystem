@@ -15,8 +15,8 @@ public class TaskManager {
         this.employeeDao = employeeDao;
     }
 
-    public Task createTask(String definition, String startTime, String endTime, int employeeID) throws PersistentException {
-        Task task = taskDao.create(new Task(definition, startTime, endTime, employeeID));
+    public Task createTask(String definition, String startTime, String endTime, String date, int employeeID) throws PersistentException {
+        Task task = taskDao.create(new Task(definition, startTime, endTime, date, employeeID));
         employeeDao.read(employeeID).setCurrentTask(task);
         return task;
     }
@@ -47,6 +47,7 @@ public class TaskManager {
         taskDao.getAll().get(i).setDefinition(newTask.getDefinition());
         taskDao.getAll().get(i).setStartTime(newTask.getStartTime());
         taskDao.getAll().get(i).setEndTime(newTask.getEndTime());
+        taskDao.getAll().get(i).setDate(newTask.getDate());
         taskDao.getAll().get(i).setAccomplished(newTask.isAccomplished());
     }
 }

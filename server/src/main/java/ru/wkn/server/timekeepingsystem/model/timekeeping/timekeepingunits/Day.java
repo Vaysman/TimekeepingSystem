@@ -12,4 +12,11 @@ public class Day {
     private List<Employee> employees;
     private List<Task> tasks;
     private List<TimekeepingEventIF> events;
+
+    public Day(String date, List<Employee> employees, List<Task> tasks, List<TimekeepingEventIF> events) {
+        this.date = date;
+        this.employees = employees;
+        this.tasks = tasks;
+        this.events = events;
+    }
 }

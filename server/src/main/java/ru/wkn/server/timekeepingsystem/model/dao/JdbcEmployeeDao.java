@@ -35,7 +35,7 @@ public class JdbcEmployeeDao implements Dao<Employee> {
     }
 
     private Employee getEntry(ResultSet set) throws SQLException {
-        int employeeID = set.getInt(1);
+        Integer employeeID = set.getInt(1);
         String name = set.getString(2);
         String surname = set.getString(3);
         String telephoneNumber = set.getString(4);

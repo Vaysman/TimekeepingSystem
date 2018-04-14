@@ -5,8 +5,20 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.
 public class EndBreak implements TimekeepingEventIF {
 
     private String time;
+    private String date;
 
-    public EndBreak(String time) {
+    public EndBreak(String time, String date) {
         this.time = time;
+        this.date = date;
+    }
+
+    @Override
+    public String getTime() {
+        return time;
+    }
+
+    @Override
+    public String getDate() {
+        return date;
     }
 }

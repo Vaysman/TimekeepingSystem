@@ -1,34 +1,34 @@
 package ru.wkn.server.timekeepingsystem.model.dao;
 
 import ru.wkn.server.timekeepingsystem.model.dao.persistent.PersistentException;
-import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEventIF;
+import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
 
 import java.util.List;
 
-public class JdbcEventDao implements Dao<TimekeepingEventIF> {
+public class JdbcEventDao implements Dao<TimekeepingEvent> {
 
     @Override
-    public TimekeepingEventIF create(TimekeepingEventIF newInstance) throws PersistentException {
+    public TimekeepingEvent create(TimekeepingEvent newInstance) throws PersistentException {
         return null;
     }
 
     @Override
-    public TimekeepingEventIF read(int id) throws PersistentException {
+    public TimekeepingEvent read(int id) throws PersistentException {
         return null;
     }
 
     @Override
-    public void update(TimekeepingEventIF transientObject) throws PersistentException {
+    public void update(TimekeepingEvent transientObject) throws PersistentException {
         //
     }
 
     @Override
-    public void delete(TimekeepingEventIF persistentObject) throws PersistentException {
+    public void delete(TimekeepingEvent persistentObject) throws PersistentException {
         //
     }
 
     @Override
-    public List<TimekeepingEventIF> getAll() throws PersistentException {
+    public List<TimekeepingEvent> getAll() throws PersistentException {
         return null;
     }
 }

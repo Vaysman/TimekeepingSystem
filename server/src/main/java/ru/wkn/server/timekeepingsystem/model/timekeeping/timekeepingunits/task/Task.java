@@ -1,7 +1,5 @@
 package ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.task;
 
-import java.util.Objects;
-
 public class Task {
 
     private String definition;

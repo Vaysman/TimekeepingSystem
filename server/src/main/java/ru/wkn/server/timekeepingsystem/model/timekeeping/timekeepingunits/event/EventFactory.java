@@ -5,14 +5,14 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.
 import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.events.StartShift;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.events.StartBreak;
 
-public class EventFactory implements EventFactoryIF<TimekeepingEventIF> {
+public class EventFactory implements EventFactoryIF<TimekeepingEvent> {
 
     @Override
-    public TimekeepingEventIF createTimekeepingEvent(String type, String time) {
-        return (type.equals("start_shift")) ? new StartShift(time)
-                : (type.equals("start_break")) ? new StartBreak(time)
-                : (type.equals("end_shift")) ? new EndShift(time)
-                : (type.equals("end_break")) ? new EndBreak(time)
+    public TimekeepingEvent createTimekeepingEvent(String type, String time, String date, String nameOfCreator, String surnameOfCreator) {
+        return (type.equals("start_shift")) ? new StartShift(time, date, nameOfCreator, surnameOfCreator)
+                : (type.equals("start_break")) ? new StartBreak(time, date, nameOfCreator, surnameOfCreator)
+                : (type.equals("end_shift")) ? new EndShift(time, date, nameOfCreator, surnameOfCreator)
+                : (type.equals("end_break")) ? new EndBreak(time, date, nameOfCreator, surnameOfCreator)
                 : null;
     }
 }

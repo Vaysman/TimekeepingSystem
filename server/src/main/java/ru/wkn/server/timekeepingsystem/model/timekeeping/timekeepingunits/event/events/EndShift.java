@@ -4,16 +4,14 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.
 
 public class EndShift extends TimekeepingEvent {
 
+    private int employeeID;
     private String time;
     private String date;
-    private String nameOfCreator;
-    private String surnameOfCreator;
 
-    public EndShift(String time, String date, String nameOfCreator, String surnameOfCreator) {
-        super(time, date, nameOfCreator, surnameOfCreator);
+    public EndShift(int employeeID, String time, String date) {
+        super(employeeID, time, date);
+        this.employeeID = employeeID;
         this.time = time;
         this.date = date;
-        this.nameOfCreator = nameOfCreator;
-        this.surnameOfCreator = surnameOfCreator;
     }
 }

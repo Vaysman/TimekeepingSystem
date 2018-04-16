@@ -4,16 +4,14 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.
 
 public class EndBreak extends TimekeepingEvent {
 
+    private int employeeID;
     private String time;
     private String date;
-    private String nameOfCreator;
-    private String surnameOfCreator;
 
-    public EndBreak(String time, String date, String nameOfCreator, String surnameOfCreator) {
-        super(time, date, nameOfCreator, surnameOfCreator);
+    public EndBreak(int employeeID, String time, String date) {
+        super(employeeID, time, date);
+        this.employeeID = employeeID;
         this.time = time;
         this.date = date;
-        this.nameOfCreator = nameOfCreator;
-        this.surnameOfCreator = surnameOfCreator;
     }
 }

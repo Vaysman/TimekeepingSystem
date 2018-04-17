@@ -66,8 +66,9 @@ public class JdbcEmployeeDao implements Dao<Employee> {
 
     @Override
     public Employee read(int id) throws PersistentException {
+        String sql = "SELECT * FROM app.employees WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = getPreparedStatement(connection, "SELECT * FROM app.employees WHERE id = ?", 1, id)) {
+             PreparedStatement statement = getPreparedStatement(connection, sql, 1, id)) {
             ResultSet set = statement.executeQuery();
             set.next();
             return getEntry(set);
@@ -78,8 +79,9 @@ public class JdbcEmployeeDao implements Dao<Employee> {
 
     @Override
     public void update(Employee transientObject) throws PersistentException {
+        String sql = "UPDATE app.employees SET name = ?, surname = ?, telephone_number = ?, employee_status = ?, login = ?, password = ?, department = ?, branch_office = ?  WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = getPreparedStatement(connection, "UPDATE app.employees SET name = ?, surname = ?, telephone_number = ?, employee_status = ?, login = ?, password = ?, department = ?, branch_office = ?  WHERE id = ?;", 4, transientObject.getEmployeeID())) {
+             PreparedStatement statement = getPreparedStatement(connection, sql, 1, transientObject.getEmployeeID())) {
             setStatements(statement, transientObject);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -89,8 +91,9 @@ public class JdbcEmployeeDao implements Dao<Employee> {
 
     @Override
     public void delete(Employee persistentObject) throws PersistentException {
+        String sql = "DELETE FROM app.employees WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = getPreparedStatement(connection, "DELETE FROM app.employees WHERE id = ?;", 1, persistentObject.getEmployeeID())) {
+             PreparedStatement statement = getPreparedStatement(connection, sql, 1, persistentObject.getEmployeeID())) {
             statement.execute();
         } catch (SQLException e) {
             throw new PersistentException(e);
@@ -105,8 +108,8 @@ public class JdbcEmployeeDao implements Dao<Employee> {
              Statement statement = connection.createStatement()) {
             ResultSet set = statement.executeQuery(sql);
             while (set.next()) {
-                Employee entry = getEntry(set);
-                employees.add(entry);
+                Employee employee = getEntry(set);
+                employees.add(employee);
             }
             return employees;
         } catch (SQLException e) {

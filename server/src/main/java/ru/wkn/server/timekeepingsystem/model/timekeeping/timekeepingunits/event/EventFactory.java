@@ -8,11 +8,11 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.
 public class EventFactory implements EventFactoryIF<TimekeepingEvent> {
 
     @Override
-    public TimekeepingEvent createTimekeepingEvent(String type, String time, String date, String nameOfCreator, String surnameOfCreator) {
-        return (type.equals("start_shift")) ? new StartShift(time, date, nameOfCreator, surnameOfCreator)
-                : (type.equals("start_break")) ? new StartBreak(time, date, nameOfCreator, surnameOfCreator)
-                : (type.equals("end_shift")) ? new EndShift(time, date, nameOfCreator, surnameOfCreator)
-                : (type.equals("end_break")) ? new EndBreak(time, date, nameOfCreator, surnameOfCreator)
+    public TimekeepingEvent createTimekeepingEvent(int employeeID, String type, String time, String date) {
+        return (type.equals("start_shift")) ? new StartShift(employeeID, type, time, date)
+                : (type.equals("start_break")) ? new StartBreak(employeeID, type, time, date)
+                : (type.equals("end_shift")) ? new EndShift(employeeID, type, time, date)
+                : (type.equals("end_break")) ? new EndBreak(employeeID, type, time, date)
                 : null;
     }
 }

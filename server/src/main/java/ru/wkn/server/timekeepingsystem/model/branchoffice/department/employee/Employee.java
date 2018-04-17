@@ -5,7 +5,7 @@ import ru.wkn.server.timekeepingsystem.model.branchoffice.department.Department;
 import ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee.status.EmployeeStatusEnum;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.managers.TimekeepingEventManager;
-import ru.wkn.server.timekeepingsystem.model.timekeeping.summary.CalendarEvent;
+import ru.wkn.server.timekeepingsystem.model.timekeeping.summary.Searcher;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.task.Task;
 
 public class Employee {
@@ -19,9 +19,9 @@ public class Employee {
     private Department department;
     private Task currentTask;
     private TimekeepingEventManager timekeepingEventManager;
-    private CalendarEvent calendarEvent;
+    private Searcher searcher;
 
-    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, Task currentTask, TimekeepingEventManager timekeepingEventManager, CalendarEvent calendarEvent) {
+    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, Task currentTask, TimekeepingEventManager timekeepingEventManager, Searcher searcher) {
         this.employeeID = employeeID;
         this.name = name;
         this.surname = surname;
@@ -31,7 +31,7 @@ public class Employee {
         this.department = new Department(department, new BranchOffice(branchOffice));
         this.currentTask = currentTask;
         this.timekeepingEventManager = timekeepingEventManager;
-        this.calendarEvent = calendarEvent;
+        this.searcher = searcher;
     }
 
     public int getEmployeeID() {
@@ -106,11 +106,11 @@ public class Employee {
         this.timekeepingEventManager = timekeepingEventManager;
     }
 
-    public CalendarEvent getCalendarEvent() {
-        return calendarEvent;
+    public Searcher getSearcher() {
+        return searcher;
     }
 
-    public void setCalendarEvent(CalendarEvent calendarEvent) {
-        this.calendarEvent = calendarEvent;
+    public void setSearcher(Searcher searcher) {
+        this.searcher = searcher;
     }
 }

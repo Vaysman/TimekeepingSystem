@@ -38,16 +38,16 @@ public class TaskManager {
         }
     }
 
-    public void editTask(Task transientTask, Task newTask) throws PersistentException {
+    public void editTask(Task oldTask, Task transientTask) throws PersistentException {
         int i = taskDao.getAll().size() - 1;
-        String definition = transientTask.getDefinition();
+        String definition = oldTask.getDefinition();
         while (!taskDao.getAll().get(i).getDefinition().equals(definition)) {
             i--;
         }
-        taskDao.getAll().get(i).setDefinition(newTask.getDefinition());
-        taskDao.getAll().get(i).setStartTime(newTask.getStartTime());
-        taskDao.getAll().get(i).setEndTime(newTask.getEndTime());
-        taskDao.getAll().get(i).setDate(newTask.getDate());
-        taskDao.getAll().get(i).setAccomplished(newTask.isAccomplished());
+        taskDao.getAll().get(i).setDefinition(transientTask.getDefinition());
+        taskDao.getAll().get(i).setStartTime(transientTask.getStartTime());
+        taskDao.getAll().get(i).setEndTime(transientTask.getEndTime());
+        taskDao.getAll().get(i).setDate(transientTask.getDate());
+        taskDao.getAll().get(i).setAccomplished(transientTask.isAccomplished());
     }
 }

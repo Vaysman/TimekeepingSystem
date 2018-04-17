@@ -5,11 +5,12 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.
 public class StartBreak extends TimekeepingEvent {
 
     private int employeeID;
+    private String type;
     private String time;
     private String date;
 
-    public StartBreak(int employeeID, String time, String date) {
-        super(employeeID, time, date);
+    public StartBreak(int employeeID, String type, String time, String date) {
+        super(employeeID, type, time, date);
         this.employeeID = employeeID;
         this.time = time;
         this.date = date;

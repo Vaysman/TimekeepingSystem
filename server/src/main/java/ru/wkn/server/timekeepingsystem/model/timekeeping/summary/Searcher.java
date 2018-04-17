@@ -1,5 +1,6 @@
 package ru.wkn.server.timekeepingsystem.model.timekeeping.summary;
 
+import ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee.Employee;
 import ru.wkn.server.timekeepingsystem.model.dao.Dao;
 import ru.wkn.server.timekeepingsystem.model.dao.persistent.PersistentException;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
@@ -8,15 +9,17 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.task.T
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalendarEvent {
+public class Searcher {
 
     private Dao<TimekeepingEvent> eventDao;
     private Dao<Task> taskDao;
+    private Dao<Employee> employeeDao;
     private int employeeID;
 
-    public CalendarEvent(Dao<TimekeepingEvent> eventDao, Dao<Task> taskDao, int employeeID) {
+    public Searcher(Dao<TimekeepingEvent> eventDao, Dao<Task> taskDao, Dao<Employee> employeeDao, int employeeID) {
         this.eventDao = eventDao;
         this.taskDao = taskDao;
+        this.employeeDao = employeeDao;
         this.employeeID = employeeID;
     }
 
@@ -42,5 +45,13 @@ public class CalendarEvent {
             }
         }
         return temp;
+    }
+
+    public List<Employee> getEmployees() throws PersistentException {
+        return employeeDao.getAll();
+    }
+
+    public Employee getEmployeeByID(int employeeID) throws PersistentException {
+        return employeeDao.read(employeeID);
     }
 }

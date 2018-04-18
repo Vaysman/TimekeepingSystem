@@ -10,4 +10,27 @@ public class Timekeeper {
     private DayManager dayManager;
     private TaskManager taskManager;
     private TimekeepingLog timekeepingLog;
+
+    public Timekeeper(Employee employee, DayManager dayManager, TaskManager taskManager, TimekeepingLog timekeepingLog) {
+        this.employee = employee;
+        this.dayManager = dayManager;
+        this.taskManager = taskManager;
+        this.timekeepingLog = timekeepingLog;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public DayManager getDayManager() {
+        return dayManager;
+    }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
+    public TimekeepingLog getTimekeepingLog() {
+        return timekeepingLog;
+    }
 }

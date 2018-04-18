@@ -6,7 +6,6 @@ import ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee.st
 import ru.wkn.server.timekeepingsystem.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.managers.TimekeepingEventManager;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.summary.Searcher;
-import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.task.Task;
 
 public class Employee {
 

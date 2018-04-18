@@ -14,8 +14,8 @@ public class TaskManager {
         this.taskDao = taskDao;
     }
 
-    public Task createTask(String definition, String startTime, String endTime, String date, int employeeID) throws PersistentException {
-        return taskDao.create(new Task(definition, startTime, endTime, date, employeeID));
+    public Task createTask(int employeeID, String definition, String startTime, String endTime, String date, boolean isAccomplished) throws PersistentException {
+        return taskDao.create(new Task(employeeID, definition, startTime, endTime, date, isAccomplished));
     }
 
     public void deleteTask(Task persistentTask) throws PersistentException {

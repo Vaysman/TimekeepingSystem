@@ -47,8 +47,8 @@ public class JdbcEmployeeDao implements Dao<Employee, Employee, Integer> {
     }
 
     @Override
-    public Employee create(Employee newInstance) throws PersistentException {
-        String sql = "INSERT INTO app.employees (name, surname, telephone_number, employee_status, login, password, department, branch_office) VALUES (?,?,?,?,?,?,?,?);";
+    public synchronized Employee create(Employee newInstance) throws PersistentException {
+        String sql = "INSERT INTO app.employees (name, surname, telephone_number, employee_status, login, password, department, branch_office) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatements(statement, newInstance);
@@ -64,7 +64,7 @@ public class JdbcEmployeeDao implements Dao<Employee, Employee, Integer> {
     }
 
     @Override
-    public Employee read(Integer id) throws PersistentException {
+    public synchronized Employee read(Integer id) throws PersistentException {
         String sql = "SELECT * FROM app.employees WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = getPreparedStatement(connection, sql, 1, id)) {
@@ -77,7 +77,7 @@ public class JdbcEmployeeDao implements Dao<Employee, Employee, Integer> {
     }
 
     @Override
-    public void update(Employee transientObject) throws PersistentException {
+    public synchronized void update(Employee transientObject) throws PersistentException {
         String sql = "UPDATE app.employees SET name = ?, surname = ?, telephone_number = ?, employee_status = ?, login = ?, password = ?, department = ?, branch_office = ?  WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = getPreparedStatement(connection, sql, 9, transientObject.getEmployeeID())) {
@@ -89,7 +89,7 @@ public class JdbcEmployeeDao implements Dao<Employee, Employee, Integer> {
     }
 
     @Override
-    public void delete(Employee persistentObject) throws PersistentException {
+    public synchronized void delete(Employee persistentObject) throws PersistentException {
         String sql = "DELETE FROM app.employees WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = getPreparedStatement(connection, sql, 1, persistentObject.getEmployeeID())) {
@@ -100,7 +100,7 @@ public class JdbcEmployeeDao implements Dao<Employee, Employee, Integer> {
     }
 
     @Override
-    public List<Employee> getAll() throws PersistentException {
+    public synchronized List<Employee> getAll() throws PersistentException {
         String sql = "SELECT * FROM app.employees;";
         List<Employee> employees = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();

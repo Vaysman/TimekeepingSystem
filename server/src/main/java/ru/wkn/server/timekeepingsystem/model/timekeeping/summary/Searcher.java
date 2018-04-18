@@ -27,7 +27,7 @@ public class Searcher {
         List<TimekeepingEvent> events = new ArrayList<>();
         int size = eventDao.getAll().size();
         for (int i = 0; i < size; i++) {
-            TimekeepingEvent temp = eventDao.read(i).get(i);
+            TimekeepingEvent temp = eventDao.getAll().get(i);
             if (temp.getEmployeeID() == employeeID) {
                 events.add(temp);
             }
@@ -39,7 +39,7 @@ public class Searcher {
         List<Task> temp = new ArrayList<>();
         int size = taskDao.getAll().size();
         for (int i = 0; i < size; i++) {
-            Task task = taskDao.read(i).get(i);
+            Task task = taskDao.getAll().get(i);
             if (task.getEmployeeID() == employeeID) {
                 temp.add(task);
             }

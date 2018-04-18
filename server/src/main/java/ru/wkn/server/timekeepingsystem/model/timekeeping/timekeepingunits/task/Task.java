@@ -9,13 +9,13 @@ public class Task {
     private int employeeID;
     private boolean isAccomplished;
 
-    public Task(int employeeID, String definition, String startTime, String endTime, String date) {
+    public Task(int employeeID, String definition, String startTime, String endTime, String date, boolean isAccomplished) {
         this.definition = definition;
         this.startTime = startTime;
         this.endTime = endTime;
         this.date = date;
         this.employeeID = employeeID;
-        this.isAccomplished = false;
+        this.isAccomplished = isAccomplished;
     }
 
     public String getDefinition() {

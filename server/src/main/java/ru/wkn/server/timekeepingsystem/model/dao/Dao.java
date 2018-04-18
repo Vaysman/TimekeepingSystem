@@ -4,11 +4,11 @@ import ru.wkn.server.timekeepingsystem.model.dao.persistent.PersistentException;
 
 import java.util.List;
 
-public interface Dao<V> {
+public interface Dao<V, L, K> {
 
     V create(V newInstance) throws PersistentException;
 
-    V read(int id) throws PersistentException;
+    L read(K id) throws PersistentException;
 
     void update(V transientObject) throws PersistentException;
 

@@ -5,7 +5,7 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.task.T
 
 import java.util.List;
 
-public class TaskDao implements Dao<Task> {
+public class TaskDao implements Dao<Task, List<Task>, Integer> {
 
     private JdbcTaskDao jdbcTaskDao;
 
@@ -19,7 +19,7 @@ public class TaskDao implements Dao<Task> {
     }
 
     @Override
-    public Task read(int id) throws PersistentException {
+    public List<Task> read(Integer id) throws PersistentException {
         return jdbcTaskDao.read(id);
     }
 

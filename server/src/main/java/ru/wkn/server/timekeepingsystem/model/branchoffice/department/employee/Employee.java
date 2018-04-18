@@ -17,11 +17,10 @@ public class Employee {
     private EmployeeStatusEnum employeeStatusEnum;
     private EmployeeAuthorizationData employeeAuthorizationData;
     private Department department;
-    private Task currentTask;
     private TimekeepingEventManager timekeepingEventManager;
     private Searcher searcher;
 
-    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, Task currentTask, TimekeepingEventManager timekeepingEventManager, Searcher searcher) {
+    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager, Searcher searcher) {
         this.employeeID = employeeID;
         this.name = name;
         this.surname = surname;
@@ -29,7 +28,6 @@ public class Employee {
         this.employeeStatusEnum = EmployeeStatusEnum.valueOf(employeeStatus);
         this.employeeAuthorizationData = new EmployeeAuthorizationData(login, password);
         this.department = new Department(department, new BranchOffice(branchOffice));
-        this.currentTask = currentTask;
         this.timekeepingEventManager = timekeepingEventManager;
         this.searcher = searcher;
     }
@@ -88,14 +86,6 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
-    }
-
-    public Task getCurrentTask() {
-        return currentTask;
-    }
-
-    public void setCurrentTask(Task currentTask) {
-        this.currentTask = currentTask;
     }
 
     public TimekeepingEventManager getTimekeepingEventManager() {

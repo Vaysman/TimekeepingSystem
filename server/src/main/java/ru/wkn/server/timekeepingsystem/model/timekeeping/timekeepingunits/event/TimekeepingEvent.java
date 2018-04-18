@@ -18,10 +18,6 @@ public abstract class TimekeepingEvent {
         return employeeID;
     }
 
-    public void setEmployeeID(int employeeID) {
-        this.employeeID = employeeID;
-    }
-
     public String getType() {
         return type;
     }

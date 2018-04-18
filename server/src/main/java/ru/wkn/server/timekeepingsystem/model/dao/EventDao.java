@@ -5,7 +5,7 @@ import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.event.
 
 import java.util.List;
 
-public class EventDao implements Dao<TimekeepingEvent> {
+public class EventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> {
 
     private JdbcEventDao jdbcEventDao;
 
@@ -20,7 +20,7 @@ public class EventDao implements Dao<TimekeepingEvent> {
     }
 
     @Override
-    public TimekeepingEvent read(int id) throws PersistentException {
+    public List<TimekeepingEvent> read(Integer id) throws PersistentException {
         return jdbcEventDao.read(id);
     }
 

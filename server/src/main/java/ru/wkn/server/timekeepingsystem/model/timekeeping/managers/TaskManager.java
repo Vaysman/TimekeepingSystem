@@ -1,40 +1,30 @@
 package ru.wkn.server.timekeepingsystem.model.timekeeping.managers;
 
-import ru.wkn.server.timekeepingsystem.model.branchoffice.department.employee.Employee;
 import ru.wkn.server.timekeepingsystem.model.dao.Dao;
 import ru.wkn.server.timekeepingsystem.model.dao.persistent.PersistentException;
 import ru.wkn.server.timekeepingsystem.model.timekeeping.timekeepingunits.task.Task;
 
+import java.util.List;
+
 public class TaskManager {
 
-    private Dao<Task> taskDao;
-    private Dao<Employee> employeeDao;
+    private Dao<Task, List<Task>, Integer> taskDao;
 
-    public TaskManager(Dao<Task> taskDao, Dao<Employee> employeeDao) {
+    public TaskManager(Dao<Task, List<Task>, Integer> taskDao) {
         this.taskDao = taskDao;
-        this.employeeDao = employeeDao;
     }
 
     public Task createTask(String definition, String startTime, String endTime, String date, int employeeID) throws PersistentException {
-        Task task = taskDao.create(new Task(definition, startTime, endTime, date, employeeID));
-        employeeDao.read(employeeID).setCurrentTask(task);
-        return task;
+        return taskDao.create(new Task(definition, startTime, endTime, date, employeeID));
     }
 
     public void deleteTask(Task persistentTask) throws PersistentException {
-        employeeDao.read(persistentTask.getEmployeeID()).setCurrentTask(null);
         taskDao.delete(persistentTask);
     }
 
     public void deleteAll() throws PersistentException {
         for (int i = 0; i < taskDao.getAll().size(); i++) {
-            deleteTask(taskDao.read(i));
-        }
-    }
-
-    public void deleteOnlyFromDatabase() throws PersistentException {
-        for (int i = 0; i < taskDao.getAll().size(); i++) {
-            taskDao.delete(taskDao.read(i));
+            deleteTask(taskDao.getAll().get(i));
         }
     }
 

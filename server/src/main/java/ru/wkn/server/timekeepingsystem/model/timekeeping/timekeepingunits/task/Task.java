@@ -9,7 +9,7 @@ public class Task {
     private int employeeID;
     private boolean isAccomplished;
 
-    public Task(String definition, String startTime, String endTime, String date, int employeeID) {
+    public Task(int employeeID, String definition, String startTime, String endTime, String date) {
         this.definition = definition;
         this.startTime = startTime;
         this.endTime = endTime;

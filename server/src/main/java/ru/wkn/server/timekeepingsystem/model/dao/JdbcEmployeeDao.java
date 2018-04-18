@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JdbcEmployeeDao implements Dao<Employee> {
+public class JdbcEmployeeDao implements Dao<Employee, Employee, Integer> {
 
     private DataSource dataSource;
 
@@ -23,15 +23,14 @@ public class JdbcEmployeeDao implements Dao<Employee> {
     }
 
     private void setStatements(PreparedStatement statement, Employee currentInstance) throws SQLException {
-        statement.setInt(1, currentInstance.getEmployeeID());
-        statement.setString(2, currentInstance.getName());
-        statement.setString(3, currentInstance.getSurname());
-        statement.setString(4, currentInstance.getTelephoneNumber());
-        statement.setString(5, currentInstance.getEmployeeStatusEnum().toString());
-        statement.setString(6, currentInstance.getEmployeeAuthorizationData().getLogin());
-        statement.setString(7, currentInstance.getEmployeeAuthorizationData().getPassword());
-        statement.setString(8, currentInstance.getDepartment().getDepartmentName());
-        statement.setString(9, currentInstance.getDepartment().getBranchOffice().getBranchOfficeName());
+        statement.setString(1, currentInstance.getName());
+        statement.setString(2, currentInstance.getSurname());
+        statement.setString(3, currentInstance.getTelephoneNumber());
+        statement.setString(4, currentInstance.getEmployeeStatusEnum().toString());
+        statement.setString(5, currentInstance.getEmployeeAuthorizationData().getLogin());
+        statement.setString(6, currentInstance.getEmployeeAuthorizationData().getPassword());
+        statement.setString(7, currentInstance.getDepartment().getDepartmentName());
+        statement.setString(8, currentInstance.getDepartment().getBranchOffice().getBranchOfficeName());
     }
 
     private Employee getEntry(ResultSet set) throws SQLException {
@@ -44,7 +43,7 @@ public class JdbcEmployeeDao implements Dao<Employee> {
         String password = set.getString(7);
         String department = set.getString(8);
         String branchOffice = set.getString(9);
-        return new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, null, null, null);
+        return new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, null, null);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class JdbcEmployeeDao implements Dao<Employee> {
     }
 
     @Override
-    public Employee read(int id) throws PersistentException {
+    public Employee read(Integer id) throws PersistentException {
         String sql = "SELECT * FROM app.employees WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = getPreparedStatement(connection, sql, 1, id)) {
@@ -81,7 +80,7 @@ public class JdbcEmployeeDao implements Dao<Employee> {
     public void update(Employee transientObject) throws PersistentException {
         String sql = "UPDATE app.employees SET name = ?, surname = ?, telephone_number = ?, employee_status = ?, login = ?, password = ?, department = ?, branch_office = ?  WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = getPreparedStatement(connection, sql, 1, transientObject.getEmployeeID())) {
+             PreparedStatement statement = getPreparedStatement(connection, sql, 9, transientObject.getEmployeeID())) {
             setStatements(statement, transientObject);
             statement.executeUpdate();
         } catch (SQLException e) {

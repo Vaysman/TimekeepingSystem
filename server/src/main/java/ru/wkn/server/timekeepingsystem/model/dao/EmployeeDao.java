@@ -5,7 +5,7 @@ import ru.wkn.server.timekeepingsystem.model.dao.persistent.PersistentException;
 
 import java.util.List;
 
-public class EmployeeDao implements Dao<Employee> {
+public class EmployeeDao implements Dao<Employee, Employee, Integer> {
 
     private JdbcEmployeeDao jdbcEmployeeDao;
 
@@ -20,7 +20,7 @@ public class EmployeeDao implements Dao<Employee> {
     }
 
     @Override
-    public Employee read(int id) throws PersistentException {
+    public Employee read(Integer id) throws PersistentException {
         return jdbcEmployeeDao.read(id);
     }
 

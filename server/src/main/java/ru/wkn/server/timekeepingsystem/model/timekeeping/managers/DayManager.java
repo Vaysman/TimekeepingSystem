@@ -12,11 +12,11 @@ import java.util.List;
 
 public class DayManager {
 
-    private Dao<Employee> employeeDao;
-    private Dao<Task> taskDao;
-    private Dao<TimekeepingEvent> timekeepingEventDao;
+    private Dao<Employee, Employee, Integer> employeeDao;
+    private Dao<Task, List<Task>, Integer> taskDao;
+    private Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> timekeepingEventDao;
 
-    public DayManager(Dao<Employee> employeeDao, Dao<Task> taskDao, Dao<TimekeepingEvent> timekeepingEventDao) {
+    public DayManager(Dao<Employee, Employee, Integer> employeeDao, Dao<Task, List<Task>, Integer> taskDao, Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> timekeepingEventDao) {
         this.employeeDao = employeeDao;
         this.taskDao = taskDao;
         this.timekeepingEventDao = timekeepingEventDao;
@@ -28,14 +28,14 @@ public class DayManager {
         List<TimekeepingEvent> events = new ArrayList<>();
         int size = taskDao.getAll().size();
         for (int i = 0; i < size; i++) {
-            Task temp = taskDao.read(i);
+            Task temp = taskDao.getAll().get(i);
             if (temp.getDate().equals(date)) {
                 tasks.add(temp);
             }
         }
         size = timekeepingEventDao.getAll().size();
         for (int i = 0; i < size; i++) {
-            TimekeepingEvent temp = timekeepingEventDao.read(i);
+            TimekeepingEvent temp = timekeepingEventDao.getAll().get(i);
             if (temp.getDate().equals(date)) {
                 events.add(temp);
             }

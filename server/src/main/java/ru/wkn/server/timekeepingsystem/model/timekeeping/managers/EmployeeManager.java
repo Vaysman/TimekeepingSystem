@@ -8,9 +8,9 @@ import java.util.List;
 
 public class EmployeeManager {
 
-    private Dao<Employee> employeeDao;
+    private Dao<Employee, Employee, Integer> employeeDao;
 
-    public EmployeeManager(Dao<Employee> employeeDao) {
+    public EmployeeManager(Dao<Employee, Employee, Integer> employeeDao) {
         this.employeeDao = employeeDao;
     }
 

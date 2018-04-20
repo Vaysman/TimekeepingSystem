@@ -1,6 +1,8 @@
 package ru.wkn.server.model.timekeeping.summary;
 
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
+import ru.wkn.server.model.branchoffice.department.employee.status.EmployeeStatusEnum;
+import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
 import ru.wkn.server.model.timekeeping.timekeepingunits.task.Task;
 import ru.wkn.server.model.dao.Dao;
@@ -27,24 +29,24 @@ public class Searcher {
         List<TimekeepingEvent> events = new ArrayList<>();
         int size = eventDao.getAll().size();
         for (int i = 0; i < size; i++) {
-            TimekeepingEvent temp = eventDao.getAll().get(i);
-            if (temp.getEmployeeID() == employeeID) {
-                events.add(temp);
+            TimekeepingEvent event = eventDao.getAll().get(i);
+            if (event.getEmployeeID() == employeeID) {
+                events.add(event);
             }
         }
         return events;
     }
 
     public List<Task> getTasksOfEmployee() throws PersistentException {
-        List<Task> temp = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
         int size = taskDao.getAll().size();
         for (int i = 0; i < size; i++) {
             Task task = taskDao.getAll().get(i);
             if (task.getEmployeeID() == employeeID) {
-                temp.add(task);
+                tasks.add(task);
             }
         }
-        return temp;
+        return tasks;
     }
 
     public List<Employee> getEmployees() throws PersistentException {
@@ -53,5 +55,43 @@ public class Searcher {
 
     public Employee getEmployeeByID(int employeeID) throws PersistentException {
         return employeeDao.read(employeeID);
+    }
+
+    public EmployeeStatusEnum getEmployeeStatus(EmployeeAuthorizationData employeeAuthorizationData) throws PersistentException {
+        int size = employeeDao.getAll().size();
+        EmployeeStatusEnum employeeStatusEnum = EmployeeStatusEnum.EMPLOYEE;
+        for (int i = 0; i < size; i++) {
+            if (employeeDao.getAll().get(i).getEmployeeAuthorizationData().equals(employeeAuthorizationData)) {
+                employeeStatusEnum = employeeDao.getAll().get(i).getEmployeeStatusEnum();
+            }
+        }
+        return employeeStatusEnum;
+    }
+
+    public Employee getEmployeeByEmployeeAuthorizationDataAndStatus(EmployeeAuthorizationData employeeAuthorizationData) throws PersistentException {
+        int size = employeeDao.getAll().size();
+        Employee employee = null;
+        for (int i = 0; i < size; i++) {
+            if (employeeDao.getAll().get(i).getEmployeeAuthorizationData().equals(employeeAuthorizationData)) {
+                employee = employeeDao.getAll().get(i);
+            }
+        }
+        return employee;
+    }
+
+    public Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> getEventDao() {
+        return eventDao;
+    }
+
+    public Dao<Task, List<Task>, Integer> getTaskDao() {
+        return taskDao;
+    }
+
+    public Dao<Employee, Employee, Integer> getEmployeeDao() {
+        return employeeDao;
+    }
+
+    public int getEmployeeID() {
+        return employeeID;
     }
 }

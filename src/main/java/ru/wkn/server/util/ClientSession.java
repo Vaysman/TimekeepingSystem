@@ -1,5 +1,10 @@
 package ru.wkn.server.util;
 
+import ru.wkn.core.communication.MessageReader;
+import ru.wkn.core.communication.MessageWriter;
+import ru.wkn.core.requests.HandshakeRequest;
+import ru.wkn.core.responses.HandshakeResponse;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -17,7 +22,7 @@ public class ClientSession extends Thread {
     }
 
     public void run() {
-        UniqueMessage msg;
+        MessageReader.UniqueMessage msg;
         try {
             msg = reader.readMessage();
 

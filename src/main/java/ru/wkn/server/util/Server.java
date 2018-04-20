@@ -18,16 +18,16 @@ public class Server implements Runnable {
     public void run() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            //Цикл ожидания подключений
+
             while(!context.isStopFlag()) {
                 System.out.println("Waiting connection on port:" + port);
-                //Момент ухода в ожидание подключения
+
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("New client connected to server");
-                //Создается клиентская сессия
+
                 ClientSession clientSession = new ClientSession(clientSocket, context);
                 context.getSessionsManger().addSession(clientSession);
-                //Запуск логики работы с клиентом
+
                 clientSession.start();
             }
             serverSocket.close();

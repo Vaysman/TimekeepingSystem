@@ -1,25 +1,24 @@
 package ru.wkn.core.requests;
 
+import ru.wkn.core.Request;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import ru.wkn.core.Request;
-
 public class HandshakeRequest extends Request {
 
     public static final String HANDSHAKE_STRING = "handshake request";
-
     private String handshake;
 
     @Override
-    public void readExternal(DataInputStream dis) throws IOException {
-        handshake = dis.readUTF();
+    public void readExternal(DataInputStream dataInputStream) throws IOException {
+        handshake = dataInputStream.readUTF();
     }
 
     @Override
-    public void writeExternal(DataOutputStream dos) throws IOException {
-        dos.writeUTF(HANDSHAKE_STRING);
+    public void writeExternal(DataOutputStream dataOutputStream) throws IOException {
+        dataOutputStream.writeUTF(HANDSHAKE_STRING);
     }
 
     public boolean match() {

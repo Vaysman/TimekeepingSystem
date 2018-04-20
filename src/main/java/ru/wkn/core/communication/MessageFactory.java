@@ -1,34 +1,25 @@
 package ru.wkn.core.communication;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import ru.wkn.core.IMessage;
 import ru.wkn.core.requests.*;
 import ru.wkn.core.responses.*;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MessageFactory {
 
-    //Идентификаторы запросов
     public static final int REQUEST_HANDSHAKE = 1;
-
-    //Идентификаторы ответов
     private static final int RESPONSE_BASE = 0x40000000;
     public static final int RESPONSE_HANDSHAKE = RESPONSE_BASE + 1;
-
-    //Ассоциативный массив: класс сообщения => идентификатор сообщения
     private static final Map<Class<? extends IMessage>, Integer> idMap = new HashMap<>();
 
     static {
         idMap.put(HandshakeRequest.class, REQUEST_HANDSHAKE);
-
         idMap.put(HandshakeResponse.class, RESPONSE_HANDSHAKE);
     }
 
-    private MessageFactory() {}
-
-    //Создает сообщение по идентификатору
     public static IMessage createMessage(int messageId) throws IOException {
         if (messageId > RESPONSE_BASE) {
             switch (messageId) {

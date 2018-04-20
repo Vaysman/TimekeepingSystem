@@ -1,47 +1,43 @@
 package ru.wkn.core.communication;
 
+import ru.wkn.core.IMessage;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import ru.wkn.core.IMessage;
-
 public class MessageReader {
-    //Длина заголовка сообщения
-    public static final int HEADER_LENGTH = 12;
 
-    private final DataInputStream dis;
+    public static final int HEADER_LENGTH = 12;
+    private final DataInputStream dataInputStream;
 
     public MessageReader(InputStream is) {
-        this.dis = new DataInputStream(is);
+        this.dataInputStream = new DataInputStream(is);
     }
 
     public UniqueMessage readMessage() throws IOException {
-        //Читаем длину пакета из начала
-        int packageLength = dis.readInt();
+        int packageLength = dataInputStream.readInt();
         if (packageLength < HEADER_LENGTH) {
             throw new IOException("Wrong package length");
         }
+        byte[] buffer = new byte[packageLength - 4];
+        dataInputStream.readFully(buffer);
+        DataInputStream messageInputStream = new DataInputStream(new ByteArrayInputStream(buffer));
 
-        //Считываем сообщение
-        byte[] buf = new byte[packageLength - 4];
-        dis.readFully(buf);
+        int uniqueId = messageInputStream.readInt();
+        int messageId = messageInputStream.readInt();
 
-        DataInputStream messageIS = new DataInputStream(new ByteArrayInputStream(buf));
+        IMessage message = MessageFactory.createMessage(messageId);
 
-        int uniqueId = messageIS.readInt();
-        int message_id = messageIS.readInt();
-
-        IMessage message = MessageFactory.createMessage(message_id);
-
-        message.readExternal(messageIS);
+        message.readExternal(messageInputStream);
         System.out.println("Message " + message.getClass().getName() + " received.");
 
         return new UniqueMessage(message, uniqueId);
     }
 
     public static class UniqueMessage {
+
         public final IMessage message;
         public final int uniqueId;
 

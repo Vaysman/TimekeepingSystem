@@ -4,15 +4,18 @@ import ru.wkn.core.communication.MessageReader;
 import ru.wkn.core.communication.MessageWriter;
 import ru.wkn.core.requests.HandshakeRequest;
 import ru.wkn.core.responses.HandshakeResponse;
+import ru.wkn.server.model.ModelFacade;
 
 import java.io.IOException;
 import java.net.Socket;
 
 public class ClientSession extends Thread {
+
     private final Socket socket;
     private final MessageReader reader;
     private final MessageWriter writer;
     private final Context context;
+    private ModelFacade modelFacade;
 
     public ClientSession(final Socket socket, final Context context) throws IOException {
         this.socket = socket;
@@ -21,22 +24,17 @@ public class ClientSession extends Thread {
         this.context = context;
     }
 
+    @Override
     public void run() {
-        MessageReader.UniqueMessage msg;
+        MessageReader.UniqueMessage uniqueMessage;
         try {
-            msg = reader.readMessage();
-
-            //Рукопожатие
-            if(msg.message instanceof HandshakeRequest) {
-                if(((HandshakeRequest)msg.message).match()) {
-                    writer.writeResponse(new HandshakeResponse(), msg.uniqueId);
+            uniqueMessage = reader.readMessage();
+            if(uniqueMessage.message instanceof HandshakeRequest) {
+                if(((HandshakeRequest) uniqueMessage.message).match()) {
+                    writer.writeResponse(new HandshakeResponse(), uniqueMessage.uniqueId);
                 }
             }
-
-            //Обменялись рукопожатиями, начинаем работу
             this.doWork();
-
-            //выход
             this.socket.close();
 
         } catch (IOException e) {
@@ -44,5 +42,7 @@ public class ClientSession extends Thread {
         }
     }
 
-    private void doWork() {}
+    private void doWork() {
+        // work logic...
+    }
 }

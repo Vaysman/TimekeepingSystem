@@ -1,22 +1,22 @@
 package ru.wkn.core.communication;
 
+import ru.wkn.core.IMessage;
+import ru.wkn.core.Request;
+import ru.wkn.core.Response;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import ru.wkn.core.IMessage;
-import ru.wkn.core.Request;
-import ru.wkn.core.Response;
-
 public class MessageWriter {
-    private static final int INITIAL_BUFFER_SIZE = 128;
 
-    private final DataOutputStream out;
+    private static final int INITIAL_BUFFER_SIZE = 128;
+    private final DataOutputStream dataOutputStream;
     private Integer requestIdCounter = 0;
 
-    public MessageWriter(OutputStream os) {
-        this.out = new DataOutputStream(os);
+    public MessageWriter(OutputStream outputStream) {
+        this.dataOutputStream = new DataOutputStream(outputStream);
     }
 
     private int getNewRequestId() {
@@ -25,23 +25,20 @@ public class MessageWriter {
         }
     }
 
-    private void writeMessage(final IMessage message, final int uniqueId)
-            throws IOException {
+    private void writeMessage(final IMessage message, final int uniqueId) throws IOException {
         int messageId = MessageFactory.getMessageId(message);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(
-                INITIAL_BUFFER_SIZE);
-        message.writeExternal(new DataOutputStream(baos));
-        int messageLength = baos.size() + MessageReader.HEADER_LENGTH;
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(INITIAL_BUFFER_SIZE);
+        message.writeExternal(new DataOutputStream(byteArrayOutputStream));
+        int messageLength = byteArrayOutputStream.size() + MessageReader.HEADER_LENGTH;
 
-        synchronized (out) {
-            out.writeInt(messageLength);
-            out.writeInt(uniqueId);
-            out.writeInt(messageId);
-            baos.writeTo(out);
-            out.flush();
+        synchronized (dataOutputStream) {
+            dataOutputStream.writeInt(messageLength);
+            dataOutputStream.writeInt(uniqueId);
+            dataOutputStream.writeInt(messageId);
+            byteArrayOutputStream.writeTo(dataOutputStream);
+            dataOutputStream.flush();
         }
-
         System.out.println("Message " + message.getClass().getName() + " sent.");
     }
 

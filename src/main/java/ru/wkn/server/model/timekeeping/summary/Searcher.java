@@ -25,56 +25,89 @@ public class Searcher {
         this.employeeID = employeeID;
     }
 
-    public List<TimekeepingEvent> getEventsOfEmployee() throws PersistentException {
+    public List<TimekeepingEvent> getEventsOfEmployee() {
         List<TimekeepingEvent> events = new ArrayList<>();
-        int size = eventDao.getAll().size();
-        for (int i = 0; i < size; i++) {
-            TimekeepingEvent event = eventDao.getAll().get(i);
-            if (event.getEmployeeID() == employeeID) {
-                events.add(event);
+        int size;
+        try {
+            size = eventDao.getAll().size();
+            for (int i = 0; i < size; i++) {
+                TimekeepingEvent event = eventDao.getAll().get(i);
+                if (event.getEmployeeID() == employeeID) {
+                    events.add(event);
+                }
             }
+        } catch (PersistentException e) {
+            e.printStackTrace();
         }
         return events;
     }
 
-    public List<Task> getTasksOfEmployee() throws PersistentException {
+    public List<Task> getTasksOfEmployee() {
         List<Task> tasks = new ArrayList<>();
-        int size = taskDao.getAll().size();
-        for (int i = 0; i < size; i++) {
-            Task task = taskDao.getAll().get(i);
-            if (task.getEmployeeID() == employeeID) {
-                tasks.add(task);
+        int size;
+        try {
+            size = taskDao.getAll().size();
+            for (int i = 0; i < size; i++) {
+                Task task = taskDao.getAll().get(i);
+                if (task.getEmployeeID() == employeeID) {
+                    tasks.add(task);
+                }
             }
+        } catch (PersistentException e) {
+            e.printStackTrace();
         }
         return tasks;
     }
 
-    public List<Employee> getEmployees() throws PersistentException {
-        return employeeDao.getAll();
+    public List<Employee> getEmployees() {
+        List<Employee> employees = null;
+        try {
+            employees = employeeDao.getAll();
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        }
+        return employees;
     }
 
-    public Employee getEmployeeByID(int employeeID) throws PersistentException {
-        return employeeDao.read(employeeID);
+    public Employee getEmployeeByID(int employeeID) {
+        Employee employee = null;
+        try {
+            employee = employeeDao.read(employeeID);
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        }
+        return employee;
     }
 
-    public EmployeeStatusEnum getEmployeeStatus(EmployeeAuthorizationData employeeAuthorizationData) throws PersistentException {
-        int size = employeeDao.getAll().size();
-        EmployeeStatusEnum employeeStatusEnum = EmployeeStatusEnum.EMPLOYEE;
-        for (int i = 0; i < size; i++) {
-            if (employeeDao.getAll().get(i).getEmployeeAuthorizationData().equals(employeeAuthorizationData)) {
-                employeeStatusEnum = employeeDao.getAll().get(i).getEmployeeStatusEnum();
+    public EmployeeStatusEnum getEmployeeStatusByEmployeeAuthorizationDataAndStatus(EmployeeAuthorizationData employeeAuthorizationData) {
+        EmployeeStatusEnum employeeStatusEnum = null;
+        int size;
+        try {
+            size = employeeDao.getAll().size();
+            employeeStatusEnum = EmployeeStatusEnum.EMPLOYEE;
+            for (int i = 0; i < size; i++) {
+                if (employeeDao.getAll().get(i).getEmployeeAuthorizationData().equals(employeeAuthorizationData)) {
+                    employeeStatusEnum = employeeDao.getAll().get(i).getEmployeeStatusEnum();
+                }
             }
+        } catch (PersistentException e) {
+            e.printStackTrace();
         }
         return employeeStatusEnum;
     }
 
-    public Employee getEmployeeByEmployeeAuthorizationDataAndStatus(EmployeeAuthorizationData employeeAuthorizationData) throws PersistentException {
-        int size = employeeDao.getAll().size();
+    public Employee getEmployeeByEmployeeAuthorizationDataAndStatus(EmployeeAuthorizationData employeeAuthorizationData) {
         Employee employee = null;
-        for (int i = 0; i < size; i++) {
-            if (employeeDao.getAll().get(i).getEmployeeAuthorizationData().equals(employeeAuthorizationData)) {
-                employee = employeeDao.getAll().get(i);
+        int size;
+        try {
+            size = employeeDao.getAll().size();
+            for (int i = 0; i < size; i++) {
+                if (employeeDao.getAll().get(i).getEmployeeAuthorizationData().equals(employeeAuthorizationData)) {
+                    employee = employeeDao.getAll().get(i);
+                }
             }
+        } catch (PersistentException e) {
+            e.printStackTrace();
         }
         return employee;
     }

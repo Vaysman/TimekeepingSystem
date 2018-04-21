@@ -17,8 +17,14 @@ public class TimekeepingEventManager {
         this.eventFactoryIF = eventEventFactoryIF;
     }
 
-    public TimekeepingEvent createEvent(int employeeID, String type, String time, String date) throws PersistentException {
-        return eventDao.create(eventFactoryIF.createTimekeepingEvent(employeeID, type, time, date));
+    public TimekeepingEvent createEvent(int employeeID, String type, String time, String date) {
+        TimekeepingEvent event = null;
+        try {
+            event = eventDao.create(eventFactoryIF.createTimekeepingEvent(employeeID, type, time, date));
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        }
+        return event;
     }
 
     public Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> getEventDao() {

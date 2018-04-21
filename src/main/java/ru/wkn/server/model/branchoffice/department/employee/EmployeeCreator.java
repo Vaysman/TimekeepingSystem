@@ -21,7 +21,7 @@ public class EmployeeCreator {
     public EmployeeStatusEnum getEmployeeStatusEnum(EmployeeAuthorizationData employeeAuthorizationData) {
         EmployeeStatusEnum employeeStatusEnum = EmployeeStatusEnum.EMPLOYEE;
         try {
-            employeeStatusEnum = searcher.getEmployeeStatus(employeeAuthorizationData);
+            employeeStatusEnum = searcher.getEmployeeStatusByEmployeeAuthorizationDataAndStatus(employeeAuthorizationData);
         } catch (PersistentException e) {
             e.printStackTrace();
         }

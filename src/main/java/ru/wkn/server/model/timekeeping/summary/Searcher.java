@@ -16,16 +16,14 @@ public class Searcher {
     private Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> eventDao;
     private Dao<Task, List<Task>, Integer> taskDao;
     private Dao<Employee, Employee, Integer> employeeDao;
-    private int employeeID;
 
-    public Searcher(Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> eventDao, Dao<Task, List<Task>, Integer> taskDao, Dao<Employee, Employee, Integer> employeeDao, int employeeID) {
+    public Searcher(Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> eventDao, Dao<Task, List<Task>, Integer> taskDao, Dao<Employee, Employee, Integer> employeeDao) {
         this.eventDao = eventDao;
         this.taskDao = taskDao;
         this.employeeDao = employeeDao;
-        this.employeeID = employeeID;
     }
 
-    public List<TimekeepingEvent> getEventsOfEmployee() {
+    public List<TimekeepingEvent> getEventsOfEmployee(int employeeID) {
         List<TimekeepingEvent> events = new ArrayList<>();
         int size;
         try {
@@ -42,7 +40,7 @@ public class Searcher {
         return events;
     }
 
-    public List<Task> getTasksOfEmployee() {
+    public List<Task> getTasksOfEmployee(int employeeID) {
         List<Task> tasks = new ArrayList<>();
         int size;
         try {
@@ -122,9 +120,5 @@ public class Searcher {
 
     public Dao<Employee, Employee, Integer> getEmployeeDao() {
         return employeeDao;
-    }
-
-    public int getEmployeeID() {
-        return employeeID;
     }
 }

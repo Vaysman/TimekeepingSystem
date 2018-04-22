@@ -3,11 +3,14 @@ package ru.wkn.server.model;
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
 import ru.wkn.server.model.branchoffice.department.employee.EmployeeCreator;
 import ru.wkn.server.model.branchoffice.department.employee.Supervisor;
+import ru.wkn.server.model.branchoffice.department.employee.Timekeeper;
 import ru.wkn.server.model.dao.*;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.model.timekeeping.managers.DayManager;
 import ru.wkn.server.model.timekeeping.managers.EmployeeManager;
+import ru.wkn.server.model.timekeeping.managers.TaskManager;
 import ru.wkn.server.model.timekeeping.summary.Searcher;
+import ru.wkn.server.model.timekeeping.summary.TimekeepingLog;
 import ru.wkn.server.model.timekeeping.summary.TimekeepingReport;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.EventFactory;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.EventFactoryIF;
@@ -29,11 +32,40 @@ public class ModelFacade {
     private EmployeeAuthorizationData employeeAuthorizationData;
     private Searcher searcher;
 
-    public ModelFacade(EmployeeAuthorizationData employeeAuthorizationData, Searcher searcher) {
+    private EmployeeManager employeeManager;
+    private TaskManager taskManager;
+    private DayManager dayManager;
+
+    private TimekeepingReport timekeepingReport;
+    private TimekeepingLog timekeepingLog;
+
+    public ModelFacade(EmployeeAuthorizationData employeeAuthorizationData) {
+        DataSource dataSource = null;
+        try {
+            dataSource = new DataSourceImpl();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        Dao<Employee, Employee, Integer> jdbcEmployeeDao = new JdbcEmployeeDao(dataSource);
+        Dao<Task, List<Task>, Integer> jdbcTaskDao = new JdbcTaskDao(dataSource);
+        Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> jdbcEventDao = new JdbcEventDao(dataSource);
+
+        searcher = new Searcher(jdbcEventDao, jdbcTaskDao, jdbcEmployeeDao);
+
         this.employeeCreator = new EmployeeCreator(searcher);
         this.eventEventFactoryIF = new EventFactory();
         this.employeeAuthorizationData = employeeAuthorizationData;
-        this.searcher = searcher;
+
+        Dao<Employee, Employee, Integer> employeeDao = new EmployeeDao((JdbcEmployeeDao) jdbcEmployeeDao);
+        Dao<Task, List<Task>, Integer> taskDao = new TaskDao((JdbcTaskDao) jdbcTaskDao);
+        Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> timekeepingEventDao = new EventDao((JdbcEventDao) jdbcEventDao);
+
+        employeeManager = new EmployeeManager(employeeDao);
+        taskManager = new TaskManager(taskDao);
+        dayManager = new DayManager(employeeDao, taskDao, timekeepingEventDao);
+
+        timekeepingReport = new TimekeepingReport(dayManager);
+        timekeepingLog = new TimekeepingLog(dayManager);
     }
 
     private Employee getEmployee() {
@@ -45,26 +77,11 @@ public class ModelFacade {
     }
 
     public Supervisor getSupervisor() {
-        DataSource dataSource = null;
-        try {
-            dataSource = new DataSourceImpl();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        Dao<Employee, Employee, Integer> jdbcEmployeeDao = new JdbcEmployeeDao(dataSource);
-        Dao<Task, List<Task>, Integer> jdbcTaskDao = new JdbcTaskDao(dataSource);
-        Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> jdbcEventDao = new JdbcEventDao(dataSource);
-
-        Dao<Employee, Employee, Integer> employeeDao = new EmployeeDao((JdbcEmployeeDao) jdbcEmployeeDao);
-        Dao<Task, List<Task>, Integer> taskDao = new TaskDao((JdbcTaskDao) jdbcTaskDao);
-        Dao<TimekeepingEvent, List<TimekeepingEvent>, Integer> timekeepingEventDao = new EventDao((JdbcEventDao) jdbcEventDao);
-
-        EmployeeManager employeeManager = new EmployeeManager(employeeDao);
-        DayManager dayManager = new DayManager(employeeDao, taskDao, timekeepingEventDao);
-        TimekeepingReport timekeepingReport = new TimekeepingReport(dayManager);
-
         return new Supervisor(getEmployee(), employeeManager, timekeepingReport);
+    }
+
+    public Timekeeper getTimekeeper() {
+        return new Timekeeper(getEmployee(), dayManager, taskManager, timekeepingLog);
     }
 
     private void createEvent(Employee employee, String type, String time, String date) {
@@ -89,7 +106,7 @@ public class ModelFacade {
 
     private static class DataSourceImpl implements DataSource {
         private final Driver DRIVER;
-        private final String DROP_TABLE_EMPLOYEES = "USE app; DROP TABLE employees";
+        //private final String DROP_TABLE_EMPLOYEES = "USE app; DROP TABLE timekeeping_system";
 
         private final String INIT_SQL = "CREATE SCHEMA IF NOT EXISTS app;\n" +
                 "USE app;\n" +
@@ -112,9 +129,8 @@ public class ModelFacade {
             Connection connection = DRIVER.connect("jdbc:h2:~/employees", properties);
             Statement statement = connection.createStatement();
             statement.execute(INIT_SQL);
-            statement.execute(DROP_TABLE_EMPLOYEES);
-            statement.execute(INIT_SQL);
-            //statement.execute(addEntries);
+            //statement.execute(DROP_TABLE_EMPLOYEES);
+            //statement.execute(INIT_SQL);
             statement.close();
             connection.close();
         }

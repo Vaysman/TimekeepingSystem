@@ -1,6 +1,5 @@
 package ru.wkn.server.model.branchoffice.department.employee;
 
-import ru.wkn.server.model.dao.persistent.PersistentException;
 import ru.wkn.server.model.timekeeping.managers.DayManager;
 import ru.wkn.server.model.timekeeping.managers.EmployeeManager;
 import ru.wkn.server.model.branchoffice.department.employee.status.EmployeeStatusEnum;
@@ -19,22 +18,14 @@ public class EmployeeCreator {
     }
 
     public EmployeeStatusEnum getEmployeeStatusEnum(EmployeeAuthorizationData employeeAuthorizationData) {
-        EmployeeStatusEnum employeeStatusEnum = EmployeeStatusEnum.EMPLOYEE;
-        try {
-            employeeStatusEnum = searcher.getEmployeeStatusByEmployeeAuthorizationDataAndStatus(employeeAuthorizationData);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
+        EmployeeStatusEnum employeeStatusEnum;
+        employeeStatusEnum = searcher.getEmployeeStatusByEmployeeAuthorizationDataAndStatus(employeeAuthorizationData);
         return employeeStatusEnum;
     }
 
     public Employee getEmployee(EmployeeAuthorizationData employeeAuthorizationData) {
-        Employee employee = null;
-        try {
-            employee = searcher.getEmployeeByEmployeeAuthorizationDataAndStatus(employeeAuthorizationData);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
+        Employee employee;
+        employee = searcher.getEmployeeByEmployeeAuthorizationDataAndStatus(employeeAuthorizationData);
         return employee;
     }
 

@@ -10,19 +10,19 @@ import java.io.InputStream;
 public class MessageReader {
 
     public static final int HEADER_LENGTH = 12;
-    private final DataInputStream dataInputStream;
+    private final DataInputStream DATA_INPUT_STREAM;
 
-    public MessageReader(InputStream is) {
-        this.dataInputStream = new DataInputStream(is);
+    public MessageReader(InputStream inputStream) {
+        this.DATA_INPUT_STREAM = new DataInputStream(inputStream);
     }
 
     public UniqueMessage readMessage() throws IOException {
-        int packageLength = dataInputStream.readInt();
+        int packageLength = DATA_INPUT_STREAM.readInt();
         if (packageLength < HEADER_LENGTH) {
             throw new IOException("Wrong package length");
         }
         byte[] buffer = new byte[packageLength - 4];
-        dataInputStream.readFully(buffer);
+        DATA_INPUT_STREAM.readFully(buffer);
         DataInputStream messageInputStream = new DataInputStream(new ByteArrayInputStream(buffer));
 
         int uniqueId = messageInputStream.readInt();

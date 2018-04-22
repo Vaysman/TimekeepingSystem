@@ -7,7 +7,7 @@ import ru.wkn.server.util.SessionsManager;
 public class ServerLauncher {
 
     public static void main(String[] args) {
-        Server server =  new Server(Integer.getInteger(args[0]), new Context(false, new SessionsManager()));
+        Server server = new Server(Integer.parseInt(args[0]), new Context(false, new SessionsManager()));
         server.run();
     }
 }

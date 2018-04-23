@@ -5,6 +5,8 @@ import ru.wkn.core.communication.MessageWriter;
 import ru.wkn.core.requests.HandshakeRequest;
 import ru.wkn.core.responses.HandshakeResponse;
 import ru.wkn.server.model.ModelFacade;
+import ru.wkn.server.model.branchoffice.department.employee.Employee;
+import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 
 import java.io.*;
 import java.net.Socket;
@@ -40,12 +42,17 @@ public class ClientSession extends Thread {
             DataInputStream dataInputStream = new DataInputStream(inputStream);
             DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-            String line = String.valueOf(1);
+            String action = String.valueOf(1);
 
             BufferedReader keyBoard = new BufferedReader(new InputStreamReader(System.in));
 
-            while (!line.equals("Exit")) {
-                doWork(line, dataInputStream, dataOutputStream);
+            while (!action.equals("Exit")) {
+                dataOutputStream.writeUTF("Enter your command:\n");
+                Employee employee = null;
+                if (action.equals("Authorization")) {
+                    employee = logIn(action, dataInputStream, dataOutputStream);
+                }
+                // other methods...
             }
             socket.close();
 
@@ -54,7 +61,21 @@ public class ClientSession extends Thread {
         }
     }
 
-    private void doWork(String action, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
-        // work logic...
+    private Employee logIn(String action, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
+        if (action.equals("Authorization")) {
+            String login = null;
+            String password = null;
+            try {
+                dataOutputStream.writeUTF("Enter your login:\n");
+                login = dataInputStream.readUTF();
+                dataOutputStream.writeUTF("Enter your password:\n");
+                password = dataInputStream.readUTF();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            modelFacade = new ModelFacade(new EmployeeAuthorizationData(login, password));
+            return modelFacade.logIn();
+        }
+        return null;
     }
 }

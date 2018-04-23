@@ -19,13 +19,13 @@ public class EmployeeCreator {
 
     public EmployeeStatusEnum getEmployeeStatusEnum(EmployeeAuthorizationData employeeAuthorizationData) {
         EmployeeStatusEnum employeeStatusEnum;
-        employeeStatusEnum = searcher.getEmployeeStatusByEmployeeAuthorizationDataAndStatus(employeeAuthorizationData);
+        employeeStatusEnum = searcher.getEmployeeStatusByEmployeeAuthorizationData(employeeAuthorizationData);
         return employeeStatusEnum;
     }
 
     public Employee getEmployee(EmployeeAuthorizationData employeeAuthorizationData) {
         Employee employee;
-        employee = searcher.getEmployeeByEmployeeAuthorizationDataAndStatus(employeeAuthorizationData);
+        employee = searcher.getEmployeeByEmployeeAuthorizationData(employeeAuthorizationData);
         return employee;
     }
 

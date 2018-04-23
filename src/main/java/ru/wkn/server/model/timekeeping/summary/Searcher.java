@@ -3,6 +3,8 @@ package ru.wkn.server.model.timekeeping.summary;
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
 import ru.wkn.server.model.branchoffice.department.employee.status.EmployeeStatusEnum;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
+import ru.wkn.server.model.timekeeping.managers.TimekeepingEventManager;
+import ru.wkn.server.model.timekeeping.timekeepingunits.event.EventFactory;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
 import ru.wkn.server.model.timekeeping.timekeepingunits.task.Task;
 import ru.wkn.server.model.dao.Dao;
@@ -77,7 +79,7 @@ public class Searcher {
         return employee;
     }
 
-    public EmployeeStatusEnum getEmployeeStatusByEmployeeAuthorizationDataAndStatus(EmployeeAuthorizationData employeeAuthorizationData) {
+    public EmployeeStatusEnum getEmployeeStatusByEmployeeAuthorizationData(EmployeeAuthorizationData employeeAuthorizationData) {
         EmployeeStatusEnum employeeStatusEnum = null;
         int size;
         try {
@@ -94,7 +96,7 @@ public class Searcher {
         return employeeStatusEnum;
     }
 
-    public Employee getEmployeeByEmployeeAuthorizationDataAndStatus(EmployeeAuthorizationData employeeAuthorizationData) {
+    public Employee getEmployeeByEmployeeAuthorizationData(EmployeeAuthorizationData employeeAuthorizationData) {
         Employee employee = null;
         int size;
         try {
@@ -102,10 +104,15 @@ public class Searcher {
             for (int i = 0; i < size; i++) {
                 if (employeeDao.getAll().get(i).getEmployeeAuthorizationData().equals(employeeAuthorizationData)) {
                     employee = employeeDao.getAll().get(i);
+                    break;
                 }
             }
         } catch (PersistentException e) {
             e.printStackTrace();
+        }
+        if (employee != null) {
+            employee.setTimekeepingEventManager(new TimekeepingEventManager(eventDao, new EventFactory()));
+            employee.setSearcher(this);
         }
         return employee;
     }

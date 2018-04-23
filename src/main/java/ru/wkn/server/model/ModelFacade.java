@@ -5,6 +5,7 @@ import ru.wkn.server.model.branchoffice.department.employee.EmployeeCreator;
 import ru.wkn.server.model.branchoffice.department.employee.Supervisor;
 import ru.wkn.server.model.branchoffice.department.employee.Timekeeper;
 import ru.wkn.server.model.dao.*;
+import ru.wkn.server.model.dao.persistent.PersistentException;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.model.timekeeping.managers.DayManager;
 import ru.wkn.server.model.timekeeping.managers.EmployeeManager;
@@ -69,7 +70,7 @@ public class ModelFacade {
     }
 
     private Employee getEmployee() {
-        return searcher.getEmployeeByEmployeeAuthorizationDataAndStatus(employeeAuthorizationData);
+        return searcher.getEmployeeByEmployeeAuthorizationData(employeeAuthorizationData);
     }
 
     public Employee logIn() {
@@ -82,6 +83,17 @@ public class ModelFacade {
 
     public Timekeeper getTimekeeper() {
         return new Timekeeper(getEmployee(), dayManager, taskManager, timekeepingLog);
+    }
+
+    public void createEmployee(Employee newEmployee) {
+        try {
+            if (!newEmployee.getDepartment().equals(getSupervisor().getEmployee().getDepartment())) {
+                newEmployee.setDepartment(getSupervisor().getEmployee().getDepartment());
+            }
+            getSupervisor().getEmployeeManager().createEmployee(newEmployee);
+        } catch (PersistentException e) {
+            e.printStackTrace();
+        }
     }
 
     private void createEvent(Employee employee, String type, String time, String date) {
@@ -106,7 +118,6 @@ public class ModelFacade {
 
     private static class DataSourceImpl implements DataSource {
         private final Driver DRIVER;
-        //private final String DROP_TABLE_EMPLOYEES = "USE app; DROP TABLE timekeeping_system";
 
         private final String INIT_SQL = "CREATE SCHEMA IF NOT EXISTS app;\n" +
                 "USE app;\n" +
@@ -129,8 +140,6 @@ public class ModelFacade {
             Connection connection = DRIVER.connect("jdbc:h2:~/employees", properties);
             Statement statement = connection.createStatement();
             statement.execute(INIT_SQL);
-            //statement.execute(DROP_TABLE_EMPLOYEES);
-            //statement.execute(INIT_SQL);
             statement.close();
             connection.close();
         }

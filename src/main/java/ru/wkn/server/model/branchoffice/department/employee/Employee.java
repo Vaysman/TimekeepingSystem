@@ -7,8 +7,13 @@ import ru.wkn.server.model.branchoffice.department.Department;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.model.timekeeping.summary.Searcher;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Employee {
 
+    @Id
     private int employeeID;
     private String name;
     private String surname;

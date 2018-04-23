@@ -1,7 +1,12 @@
 package ru.wkn.server.model.timekeeping.data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "employees")
 public class EmployeeAuthorizationData {
 
     private String login;
@@ -12,6 +17,7 @@ public class EmployeeAuthorizationData {
         this.password = password;
     }
 
+    @Column(name = "login")
     public String getLogin() {
         return login;
     }
@@ -20,6 +26,7 @@ public class EmployeeAuthorizationData {
         this.login = login;
     }
 
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }

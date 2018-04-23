@@ -7,13 +7,12 @@ import ru.wkn.server.model.branchoffice.department.Department;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.model.timekeeping.summary.Searcher;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "employees")
 public class Employee {
 
-    @Id
     private int employeeID;
     private String name;
     private String surname;
@@ -36,6 +35,9 @@ public class Employee {
         this.searcher = searcher;
     }
 
+    @Id
+    @GeneratedValue
+    @Column(name = "employee_id")
     public int getEmployeeID() {
         return employeeID;
     }
@@ -44,6 +46,7 @@ public class Employee {
         this.employeeID = employeeID;
     }
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -52,6 +55,7 @@ public class Employee {
         this.name = name;
     }
 
+    @Column(name = "surname")
     public String getSurname() {
         return surname;
     }
@@ -60,6 +64,7 @@ public class Employee {
         this.surname = surname;
     }
 
+    @Column(name = "telephone_number")
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
@@ -68,6 +73,7 @@ public class Employee {
         this.telephoneNumber = telephoneNumber;
     }
 
+    @Column(name = "employee_status")
     public EmployeeStatusEnum getEmployeeStatusEnum() {
         return employeeStatusEnum;
     }

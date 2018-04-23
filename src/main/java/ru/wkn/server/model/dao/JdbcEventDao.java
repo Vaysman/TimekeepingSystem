@@ -18,25 +18,27 @@ public class JdbcEventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent
         this.dataSource = dataSource;
     }
 
-    private PreparedStatement getPreparedStatement(Connection connection, String sql, int index, Integer currentId) throws PersistentException, SQLException {
+    private PreparedStatement getPreparedStatement(Connection connection, String sql, int index, Integer currentId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(index, currentId);
         return statement;
     }
 
     private void setStatements(PreparedStatement statement, TimekeepingEvent currentInstance) throws SQLException {
-        statement.setInt(1, currentInstance.getEmployeeID());
-        statement.setString(2, currentInstance.getType());
-        statement.setString(3, currentInstance.getTime());
-        statement.setString(4, currentInstance.getDate());
+        statement.setInt(1, currentInstance.getEventID());
+        statement.setInt(2, currentInstance.getEmployeeID());
+        statement.setString(3, currentInstance.getType());
+        statement.setString(4, currentInstance.getTime());
+        statement.setString(5, currentInstance.getDate());
     }
 
     private TimekeepingEvent getTimekeepingEvent(ResultSet set, EventFactoryIF<TimekeepingEvent> eventFactoryIF) throws SQLException {
-        Integer employeeId = set.getInt(1);
-        String type = set.getString(2);
-        String time = set.getString(3);
-        String date = set.getString(4);
-        return eventFactoryIF.createTimekeepingEvent(employeeId, type, time, date);
+        Integer eventID = set.getInt(1);
+        Integer employeeId = set.getInt(2);
+        String type = set.getString(3);
+        String time = set.getString(4);
+        String date = set.getString(5);
+        return eventFactoryIF.createTimekeepingEvent(eventID, employeeId, type, time, date);
     }
 
     private List<TimekeepingEvent> getTimekeepingEvents(Statement statement, String sql, EventFactoryIF<TimekeepingEvent> eventFactoryIF) throws SQLException {
@@ -49,12 +51,16 @@ public class JdbcEventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent
     }
 
     @Override
-    public synchronized TimekeepingEvent create(TimekeepingEvent newInstance) throws PersistentException {
+    public TimekeepingEvent create(TimekeepingEvent newInstance) throws PersistentException {
         String sql = "INSERT INTO app.timekeeping_events (employee_id, type_event, time_event, date_event) VALUES (?, ?, ?, ?);";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatements(statement, newInstance);
             statement.execute();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys.next();
+            int generatedId = generatedKeys.getInt(1);
+            newInstance.setEventID(generatedId);
         } catch (SQLException e) {
             throw new PersistentException(e);
         }
@@ -62,10 +68,10 @@ public class JdbcEventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent
     }
 
     @Override
-    public synchronized List<TimekeepingEvent> read(Integer id) throws PersistentException {
+    public List<TimekeepingEvent> read(Integer employeeId) throws PersistentException {
         String sql = "SELECT * FROM app.timekeeping_events WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
-             Statement statement = getPreparedStatement(connection, sql, 1, id)) {
+             Statement statement = getPreparedStatement(connection, sql, 1, employeeId)) {
             return getTimekeepingEvents(statement, sql, new EventFactory());
         } catch (SQLException e) {
             throw new PersistentException(e);
@@ -73,10 +79,10 @@ public class JdbcEventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent
     }
 
     @Override
-    public synchronized void update(TimekeepingEvent transientObject) throws PersistentException {
-        String sql = "UPDATE app.timekeeping_events SET type_event = ?, time_event = ?, date_event = ? WHERE employee_id = ?;";
+    public void update(TimekeepingEvent transientObject) throws PersistentException {
+        String sql = "UPDATE app.timekeeping_events SET event_id = ?, type_event = ?, time_event = ?, date_event = ? WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = getPreparedStatement(connection, sql, 4, transientObject.getEmployeeID())) {
+             PreparedStatement statement = getPreparedStatement(connection, sql, 5, transientObject.getEmployeeID())) {
             setStatements(statement, transientObject);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -85,7 +91,7 @@ public class JdbcEventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent
     }
 
     @Override
-    public synchronized void delete(TimekeepingEvent persistentObject) throws PersistentException {
+    public void delete(TimekeepingEvent persistentObject) throws PersistentException {
         String sql = "DELETE FROM app.timekeeping_events WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = getPreparedStatement(connection, sql, 1, persistentObject.getEmployeeID())) {
@@ -96,7 +102,7 @@ public class JdbcEventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent
     }
 
     @Override
-    public synchronized List<TimekeepingEvent> getAll() throws PersistentException {
+    public List<TimekeepingEvent> getAll() throws PersistentException {
         String sql = "SELECT * FROM app.timekeeping_events;";
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {

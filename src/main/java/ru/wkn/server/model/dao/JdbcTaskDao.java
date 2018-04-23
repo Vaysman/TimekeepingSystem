@@ -23,21 +23,23 @@ public class JdbcTaskDao implements Dao<Task, List<Task>, Integer> {
     }
 
     private void setStatements(PreparedStatement statement, Task currentInstance) throws SQLException {
-        statement.setInt(1, currentInstance.getEmployeeID());
-        statement.setString(2, currentInstance.getDefinition());
-        statement.setString(3, currentInstance.getStartTime());
-        statement.setString(4, currentInstance.getEndTime());
-        statement.setString(5, currentInstance.getDate());
+        statement.setInt(1, currentInstance.getTaskID());
+        statement.setInt(2, currentInstance.getEmployeeID());
+        statement.setString(3, currentInstance.getDefinition());
+        statement.setString(4, currentInstance.getStartTime());
+        statement.setString(5, currentInstance.getEndTime());
+        statement.setString(6, currentInstance.getDate());
     }
 
     private Task getTask(ResultSet set) throws SQLException {
-        Integer id = set.getInt(1);
-        String definition = set.getString(2);
-        String startTime = set.getString(3);
-        String endTime = set.getString(4);
-        String date = set.getString(5);
-        boolean isAccomplished = Boolean.getBoolean(set.getString(6));
-        return new Task(id, definition, startTime, endTime, date, isAccomplished);
+        Integer taskId = set.getInt(1);
+        Integer employeeId = set.getInt(2);
+        String definition = set.getString(3);
+        String startTime = set.getString(4);
+        String endTime = set.getString(5);
+        String date = set.getString(6);
+        boolean isAccomplished = Boolean.getBoolean(set.getString(7));
+        return new Task(taskId, employeeId, definition, startTime, endTime, date, isAccomplished);
     }
 
     private List<Task> getTasks(Statement statement, String sql) throws SQLException {
@@ -50,12 +52,16 @@ public class JdbcTaskDao implements Dao<Task, List<Task>, Integer> {
     }
 
     @Override
-    public synchronized Task create(Task newInstance) throws PersistentException {
+    public Task create(Task newInstance) throws PersistentException {
         String sql = "INSERT INTO app.tasks (employee_id, definition, start_time, end_time, date_task, status_task) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             setStatements(statement, newInstance);
             statement.execute();
+            ResultSet generatedKeys = statement.getGeneratedKeys();
+            generatedKeys.next();
+            int generatedId = generatedKeys.getInt(1);
+            newInstance.setTaskID(generatedId);
             return newInstance;
         } catch (SQLException e) {
             throw new PersistentException(e);
@@ -63,7 +69,7 @@ public class JdbcTaskDao implements Dao<Task, List<Task>, Integer> {
     }
 
     @Override
-    public synchronized List<Task> read(Integer id) throws PersistentException {
+    public List<Task> read(Integer id) throws PersistentException {
         String sql = "SELECT * FROM app.tasks WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
              Statement statement = getPreparedStatement(connection, sql, 1, id)) {
@@ -74,10 +80,10 @@ public class JdbcTaskDao implements Dao<Task, List<Task>, Integer> {
     }
 
     @Override
-    public synchronized void update(Task transientObject) throws PersistentException {
-        String sql = "UPDATE app.tasks SET definition = ?, start_time = ?, end_time = ?, date_task = ?, status_task = ? WHERE employee_id = ?;";
+    public void update(Task transientObject) throws PersistentException {
+        String sql = "UPDATE app.tasks SET task_id = ?, definition = ?, start_time = ?, end_time = ?, date_task = ?, status_task = ? WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = getPreparedStatement(connection, sql, 6, transientObject.getEmployeeID())) {
+             PreparedStatement statement = getPreparedStatement(connection, sql, 7, transientObject.getEmployeeID())) {
             setStatements(statement, transientObject);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -86,7 +92,7 @@ public class JdbcTaskDao implements Dao<Task, List<Task>, Integer> {
     }
 
     @Override
-    public synchronized void delete(Task persistentObject) throws PersistentException {
+    public void delete(Task persistentObject) throws PersistentException {
         String sql = "DELETE FROM app.tasks WHERE employee_id = ?;";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = getPreparedStatement(connection, sql, 1, persistentObject.getEmployeeID())) {
@@ -97,7 +103,7 @@ public class JdbcTaskDao implements Dao<Task, List<Task>, Integer> {
     }
 
     @Override
-    public synchronized List<Task> getAll() throws PersistentException {
+    public List<Task> getAll() throws PersistentException {
         String sql = "SELECT * FROM app.tasks;";
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {

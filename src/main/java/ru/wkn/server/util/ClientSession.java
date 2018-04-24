@@ -74,7 +74,7 @@ public class ClientSession extends Thread {
                 e.printStackTrace();
             }
             modelFacade = new ModelFacade(new EmployeeAuthorizationData(login, password));
-            return modelFacade.logIn();
+            return modelFacade.getEmployee();
         }
         return null;
     }

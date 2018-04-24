@@ -17,10 +17,10 @@ public class TimekeepingEventManager {
         this.eventFactoryIF = eventEventFactoryIF;
     }
 
-    public TimekeepingEvent createEvent(int employeeID, String type, String time, String date) {
+    public TimekeepingEvent createEvent(int eventID, int employeeID, String type, String time, String date) {
         TimekeepingEvent event = null;
         try {
-            event = eventDao.create(eventFactoryIF.createTimekeepingEvent(employeeID, type, time, date));
+            event = eventDao.create(eventFactoryIF.createTimekeepingEvent(eventID, employeeID, type, time, date));
         } catch (PersistentException e) {
             e.printStackTrace();
         }

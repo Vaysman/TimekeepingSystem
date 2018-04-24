@@ -5,11 +5,11 @@ import ru.wkn.server.model.branchoffice.department.employee.EmployeeCreator;
 import ru.wkn.server.model.branchoffice.department.employee.Supervisor;
 import ru.wkn.server.model.branchoffice.department.employee.Timekeeper;
 import ru.wkn.server.model.dao.*;
-import ru.wkn.server.model.dao.persistent.PersistentException;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 import ru.wkn.server.model.timekeeping.managers.DayManager;
 import ru.wkn.server.model.timekeeping.managers.EmployeeManager;
 import ru.wkn.server.model.timekeeping.managers.TaskManager;
+import ru.wkn.server.model.timekeeping.managers.TimekeepingEventManager;
 import ru.wkn.server.model.timekeeping.summary.Searcher;
 import ru.wkn.server.model.timekeeping.summary.TimekeepingLog;
 import ru.wkn.server.model.timekeeping.summary.TimekeepingReport;
@@ -23,7 +23,6 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.util.List;
 import java.util.Properties;
-import java.util.StringJoiner;
 import java.util.logging.Logger;
 
 public class ModelFacade {
@@ -35,6 +34,7 @@ public class ModelFacade {
 
     private EmployeeManager employeeManager;
     private TaskManager taskManager;
+    private TimekeepingEventManager timekeepingEventManager;
     private DayManager dayManager;
 
     private TimekeepingReport timekeepingReport;
@@ -63,18 +63,15 @@ public class ModelFacade {
 
         employeeManager = new EmployeeManager(employeeDao);
         taskManager = new TaskManager(taskDao);
+        timekeepingEventManager = new TimekeepingEventManager(timekeepingEventDao, eventEventFactoryIF);
         dayManager = new DayManager(employeeDao, taskDao, timekeepingEventDao);
 
         timekeepingReport = new TimekeepingReport(dayManager);
         timekeepingLog = new TimekeepingLog(dayManager);
     }
 
-    private Employee getEmployee() {
+    public Employee getEmployee() {
         return searcher.getEmployeeByEmployeeAuthorizationData(employeeAuthorizationData);
-    }
-
-    public Employee logIn() {
-        return getEmployee();
     }
 
     public Supervisor getSupervisor() {
@@ -85,36 +82,55 @@ public class ModelFacade {
         return new Timekeeper(getEmployee(), dayManager, taskManager, timekeepingLog);
     }
 
-    public void createEmployee(Employee newEmployee) {
-        try {
-            if (!newEmployee.getDepartment().equals(getSupervisor().getEmployee().getDepartment())) {
-                newEmployee.setDepartment(getSupervisor().getEmployee().getDepartment());
-            }
-            getSupervisor().getEmployeeManager().createEmployee(newEmployee);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
+    public EmployeeCreator getEmployeeCreator() {
+        return employeeCreator;
     }
 
-    private void createEvent(Employee employee, String type, String time, String date) {
-        employee.getTimekeepingEventManager().createEvent(employee.getEmployeeID(), type, time, date);
+    public EventFactoryIF<TimekeepingEvent> getEventEventFactoryIF() {
+        return eventEventFactoryIF;
     }
 
-    private String getInformationAboutEmployee(Employee employee) {
-        StringJoiner stringJoiner = new StringJoiner("\n");
-        stringJoiner.add(String.valueOf(employee.getEmployeeID()));
-        stringJoiner.add(employee.getName());
-        stringJoiner.add(employee.getSurname());
-        stringJoiner.add(employee.getTelephoneNumber());
-        stringJoiner.add(employee.getEmployeeStatusEnum().toString());
-        stringJoiner.add(employee.getDepartment().getDepartmentName());
-        stringJoiner.add(employee.getDepartment().getBranchOffice().getBranchOfficeName());
-        return stringJoiner.toString();
+    public EmployeeAuthorizationData getEmployeeAuthorizationData() {
+        return employeeAuthorizationData;
     }
 
-    private Employee searchEmployee(int employeeID) {
-        return searcher.getEmployeeByID(employeeID);
+    public Searcher getSearcher() {
+        return searcher;
     }
+
+    public EmployeeManager getEmployeeManager() {
+        return employeeManager;
+    }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
+    }
+
+    public TimekeepingEventManager getTimekeepingEventManager() {
+        return timekeepingEventManager;
+    }
+
+    public DayManager getDayManager() {
+        return dayManager;
+    }
+
+    public TimekeepingReport getTimekeepingReport() {
+        return timekeepingReport;
+    }
+
+    public TimekeepingLog getTimekeepingLog() {
+        return timekeepingLog;
+    }
+
+    //createEmployee
+
+    //createTask
+
+    //createEvent
+
+    //getInformationAboutEmployee
+
+    //searchEmployee
 
     private static class DataSourceImpl implements DataSource {
         private final Driver DRIVER;
@@ -177,12 +193,12 @@ public class ModelFacade {
 
         @Override
         public void setLogWriter(PrintWriter printWriter) {
-
+            //
         }
 
         @Override
         public void setLoginTimeout(int seconds) {
-
+            //
         }
 
         @Override

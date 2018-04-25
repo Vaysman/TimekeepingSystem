@@ -8,13 +8,13 @@ import javax.persistence.Table;
 @Table(name = "employees")
 public class BranchOffice {
 
+    @Column(name = "branch_office")
     private String branchOfficeName;
 
     public BranchOffice(String branchOfficeName) {
         this.branchOfficeName = branchOfficeName;
     }
 
-    @Column(name = "branch_office")
     public String getBranchOfficeName() {
         return branchOfficeName;
     }

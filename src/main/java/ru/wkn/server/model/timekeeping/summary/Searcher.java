@@ -7,8 +7,8 @@ import ru.wkn.server.model.timekeeping.managers.TimekeepingEventManager;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.EventFactory;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
 import ru.wkn.server.model.timekeeping.timekeepingunits.task.Task;
-import ru.wkn.server.model.dao.Dao;
-import ru.wkn.server.model.dao.persistent.PersistentException;
+import ru.wkn.server.model.datasource.dao.Dao;
+import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 
 import java.util.ArrayList;
 import java.util.List;

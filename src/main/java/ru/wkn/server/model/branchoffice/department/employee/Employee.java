@@ -13,10 +13,17 @@ import javax.persistence.*;
 @Table(name = "employees")
 public class Employee {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "employee_id")
     private int employeeID;
+    @Column(name = "name")
     private String name;
+    @Column(name = "surname")
     private String surname;
+    @Column(name = "telephone_number")
     private String telephoneNumber;
+    @Column(name = "employee_status")
     private EmployeeStatusEnum employeeStatusEnum;
     private EmployeeAuthorizationData employeeAuthorizationData;
     private Department department;
@@ -35,9 +42,6 @@ public class Employee {
         this.searcher = searcher;
     }
 
-    @Id
-    @GeneratedValue
-    @Column(name = "employee_id")
     public int getEmployeeID() {
         return employeeID;
     }
@@ -46,7 +50,6 @@ public class Employee {
         this.employeeID = employeeID;
     }
 
-    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -55,7 +58,6 @@ public class Employee {
         this.name = name;
     }
 
-    @Column(name = "surname")
     public String getSurname() {
         return surname;
     }
@@ -64,7 +66,6 @@ public class Employee {
         this.surname = surname;
     }
 
-    @Column(name = "telephone_number")
     public String getTelephoneNumber() {
         return telephoneNumber;
     }
@@ -73,7 +74,6 @@ public class Employee {
         this.telephoneNumber = telephoneNumber;
     }
 
-    @Column(name = "employee_status")
     public EmployeeStatusEnum getEmployeeStatusEnum() {
         return employeeStatusEnum;
     }

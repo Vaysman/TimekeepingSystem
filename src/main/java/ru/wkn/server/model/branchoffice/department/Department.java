@@ -10,6 +10,7 @@ import javax.persistence.Table;
 @Table(name = "employees")
 public class Department {
 
+    @Column(name = "department")
     private String departmentName;
     private BranchOffice branchOffice;
 
@@ -18,7 +19,6 @@ public class Department {
         this.branchOffice = branchOffice;
     }
 
-    @Column(name = "department")
     public String getDepartmentName() {
         return departmentName;
     }

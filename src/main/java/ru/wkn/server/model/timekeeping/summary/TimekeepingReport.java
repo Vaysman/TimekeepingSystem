@@ -2,7 +2,7 @@ package ru.wkn.server.model.timekeeping.summary;
 
 import ru.wkn.server.model.timekeeping.managers.DayManager;
 import ru.wkn.server.model.timekeeping.timekeepingunits.Day;
-import ru.wkn.server.model.dao.persistent.PersistentException;
+import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 
 import java.util.ArrayList;
 import java.util.List;

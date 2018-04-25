@@ -9,7 +9,9 @@ import java.util.Objects;
 @Table(name = "employees")
 public class EmployeeAuthorizationData {
 
+    @Column(name = "login")
     private String login;
+    @Column(name = "password")
     private String password;
 
     public EmployeeAuthorizationData(String login, String password) {
@@ -17,7 +19,6 @@ public class EmployeeAuthorizationData {
         this.password = password;
     }
 
-    @Column(name = "login")
     public String getLogin() {
         return login;
     }
@@ -26,7 +27,6 @@ public class EmployeeAuthorizationData {
         this.login = login;
     }
 
-    @Column(name = "password")
     public String getPassword() {
         return password;
     }

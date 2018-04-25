@@ -1,8 +1,8 @@
 package ru.wkn.server.model.timekeeping.managers;
 
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
-import ru.wkn.server.model.dao.Dao;
-import ru.wkn.server.model.dao.persistent.PersistentException;
+import ru.wkn.server.model.datasource.dao.Dao;
+import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 import ru.wkn.server.model.timekeeping.timekeepingunits.Day;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.TimekeepingEvent;
 import ru.wkn.server.model.timekeeping.timekeepingunits.task.Task;

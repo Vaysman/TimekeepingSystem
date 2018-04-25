@@ -1,4 +1,4 @@
-package ru.wkn.server.model.dao.persistent;
+package ru.wkn.server.model.datasource.dao.persistent;
 
 public class PersistentException extends Exception {
 

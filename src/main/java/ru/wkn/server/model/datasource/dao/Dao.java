@@ -1,6 +1,6 @@
-package ru.wkn.server.model.dao;
+package ru.wkn.server.model.datasource.dao;
 
-import ru.wkn.server.model.dao.persistent.PersistentException;
+import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 
 import java.util.List;
 

@@ -1,41 +1,34 @@
-package ru.wkn.server.model.dao;
+package ru.wkn.server.model.datasource.dao;
 
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
-import ru.wkn.server.model.dao.persistent.PersistentException;
+import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 
 import java.util.List;
 
 public class EmployeeDao implements Dao<Employee, Employee, Integer> {
 
-    private JdbcEmployeeDao jdbcEmployeeDao;
-
-    public EmployeeDao(JdbcEmployeeDao jdbcEmployeeDao) {
-        this.jdbcEmployeeDao = jdbcEmployeeDao;
-    }
-
     @Override
     public Employee create(Employee newInstance) throws PersistentException {
-        jdbcEmployeeDao.create(newInstance);
-        return newInstance;
+        return (Employee) new DaoTool().createObject(newInstance);
     }
 
     @Override
     public Employee read(Integer id) throws PersistentException {
-        return jdbcEmployeeDao.read(id);
+        return new DaoTool<Employee>().read(id);
     }
 
     @Override
     public void update(Employee transientObject) throws PersistentException {
-        jdbcEmployeeDao.update(transientObject);
+        new DaoTool<>().update(transientObject);
     }
 
     @Override
     public void delete(Employee persistentObject) throws PersistentException {
-        jdbcEmployeeDao.delete(persistentObject);
+        new DaoTool<>().delete(persistentObject);
     }
 
     @Override
     public List<Employee> getAll() throws PersistentException {
-        return jdbcEmployeeDao.getAll();
+        return new DaoTool<Employee>().getAll();
     }
 }

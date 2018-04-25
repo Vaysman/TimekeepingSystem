@@ -6,10 +6,17 @@ import javax.persistence.*;
 @Table(name = "timekeeping_events")
 public abstract class TimekeepingEvent {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "event_id")
     private int eventID;
+    @Column(name = "employee_id")
     private int employeeID;
+    @Column(name = "type_event")
     private String type;
+    @Column(name = "time_event")
     private String time;
+    @Column(name = "date_event")
     private String date;
 
     public TimekeepingEvent(int eventID, int employeeID, String type, String time, String date) {
@@ -20,9 +27,6 @@ public abstract class TimekeepingEvent {
         this.date = date;
     }
 
-    @Id
-    @GeneratedValue
-    @Column(name = "event_id")
     public int getEventID() {
         return eventID;
     }
@@ -31,22 +35,18 @@ public abstract class TimekeepingEvent {
         this.eventID = eventID;
     }
 
-    @Column(name = "employee_id")
     public int getEmployeeID() {
         return employeeID;
     }
 
-    @Column(name = "type_event")
     public String getType() {
         return type;
     }
 
-    @Column(name = "time_event")
     public String getTime() {
         return time;
     }
 
-    @Column(name = "date_event")
     public String getDate() {
         return date;
     }

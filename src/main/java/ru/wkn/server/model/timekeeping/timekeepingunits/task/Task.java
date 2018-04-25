@@ -6,12 +6,21 @@ import javax.persistence.*;
 @Table(name = "tasks")
 public class Task {
 
+    @Id
+    @GeneratedValue
+    @Column(name = "task_id")
     private int taskID;
+    @Column(name = "employee_id")
     private int employeeID;
+    @Column(name = "definition")
     private String definition;
+    @Column(name = "start_time")
     private String startTime;
+    @Column(name = "end_time")
     private String endTime;
+    @Column(name = "date_task")
     private String date;
+    @Column(name = "status_task")
     private boolean isAccomplished;
 
     public Task(int taskID, int employeeID, String definition, String startTime, String endTime, String date, boolean isAccomplished) {
@@ -24,9 +33,6 @@ public class Task {
         this.isAccomplished = isAccomplished;
     }
 
-    @Id
-    @GeneratedValue
-    @Column(name = "task_id")
     public int getTaskID() {
         return taskID;
     }
@@ -35,7 +41,6 @@ public class Task {
         this.taskID = taskID;
     }
 
-    @Column(name = "employee_id")
     public int getEmployeeID() {
         return employeeID;
     }
@@ -44,7 +49,6 @@ public class Task {
         this.employeeID = employeeID;
     }
 
-    @Column(name = "definition")
     public String getDefinition() {
         return definition;
     }
@@ -53,7 +57,6 @@ public class Task {
         this.definition = definition;
     }
 
-    @Column(name = "start_time")
     public String getStartTime() {
         return startTime;
     }
@@ -62,7 +65,6 @@ public class Task {
         this.startTime = startTime;
     }
 
-    @Column(name = "end_time")
     public String getEndTime() {
         return endTime;
     }
@@ -71,7 +73,6 @@ public class Task {
         this.endTime = endTime;
     }
 
-    @Column(name = "date_task")
     public String getDate() {
         return date;
     }
@@ -80,7 +81,6 @@ public class Task {
         this.date = date;
     }
 
-    @Column(name = "status_task")
     public boolean isAccomplished() {
         return isAccomplished;
     }

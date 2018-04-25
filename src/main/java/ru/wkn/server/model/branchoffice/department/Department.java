@@ -3,10 +3,8 @@ package ru.wkn.server.model.branchoffice.department;
 import ru.wkn.server.model.branchoffice.BranchOffice;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
 @Table(name = "employees")
 public class Department {
 
@@ -25,5 +23,13 @@ public class Department {
 
     public BranchOffice getBranchOffice() {
         return branchOffice;
+    }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "departmentName='" + departmentName + '\'' +
+                ", branchOffice=" + branchOffice +
+                '}';
     }
 }

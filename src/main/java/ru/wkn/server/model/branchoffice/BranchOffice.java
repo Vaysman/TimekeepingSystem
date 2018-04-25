@@ -1,10 +1,8 @@
 package ru.wkn.server.model.branchoffice;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
 @Table(name = "employees")
 public class BranchOffice {
 
@@ -17,5 +15,12 @@ public class BranchOffice {
 
     public String getBranchOfficeName() {
         return branchOfficeName;
+    }
+
+    @Override
+    public String toString() {
+        return "BranchOffice{" +
+                "branchOfficeName='" + branchOfficeName + '\'' +
+                '}';
     }
 }

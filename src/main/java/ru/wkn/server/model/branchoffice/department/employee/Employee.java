@@ -25,7 +25,9 @@ public class Employee {
     private String telephoneNumber;
     @Column(name = "employee_status")
     private EmployeeStatusEnum employeeStatusEnum;
+    @Column(name = "authorization_data")
     private EmployeeAuthorizationData employeeAuthorizationData;
+    @Column(name = "department")
     private Department department;
     private TimekeepingEventManager timekeepingEventManager;
     private Searcher searcher;

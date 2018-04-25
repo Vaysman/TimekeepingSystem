@@ -1,0 +1,18 @@
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect" />
+        <property name="hibernate.connection.url" value="jdbc:ucanaccess://localhost:5432/Timekeeping;" />
+        <property name="hibernate.connection.driver_class" value="net.ucanaccess.jdbc.UcanaccessDriver"/>
+        <property name="hibernate.archive.autodetection" value="class" />
+        <property name="current_session_context_class">thread</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">manager</property>
+
+        <package scan = "ru.wkn.server.model.branchoffice.department.employee.Employee"/>
+        <package scan = "ru.wkn.server.model.branchoffice.department.Department"/>
+        <package scan = "ru.wkn.server.model.branchoffice.BranchOffice"/>
+        <package scan = "ru.wkn.server.model.timekeeping.timekeepingunits.task.Task"/>
+        <package scan = "ru.wkn.server.model.timekeeping.timekeepingunits.event.TimekeepingEvent"/>
+    </session-factory>
+</hibernate-configuration>

@@ -14,7 +14,7 @@ public class TaskDao implements Dao<Task, List<Task>, Integer> {
 
     @Override
     public List<Task> read(Integer id) throws PersistentException {
-        return new DaoTool<Task>().read("from app.tasks where id = :employeeID", "employeeID", id);
+        return new DaoTool<Task>().read("from tasks where id = :employeeID", "employeeID", id);
     }
 
     @Override

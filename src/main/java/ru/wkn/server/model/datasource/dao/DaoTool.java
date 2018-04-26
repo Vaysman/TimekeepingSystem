@@ -7,7 +7,7 @@ import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 
 import java.util.List;
 
-public class DaoTool<T> {
+class DaoTool<T> {
 
     private void closeSession(Session session) {
         if (session != null && session.isOpen()) {
@@ -15,7 +15,7 @@ public class DaoTool<T> {
         }
     }
 
-    public Object createObject(Object newInstance) throws PersistentException {
+    Object createObject(Object newInstance) throws PersistentException {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
@@ -30,7 +30,7 @@ public class DaoTool<T> {
         return newInstance;
     }
 
-    public T read(Integer id) throws PersistentException {
+    T read(Integer id) throws PersistentException {
         Session session = null;
         T object = null;
         try {
@@ -44,7 +44,7 @@ public class DaoTool<T> {
         return object;
     }
 
-    public List<T> read(String s1, String s2, Integer id) throws PersistentException {
+    List<T> read(String s1, String s2, Integer id) throws PersistentException {
         Session session = null;
         List<T> ts;
         try {
@@ -61,7 +61,7 @@ public class DaoTool<T> {
         return ts;
     }
 
-    public void update(Object transientObject) throws PersistentException {
+    void update(Object transientObject) throws PersistentException {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
@@ -75,7 +75,7 @@ public class DaoTool<T> {
         }
     }
 
-    public void delete(Object persistentObject) throws PersistentException {
+    void delete(Object persistentObject) throws PersistentException {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
@@ -89,7 +89,7 @@ public class DaoTool<T> {
         }
     }
 
-    public List<T> getAll() throws PersistentException {
+    List<T> getAll() throws PersistentException {
         Session session = null;
         List<T> ts = null;
         try {

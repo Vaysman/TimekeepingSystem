@@ -42,8 +42,9 @@ public class ModelFacade {
 
         searcher = new Searcher(timekeepingEventDao, taskDao, employeeDao);
 
-        this.employeeCreator = new EmployeeCreator(searcher);
-        this.eventEventFactoryIF = new EventFactory();
+        employeeCreator = new EmployeeCreator(searcher);
+        eventEventFactoryIF = new EventFactory();
+
         this.employeeAuthorizationData = employeeAuthorizationData;
 
         employeeManager = new EmployeeManager(employeeDao);

@@ -14,7 +14,7 @@ public class EventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent>, I
 
     @Override
     public List<TimekeepingEvent> read(Integer id) throws PersistentException {
-        return new DaoTool<TimekeepingEvent>().read("from app.timekeeping_events where id = :employeeID", "employeeID", id);
+        return new DaoTool<TimekeepingEvent>().read("from timekeeping_events where id = :employeeID", "employeeID", id);
     }
 
     @Override

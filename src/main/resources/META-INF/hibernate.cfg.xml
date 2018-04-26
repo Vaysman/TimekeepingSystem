@@ -1,7 +1,7 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect" />
-        <property name="hibernate.connection.url" value="jdbc:ucanaccess://localhost:5432/Timekeeping;" />
+        <property name="hibernate.connection.url" value="jdbc:ucanaccess://localhost:5432/timekeeping_system" />
         <property name="hibernate.connection.driver_class" value="net.ucanaccess.jdbc.UcanaccessDriver"/>
         <property name="hibernate.archive.autodetection" value="class" />
         <property name="current_session_context_class">thread</property>

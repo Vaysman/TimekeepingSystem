@@ -112,7 +112,6 @@ public class Searcher {
         }
         if (employee != null) {
             employee.setTimekeepingEventManager(new TimekeepingEventManager(eventDao, new EventFactory()));
-            employee.setSearcher(this);
         }
         return employee;
     }

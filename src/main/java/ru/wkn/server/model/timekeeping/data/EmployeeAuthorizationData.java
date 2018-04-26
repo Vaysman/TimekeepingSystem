@@ -1,10 +1,15 @@
 package ru.wkn.server.model.timekeeping.data;
 
+import javax.persistence.Column;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Table(name = "employees")
 public class EmployeeAuthorizationData {
 
+    @Column(name = "login")
     private String login;
+    @Column(name = "password")
     private String password;
 
     public EmployeeAuthorizationData(String login, String password) {

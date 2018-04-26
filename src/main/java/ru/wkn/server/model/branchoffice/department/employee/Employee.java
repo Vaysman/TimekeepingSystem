@@ -5,9 +5,12 @@ import ru.wkn.server.model.timekeeping.managers.TimekeepingEventManager;
 import ru.wkn.server.model.branchoffice.BranchOffice;
 import ru.wkn.server.model.branchoffice.department.Department;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
-import ru.wkn.server.model.timekeeping.summary.Searcher;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Column;
 
 @Entity
 @Table(name = "employees")
@@ -25,14 +28,11 @@ public class Employee {
     private String telephoneNumber;
     @Column(name = "employee_status")
     private EmployeeStatusEnum employeeStatusEnum;
-    @Column(name = "authorization_data")
     private EmployeeAuthorizationData employeeAuthorizationData;
-    @Column(name = "department")
     private Department department;
     private TimekeepingEventManager timekeepingEventManager;
-    private Searcher searcher;
 
-    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager, Searcher searcher) {
+    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager) {
         this.employeeID = employeeID;
         this.name = name;
         this.surname = surname;
@@ -41,7 +41,6 @@ public class Employee {
         this.employeeAuthorizationData = new EmployeeAuthorizationData(login, password);
         this.department = new Department(department, new BranchOffice(branchOffice));
         this.timekeepingEventManager = timekeepingEventManager;
-        this.searcher = searcher;
     }
 
     public int getEmployeeID() {
@@ -106,13 +105,5 @@ public class Employee {
 
     public void setTimekeepingEventManager(TimekeepingEventManager timekeepingEventManager) {
         this.timekeepingEventManager = timekeepingEventManager;
-    }
-
-    public Searcher getSearcher() {
-        return searcher;
-    }
-
-    public void setSearcher(Searcher searcher) {
-        this.searcher = searcher;
     }
 }

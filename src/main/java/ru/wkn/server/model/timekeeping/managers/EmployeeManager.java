@@ -3,7 +3,6 @@ package ru.wkn.server.model.timekeeping.managers;
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
 import ru.wkn.server.model.datasource.dao.Dao;
 import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
-import ru.wkn.server.model.timekeeping.summary.Searcher;
 
 import java.util.List;
 
@@ -15,8 +14,8 @@ public class EmployeeManager {
         this.employeeDao = employeeDao;
     }
 
-    public Employee createEmployee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager, Searcher searcher) throws PersistentException {
-        return employeeDao.create(new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, timekeepingEventManager, searcher));
+    public Employee createEmployee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager) throws PersistentException {
+        return employeeDao.create(new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, timekeepingEventManager));
     }
 
     public Employee readEmployee(int id) throws PersistentException {

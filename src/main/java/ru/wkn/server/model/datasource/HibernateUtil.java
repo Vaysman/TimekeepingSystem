@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.ejb.Ejb3Configuration;
+import org.jetbrains.annotations.Contract;
 
 public class HibernateUtil {
 
@@ -16,10 +17,10 @@ public class HibernateUtil {
 
     static {
         try {
-            sessionFactory = new AnnotationConfiguration().configure()
+            sessionFactory = new AnnotationConfiguration().configure("/META-INF/hibernate.cfg.xml")
                     .buildSessionFactory();
             ejb3Configuration = new Ejb3Configuration()
-                    .configure("/hibernate.cfg.xml");
+                    .configure("/META-INF/hibernate.cfg.xml");
         } catch (Throwable throwable) {
             logger.error("Initial SessionFactory creation failed." + throwable);
             throw new ExceptionInInitializerError(throwable);
@@ -30,6 +31,7 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
+    @Contract(pure = true)
     public static Ejb3Configuration getEjb3Configuration() {
         return ejb3Configuration;
     }

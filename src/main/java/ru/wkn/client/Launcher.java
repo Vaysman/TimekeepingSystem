@@ -1,10 +1,10 @@
 package ru.wkn.client;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import ru.wkn.client.windows.AuthorizationWindow;
+
+import java.io.IOException;
 
 public class Launcher extends Application {
 
@@ -14,10 +14,10 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/authorization-window.fxml"));
-        primaryStage.setTitle("Авторизация");
-        primaryStage.setScene(new Scene(root, 350, 230));
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        try {
+            AuthorizationWindow authorizationWindow = new AuthorizationWindow();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

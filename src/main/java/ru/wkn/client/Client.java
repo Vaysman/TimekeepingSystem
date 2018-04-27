@@ -55,16 +55,17 @@ public class Client {
     }
 
     public void logIn(DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws IOException {
+        dataOutputStream.writeUTF("Authorization");
         String login = Container.getLogin();
         dataOutputStream.writeUTF(login);
         String password = Container.getPassword();
         dataOutputStream.writeUTF(password);
-        String employee = dataInputStream.readUTF();
+        String employeeInfo = dataInputStream.readUTF();
         String status = dataInputStream.readUTF();
         switch (status) {
             case "EMPLOYEE": {
                 try {
-                    EmployeeWindow employeeWindow = new EmployeeWindow(employee);
+                    EmployeeWindow employeeWindow = new EmployeeWindow(employeeInfo);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

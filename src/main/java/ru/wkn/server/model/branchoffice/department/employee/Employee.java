@@ -43,6 +43,16 @@ public class Employee {
         this.timekeepingEventManager = timekeepingEventManager;
     }
 
+    public Employee(String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager) {
+        this.name = name;
+        this.surname = surname;
+        this.telephoneNumber = telephoneNumber;
+        this.employeeStatusEnum = EmployeeStatusEnum.valueOf(employeeStatus);
+        this.employeeAuthorizationData = new EmployeeAuthorizationData(login, password);
+        this.department = new Department(department, new BranchOffice(branchOffice));
+        this.timekeepingEventManager = timekeepingEventManager;
+    }
+
     public int getEmployeeID() {
         return employeeID;
     }

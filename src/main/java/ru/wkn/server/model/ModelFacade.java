@@ -1,7 +1,6 @@
 package ru.wkn.server.model;
 
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
-import ru.wkn.server.model.branchoffice.department.employee.EmployeeCreator;
 import ru.wkn.server.model.branchoffice.department.employee.Supervisor;
 import ru.wkn.server.model.branchoffice.department.employee.Timekeeper;
 import ru.wkn.server.model.datasource.dao.*;
@@ -22,7 +21,6 @@ import java.util.List;
 
 public class ModelFacade {
 
-    private EmployeeCreator employeeCreator;
     private EventFactoryIF<TimekeepingEvent> eventEventFactoryIF;
     private EmployeeAuthorizationData employeeAuthorizationData;
     private Searcher searcher;
@@ -42,7 +40,6 @@ public class ModelFacade {
 
         searcher = new Searcher(timekeepingEventDao, taskDao, employeeDao);
 
-        employeeCreator = new EmployeeCreator(searcher);
         eventEventFactoryIF = new EventFactory();
 
         this.employeeAuthorizationData = employeeAuthorizationData;
@@ -66,10 +63,6 @@ public class ModelFacade {
 
     public Timekeeper getTimekeeper() {
         return new Timekeeper(getEmployee(), dayManager, taskManager, timekeepingLog);
-    }
-
-    public EmployeeCreator getEmployeeCreator() {
-        return employeeCreator;
     }
 
     public EventFactoryIF<TimekeepingEvent> getEventEventFactoryIF() {

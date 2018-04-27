@@ -5,10 +5,8 @@ import ru.wkn.core.communication.MessageWriter;
 import ru.wkn.core.requests.HandshakeRequest;
 import ru.wkn.core.responses.HandshakeResponse;
 import ru.wkn.server.model.ModelFacade;
-import ru.wkn.server.model.branchoffice.department.employee.Employee;
-import ru.wkn.server.model.branchoffice.department.employee.Supervisor;
-import ru.wkn.server.model.branchoffice.department.employee.Timekeeper;
-import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
+import ru.wkn.server.pages.Page;
+import ru.wkn.server.pages.AuthorizationPage;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +14,6 @@ import java.io.OutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
-import java.util.StringJoiner;
 
 public class ClientSession extends Thread {
 
@@ -43,65 +40,22 @@ public class ClientSession extends Thread {
                     writer.writeResponse(new HandshakeResponse(), uniqueMessage.uniqueId);
                 }
             }
-            workLogic();
+            createConnection();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void workLogic() throws IOException {
+    private void createConnection() throws IOException {
         InputStream inputStream = socket.getInputStream();
         OutputStream outputStream = socket.getOutputStream();
         DataInputStream dataInputStream = new DataInputStream(inputStream);
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
-        String action = "";
+        workLogic(dataInputStream, dataOutputStream);
+    }
 
-        while (!action.equals("Exit")) {
-            action = dataInputStream.readUTF();
-            Employee employee = null;
-            if (action.equals("Authorization")) {
-                employee = logIn(action, dataInputStream);
-            }
-            String employeeInfo;
-            if (employee != null) {
-                employeeInfo = getInformation(employee);
-                dataOutputStream.writeUTF(employeeInfo);
-                String status = employee.getEmployeeStatusEnum().toString();
-                dataOutputStream.writeUTF(status);
-                Supervisor supervisor = new Supervisor(employee, modelFacade.getEmployeeManager(), modelFacade.getTimekeepingReport());
-                Timekeeper timekeeper = new Timekeeper(employee, modelFacade.getDayManager(), modelFacade.getTaskManager(), modelFacade.getTimekeepingLog());
-            }
-            // other methods...
-        }
+    private void workLogic(DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws IOException {
+        Page page = new AuthorizationPage(modelFacade, dataInputStream, dataOutputStream);
         socket.close();
-    }
-
-    private String getInformation(Employee employee) {
-        StringJoiner stringJoiner = new StringJoiner("\n");
-        stringJoiner.add(employee.getName());
-        stringJoiner.add(employee.getSurname());
-        stringJoiner.add(employee.getTelephoneNumber());
-        stringJoiner.add(employee.getEmployeeStatusEnum().toString());
-        stringJoiner.add(employee.getEmployeeAuthorizationData().getLogin());
-        stringJoiner.add(employee.getEmployeeAuthorizationData().getPassword());
-        stringJoiner.add(employee.getDepartment().getDepartmentName());
-        stringJoiner.add(employee.getDepartment().getBranchOffice().getBranchOfficeName());
-        return stringJoiner.toString();
-    }
-
-    private Employee logIn(String action, DataInputStream dataInputStream) {
-        if (action.equals("Authorization")) {
-            String login = null;
-            String password = null;
-            try {
-                login = dataInputStream.readUTF();
-                password = dataInputStream.readUTF();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            modelFacade = new ModelFacade(new EmployeeAuthorizationData(login, password));
-            return modelFacade.getEmployee();
-        }
-        return null;
     }
 }

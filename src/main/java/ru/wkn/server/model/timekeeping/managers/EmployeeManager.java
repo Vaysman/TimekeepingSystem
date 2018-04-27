@@ -14,8 +14,8 @@ public class EmployeeManager {
         this.employeeDao = employeeDao;
     }
 
-    public Employee createEmployee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager) throws PersistentException {
-        return employeeDao.create(new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, timekeepingEventManager));
+    public void createEmployee(String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager) throws PersistentException {
+        employeeDao.create(new Employee(name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, timekeepingEventManager));
     }
 
     public Employee readEmployee(int id) throws PersistentException {

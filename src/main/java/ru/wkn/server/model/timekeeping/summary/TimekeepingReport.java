@@ -19,6 +19,7 @@ public class TimekeepingReport {
         return dayManager.createDay(date);
     }
 
+    /*
     public List<Day> getAllDaysReport(List<String> dates) throws PersistentException {
         List<Day> days = new ArrayList<>();
         for (String date : dates) {
@@ -26,4 +27,5 @@ public class TimekeepingReport {
         }
         return days;
     }
+    */
 }

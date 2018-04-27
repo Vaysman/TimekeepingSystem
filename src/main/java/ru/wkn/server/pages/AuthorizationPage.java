@@ -2,6 +2,7 @@ package ru.wkn.server.pages;
 
 import ru.wkn.server.model.ModelFacade;
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
+import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 
 import java.io.DataInputStream;
@@ -22,12 +23,12 @@ public class AuthorizationPage extends Page {
         this.dataOutputStream = dataOutputStream;
         try {
             pageLogic();
-        } catch (IOException e) {
+        } catch (IOException | PersistentException e) {
             e.printStackTrace();
         }
     }
 
-    private void pageLogic() throws IOException {
+    private void pageLogic() throws IOException, PersistentException {
         Employee employee = logIn(dataInputStream);
         Page page;
         if (employee != null) {
@@ -49,7 +50,7 @@ public class AuthorizationPage extends Page {
                     break;
                 }
                 default: {
-                    //
+                    throw new PersistentException("TYPE_NOT_EXIST");
                 }
             }
         }

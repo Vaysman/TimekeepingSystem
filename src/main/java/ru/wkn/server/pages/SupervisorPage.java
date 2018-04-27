@@ -33,6 +33,7 @@ public class SupervisorPage extends Page {
             }
             case "TIMEKEEPING_REPORT": {
                 page = new TimekeepingReportPage(modelFacade, dataInputStream, dataOutputStream);
+                break;
             }
         }
     }

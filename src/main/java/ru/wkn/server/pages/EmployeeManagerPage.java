@@ -15,16 +15,21 @@ public class EmployeeManagerPage extends Page {
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
-    public EmployeeManagerPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws IOException {
+    public EmployeeManagerPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
         this.modelFacade = modelFacade;
         this.dataInputStream = dataInputStream;
         this.dataOutputStream = dataOutputStream;
-        pageLogic();
+        try {
+            pageLogic();
+        } catch (IOException | PersistentException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void pageLogic() throws IOException {
-        while (!dataInputStream.readUTF().equals("EXIT")) {
+    private void pageLogic() throws IOException, PersistentException {
+        String action = dataInputStream.readUTF();
+        do {
             switch (dataInputStream.readUTF()) {
                 case "CREATE": {
                     try {
@@ -73,14 +78,19 @@ public class EmployeeManagerPage extends Page {
                     } catch (PersistentException e) {
                         e.printStackTrace();
                     }
+                    break;
+                }
+                default: {
+                    throw new PersistentException("COMMAND_NOT_EXIST");
                 }
             }
-        }
+        } while (!action.equals("EXIT"));
     }
 
     private void sendEmployeesInformation() throws PersistentException, IOException {
         String employees = "";
-        for (int i = 0; i < modelFacade.getEmployeeManager().getAll().size(); i++) {
+        int size = modelFacade.getEmployeeManager().getAll().size();
+        for (int i = 0; i < size; i++) {
             employees.concat("\n" + readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(i)));
         }
         dataOutputStream.writeUTF(employees);

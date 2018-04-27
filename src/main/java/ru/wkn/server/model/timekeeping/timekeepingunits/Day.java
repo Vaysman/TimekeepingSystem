@@ -19,4 +19,14 @@ public class Day {
         this.tasks = tasks;
         this.events = events;
     }
+
+    @Override
+    public String toString() {
+        return "Day{" +
+                "date='" + date + '\'' +
+                ", employees=" + employees +
+                ", tasks=" + tasks +
+                ", events=" + events +
+                '}';
+    }
 }

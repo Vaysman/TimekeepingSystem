@@ -65,40 +65,12 @@ public class ModelFacade {
         return new Timekeeper(getEmployee(), dayManager, taskManager, timekeepingLog);
     }
 
-    public EventFactoryIF<TimekeepingEvent> getEventEventFactoryIF() {
-        return eventEventFactoryIF;
-    }
-
-    public EmployeeAuthorizationData getEmployeeAuthorizationData() {
-        return employeeAuthorizationData;
-    }
-
     public Searcher getSearcher() {
         return searcher;
     }
 
     public EmployeeManager getEmployeeManager() {
         return employeeManager;
-    }
-
-    public TaskManager getTaskManager() {
-        return taskManager;
-    }
-
-    public TimekeepingEventManager getTimekeepingEventManager() {
-        return timekeepingEventManager;
-    }
-
-    public DayManager getDayManager() {
-        return dayManager;
-    }
-
-    public TimekeepingReport getTimekeepingReport() {
-        return timekeepingReport;
-    }
-
-    public TimekeepingLog getTimekeepingLog() {
-        return timekeepingLog;
     }
 
     //createEmployee

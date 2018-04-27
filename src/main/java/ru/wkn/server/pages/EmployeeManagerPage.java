@@ -68,13 +68,17 @@ public class EmployeeManagerPage extends Page {
                     break;
                 }
                 case "GET_ALL": {
-                    //
+                    try {
+                        sendEmployeesInformation();
+                    } catch (PersistentException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
     }
 
-    private void getEmployeesInformation() throws PersistentException, IOException {
+    private void sendEmployeesInformation() throws PersistentException, IOException {
         String employees = "";
         for (int i = 0; i < modelFacade.getEmployeeManager().getAll().size(); i++) {
             employees.concat("\n" + readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(i)));

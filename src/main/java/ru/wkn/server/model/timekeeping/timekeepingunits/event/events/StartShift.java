@@ -10,6 +10,14 @@ public class StartShift extends TimekeepingEvent {
     private String time;
     private String date;
 
+    public StartShift(int employeeID, String type, String time, String date) {
+        super(employeeID, type, time, date);
+        this.employeeID = employeeID;
+        this.type = type;
+        this.time = time;
+        this.date = date;
+    }
+
     public StartShift(int eventID, int employeeID, String type, String time, String date) {
         super(eventID, employeeID, type, time, date);
         this.eventID = eventID;

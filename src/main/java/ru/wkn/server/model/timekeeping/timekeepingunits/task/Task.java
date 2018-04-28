@@ -23,6 +23,15 @@ public class Task {
     @Column(name = "status_task")
     private boolean isAccomplished;
 
+    public Task(int employeeID, String definition, String startTime, String endTime, String date, boolean isAccomplished) {
+        this.employeeID = employeeID;
+        this.definition = definition;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.date = date;
+        this.isAccomplished = isAccomplished;
+    }
+
     public Task(int taskID, int employeeID, String definition, String startTime, String endTime, String date, boolean isAccomplished) {
         this.taskID = taskID;
         this.employeeID = employeeID;

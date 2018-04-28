@@ -10,6 +10,14 @@ public class EndBreak extends TimekeepingEvent {
     private String time;
     private String date;
 
+    public EndBreak(int employeeID, String type, String time, String date) {
+        super(employeeID, type, time, date);
+        this.employeeID = employeeID;
+        this.type = type;
+        this.time = time;
+        this.date = date;
+    }
+
     public EndBreak(int eventID, int employeeID, String type, String time, String date) {
         super(eventID, employeeID, type, time, date);
         this.eventID = eventID;

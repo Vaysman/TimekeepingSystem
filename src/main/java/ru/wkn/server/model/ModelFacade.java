@@ -10,7 +10,6 @@ import ru.wkn.server.model.timekeeping.managers.EmployeeManager;
 import ru.wkn.server.model.timekeeping.managers.TaskManager;
 import ru.wkn.server.model.timekeeping.managers.TimekeepingEventManager;
 import ru.wkn.server.model.timekeeping.summary.Searcher;
-import ru.wkn.server.model.timekeeping.summary.TimekeepingLog;
 import ru.wkn.server.model.timekeeping.summary.TimekeepingReport;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.EventFactory;
 import ru.wkn.server.model.timekeeping.timekeepingunits.event.EventFactoryIF;
@@ -31,7 +30,6 @@ public class ModelFacade {
     private DayManager dayManager;
 
     private TimekeepingReport timekeepingReport;
-    private TimekeepingLog timekeepingLog;
 
     public ModelFacade(EmployeeAuthorizationData employeeAuthorizationData) {
         Dao<Employee, Employee, Integer> employeeDao = new EmployeeDao();
@@ -50,7 +48,6 @@ public class ModelFacade {
         dayManager = new DayManager(employeeDao, taskDao, timekeepingEventDao);
 
         timekeepingReport = new TimekeepingReport(dayManager);
-        timekeepingLog = new TimekeepingLog(dayManager);
     }
 
     public Employee getEmployee() {
@@ -62,7 +59,7 @@ public class ModelFacade {
     }
 
     public Timekeeper getTimekeeper() {
-        return new Timekeeper(getEmployee(), dayManager, taskManager, timekeepingLog);
+        return new Timekeeper(getEmployee(), taskManager);
     }
 
     public Searcher getSearcher() {

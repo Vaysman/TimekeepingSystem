@@ -8,7 +8,6 @@ import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.StringJoiner;
 
 public class AuthorizationPage extends Page {
 
@@ -32,8 +31,6 @@ public class AuthorizationPage extends Page {
         Employee employee = logIn(dataInputStream);
         Page page;
         if (employee != null) {
-            String employeeInfo = getInformation(employee);
-            dataOutputStream.writeUTF(employeeInfo);
             String status = employee.getEmployeeStatusEnum().toString();
             dataOutputStream.writeUTF(status);
             switch (status) {
@@ -70,18 +67,5 @@ public class AuthorizationPage extends Page {
         }
         modelFacade = new ModelFacade(new EmployeeAuthorizationData(login, password));
         return modelFacade.getEmployee();
-    }
-
-    private String getInformation(Employee employee) {
-        StringJoiner stringJoiner = new StringJoiner("\n");
-        stringJoiner.add(employee.getName());
-        stringJoiner.add(employee.getSurname());
-        stringJoiner.add(employee.getTelephoneNumber());
-        stringJoiner.add(employee.getEmployeeStatusEnum().toString());
-        stringJoiner.add(employee.getEmployeeAuthorizationData().getLogin());
-        stringJoiner.add(employee.getEmployeeAuthorizationData().getPassword());
-        stringJoiner.add(employee.getDepartment().getDepartmentName());
-        stringJoiner.add(employee.getDepartment().getBranchOffice().getBranchOfficeName());
-        return stringJoiner.toString();
     }
 }

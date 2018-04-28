@@ -19,6 +19,13 @@ public abstract class TimekeepingEvent {
     @Column(name = "date_event")
     private String date;
 
+    public TimekeepingEvent(int employeeID, String type, String time, String date) {
+        this.employeeID = employeeID;
+        this.type = type;
+        this.time = time;
+        this.date = date;
+    }
+
     public TimekeepingEvent(int eventID, int employeeID, String type, String time, String date) {
         this.eventID = eventID;
         this.employeeID = employeeID;

@@ -1,36 +1,22 @@
 package ru.wkn.server.model.branchoffice.department.employee;
 
-import ru.wkn.server.model.timekeeping.managers.DayManager;
 import ru.wkn.server.model.timekeeping.managers.TaskManager;
-import ru.wkn.server.model.timekeeping.summary.TimekeepingLog;
 
 public class Timekeeper {
 
     private Employee employee;
-    private DayManager dayManager;
     private TaskManager taskManager;
-    private TimekeepingLog timekeepingLog;
 
-    public Timekeeper(Employee employee, DayManager dayManager, TaskManager taskManager, TimekeepingLog timekeepingLog) {
+    public Timekeeper(Employee employee, TaskManager taskManager) {
         this.employee = employee;
-        this.dayManager = dayManager;
         this.taskManager = taskManager;
-        this.timekeepingLog = timekeepingLog;
     }
 
     public Employee getEmployee() {
         return employee;
     }
 
-    public DayManager getDayManager() {
-        return dayManager;
-    }
-
     public TaskManager getTaskManager() {
         return taskManager;
-    }
-
-    public TimekeepingLog getTimekeepingLog() {
-        return timekeepingLog;
     }
 }

@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import ru.wkn.client.ClientLauncher;
-import ru.wkn.client.windows.Container;
+import ru.wkn.client.windows.container.Container;
 
 public class AuthorizationWindowController {
 
@@ -23,8 +23,8 @@ public class AuthorizationWindowController {
     public void logInClick(ActionEvent actionEvent) {
         try {
             if ((!loginField.getText().equals("")) && (!passwordField.getText().equals(""))) {
-                Container.setLogin(loginField.getText());
-                Container.setPassword(passwordField.getText());
+                Container.getStrings().add(loginField.getText());
+                Container.getStrings().add(passwordField.getText());
                 authorization.getScene().getWindow().hide();
                 ClientLauncher clientLauncher = new ClientLauncher();
                 clientLauncher.launch();

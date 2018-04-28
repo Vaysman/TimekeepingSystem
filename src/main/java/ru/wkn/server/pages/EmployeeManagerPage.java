@@ -1,5 +1,6 @@
 package ru.wkn.server.pages;
 
+import ru.wkn.server.pages.container.Container;
 import ru.wkn.server.model.ModelFacade;
 import ru.wkn.server.model.branchoffice.department.employee.Employee;
 import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
@@ -7,7 +8,6 @@ import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.StringJoiner;
 
 public class EmployeeManagerPage extends Page {
 
@@ -28,9 +28,11 @@ public class EmployeeManagerPage extends Page {
     }
 
     private void pageLogic() throws IOException, PersistentException {
-        String action = dataInputStream.readUTF();
+        Page page;
+        String action;
         do {
-            switch (dataInputStream.readUTF()) {
+            action = dataInputStream.readUTF();
+            switch (action) {
                 case "CREATE": {
                     try {
                         createEmployee();
@@ -50,7 +52,7 @@ public class EmployeeManagerPage extends Page {
                 case "READ": {
                     int employeeID = dataInputStream.readInt();
                     try {
-                        dataOutputStream.writeUTF(readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(employeeID)));
+                        dataOutputStream.writeUTF(Container.readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(employeeID)));
                     } catch (PersistentException e) {
                         e.printStackTrace();
                     }
@@ -80,6 +82,10 @@ public class EmployeeManagerPage extends Page {
                     }
                     break;
                 }
+                case "EXIT": {
+                    page = new SupervisorPage(modelFacade, dataInputStream, dataOutputStream);
+                    break;
+                }
                 default: {
                     throw new PersistentException("COMMAND_NOT_EXIST");
                 }
@@ -91,22 +97,9 @@ public class EmployeeManagerPage extends Page {
         String employees = "";
         int size = modelFacade.getEmployeeManager().getAll().size();
         for (int i = 0; i < size; i++) {
-            employees.concat("\n" + readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(i)));
+            employees.concat("\n" + Container.readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(i)));
         }
         dataOutputStream.writeUTF(employees);
-    }
-
-    private String readEmployeeInformation(Employee employee) {
-        StringJoiner stringJoiner = new StringJoiner("\n");
-        stringJoiner.add(employee.getName());
-        stringJoiner.add(employee.getSurname());
-        stringJoiner.add(employee.getTelephoneNumber());
-        stringJoiner.add(employee.getEmployeeStatusEnum().toString());
-        stringJoiner.add(employee.getEmployeeAuthorizationData().getLogin());
-        stringJoiner.add(employee.getEmployeeAuthorizationData().getPassword());
-        stringJoiner.add(employee.getDepartment().getDepartmentName());
-        stringJoiner.add(employee.getDepartment().getBranchOffice().getBranchOfficeName());
-        return stringJoiner.toString();
     }
 
     private void createEmployee() throws PersistentException, IOException {

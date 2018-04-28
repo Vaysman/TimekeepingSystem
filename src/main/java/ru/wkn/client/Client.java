@@ -1,7 +1,7 @@
 package ru.wkn.client;
 
 import javafx.scene.control.Alert;
-import ru.wkn.client.windows.Container;
+import ru.wkn.client.windows.container.Container;
 import ru.wkn.client.windows.EmployeeWindow;
 import ru.wkn.core.communication.MessageReader;
 import ru.wkn.core.communication.MessageReader.UniqueMessage;
@@ -45,9 +45,7 @@ public class Client {
             DataInputStream dataInputStream = new DataInputStream(inputStream);
             DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-            while (true) {
-                logIn(dataInputStream, dataOutputStream);
-            }
+            logIn(dataInputStream, dataOutputStream);
 
         } catch (IOException e) {
             writeMessage("Error", e.getMessage());
@@ -55,17 +53,15 @@ public class Client {
     }
 
     public void logIn(DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws IOException {
-        dataOutputStream.writeUTF("Authorization");
-        String login = Container.getLogin();
+        String login = Container.getStrings().get(0);
         dataOutputStream.writeUTF(login);
-        String password = Container.getPassword();
+        String password = Container.getStrings().get(1);
         dataOutputStream.writeUTF(password);
-        String employeeInfo = dataInputStream.readUTF();
         String status = dataInputStream.readUTF();
         switch (status) {
             case "EMPLOYEE": {
                 try {
-                    EmployeeWindow employeeWindow = new EmployeeWindow(employeeInfo);
+                    EmployeeWindow employeeWindow = new EmployeeWindow(dataInputStream, dataOutputStream);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

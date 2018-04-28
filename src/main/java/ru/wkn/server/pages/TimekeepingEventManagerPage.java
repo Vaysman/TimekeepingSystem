@@ -6,16 +6,14 @@ import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-public class TimekeepingReportPage extends Page {
+public class TimekeepingEventManagerPage extends Page {
 
     private ModelFacade modelFacade;
     private DataInputStream dataInputStream;
     private DataOutputStream dataOutputStream;
 
-    public TimekeepingReportPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
+    public TimekeepingEventManagerPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
         this.modelFacade = modelFacade;
         this.dataInputStream = dataInputStream;
@@ -28,26 +26,31 @@ public class TimekeepingReportPage extends Page {
     }
 
     private void pageLogic() throws IOException, PersistentException {
+        Page page;
         String action;
         do {
             action = dataInputStream.readUTF();
             switch (action) {
-                case "GET_DAY": {
-                    writeDayReport();
+                case "CREATE_EVENT": {
+                    createEvent();
                     break;
                 }
                 case "EXIT": {
+                    page = new EmployeePage(modelFacade, dataInputStream, dataOutputStream);
                     break;
                 }
-                default:
+                default: {
                     throw new PersistentException("COMMAND_NOT_EXIST");
+                }
             }
         } while (!action.equals("EXIT"));
     }
 
-    private void writeDayReport() throws PersistentException, IOException {
-        Date dateNow = new Date();
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
-        dataOutputStream.writeUTF(modelFacade.getSupervisor().getTimekeepingReport().getDayReport(formatForDateNow.format(dateNow)).toString());
+    private void createEvent() throws IOException {
+        int employeeID = modelFacade.getEmployee().getEmployeeID();
+        String type = dataInputStream.readUTF();
+        String time = dataInputStream.readUTF();
+        String date = dataInputStream.readUTF();
+        modelFacade.getEmployee().getTimekeepingEventManager().createEvent(employeeID, type, time, date);
     }
 }

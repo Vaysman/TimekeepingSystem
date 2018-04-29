@@ -7,12 +7,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AuthorizationWindow {
+public class AuthorizationWindow extends Window {
 
     public AuthorizationWindow() throws IOException {
         AnchorPane root = FXMLLoader.load(getClass().getResource("/fxml/authorization-window.fxml"));
         Stage stage = new Stage();
         stage.setScene(new Scene(root, 350, 230));
+        stage.setResizable(false);
         stage.setTitle("Авторизация");
         stage.show();
     }

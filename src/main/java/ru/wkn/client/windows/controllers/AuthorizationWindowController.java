@@ -1,4 +1,4 @@
-package ru.wkn.client.windows.controller;
+package ru.wkn.client.windows.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

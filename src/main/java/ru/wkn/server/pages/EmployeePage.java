@@ -2,6 +2,7 @@ package ru.wkn.server.pages;
 
 import ru.wkn.server.model.ModelFacade;
 import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
+import ru.wkn.server.pages.container.Container;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -33,7 +34,9 @@ public class EmployeePage extends Page {
         }
         switch (action) {
             case "INFO": {
-                page = new EmployeeInformationPage(modelFacade, dataInputStream, dataOutputStream);
+                synchronized (dataOutputStream) {
+                    dataOutputStream.writeUTF(Container.readEmployeeInformation(modelFacade.getEmployee()));
+                }
                 break;
             }
             case "EVENT_MANAGER": {

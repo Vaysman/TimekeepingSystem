@@ -1,6 +1,9 @@
 package ru.wkn.client;
 
 import javafx.scene.control.Alert;
+import ru.wkn.client.windows.SupervisorWindow;
+import ru.wkn.client.windows.TimekeeperWindow;
+import ru.wkn.client.windows.Window;
 import ru.wkn.client.windows.container.Container;
 import ru.wkn.client.windows.EmployeeWindow;
 import ru.wkn.core.communication.MessageReader;
@@ -45,43 +48,40 @@ public class Client {
             DataInputStream dataInputStream = new DataInputStream(inputStream);
             DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-            logIn(dataInputStream, dataOutputStream);
+            Container.setDataInputStream(dataInputStream);
+            Container.setDataOutputStream(dataOutputStream);
+            Container.clearContainerStrings();
+
+            try {
+                logIn(dataInputStream, dataOutputStream);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } catch (IOException e) {
             writeMessage("Error", e.getMessage());
         }
     }
 
-    public void logIn(DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws IOException {
+    public void logIn(DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws Exception {
+        Window window;
         String login = Container.getStrings().get(0);
         dataOutputStream.writeUTF(login);
         String password = Container.getStrings().get(1);
-        Container.clearContainer();
+        Container.clearContainerStrings();
         dataOutputStream.writeUTF(password);
         String status = dataInputStream.readUTF();
         switch (status) {
             case "EMPLOYEE": {
-                try {
-                    EmployeeWindow employeeWindow = new EmployeeWindow(dataInputStream, dataOutputStream);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                window = new EmployeeWindow();
                 break;
             }
             case "SUPERVISOR": {
-                try {
-                    //
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                window = new SupervisorWindow();
                 break;
             }
             case "TIMEKEEPER": {
-                try {
-                    //
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                window = new TimekeeperWindow();
                 break;
             }
             default: {

@@ -69,14 +69,4 @@ public class ModelFacade {
     public EmployeeManager getEmployeeManager() {
         return employeeManager;
     }
-
-    //createEmployee
-
-    //createTask
-
-    //createEvent
-
-    //getInformationAboutEmployee
-
-    //searchEmployee
 }

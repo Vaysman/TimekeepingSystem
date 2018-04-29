@@ -2,6 +2,7 @@ package ru.wkn.server.pages;
 
 import ru.wkn.server.model.ModelFacade;
 import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
+import ru.wkn.server.model.timekeeping.timekeepingunits.task.Task;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -58,19 +59,36 @@ public class TaskManagerPage extends Page {
         } while (!action.equals("EXIT"));
     }
 
-    private void createTask() {
-        //
+    private void createTask() throws IOException, PersistentException {
+        int employeeID = dataInputStream.readInt();
+        String definition = dataInputStream.readUTF();
+        String startTime = dataInputStream.readUTF();
+        String endTime = dataInputStream.readUTF();
+        String date = dataInputStream.readUTF();
+        boolean isAccomplished = dataInputStream.readBoolean();
+        modelFacade.getTimekeeper().getTaskManager().createTask(employeeID, definition, startTime, endTime, date, isAccomplished);
     }
 
-    private void deleteTask() {
-        //
+    private void deleteTask() throws IOException, PersistentException {
+        modelFacade.getTimekeeper().getTaskManager().deleteTask(getTask());
     }
 
-    private void deleteAllTasks() {
-        //
+    private void deleteAllTasks() throws PersistentException {
+        modelFacade.getTimekeeper().getTaskManager().deleteAll();
     }
 
-    private void updateTask() {
-        //
+    private void updateTask() throws IOException, PersistentException {
+        modelFacade.getTimekeeper().getTaskManager().editTask(getTask(), getTask());
+    }
+
+    private Task getTask() throws IOException {
+        int taskID = dataInputStream.readInt();
+        int employeeID = dataInputStream.readInt();
+        String definition = dataInputStream.readUTF();
+        String startTime = dataInputStream.readUTF();
+        String endTime = dataInputStream.readUTF();
+        String date = dataInputStream.readUTF();
+        boolean isAccomplished = dataInputStream.readBoolean();
+        return new Task(taskID, employeeID, definition, startTime, endTime, date, isAccomplished);
     }
 }

@@ -17,7 +17,6 @@ public class AuthorizationPage extends Page {
 
     public AuthorizationPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
-        this.modelFacade = modelFacade;
         this.dataInputStream = dataInputStream;
         this.dataOutputStream = dataOutputStream;
         try {
@@ -31,6 +30,7 @@ public class AuthorizationPage extends Page {
         Employee employee = logIn(dataInputStream);
         Page page;
         if (employee != null) {
+            modelFacade = new ModelFacade(employee.getEmployeeAuthorizationData());
             String status = employee.getEmployeeStatusEnum().toString();
             dataOutputStream.writeUTF(status);
             switch (status) {

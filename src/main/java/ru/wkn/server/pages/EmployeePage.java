@@ -28,12 +28,20 @@ public class EmployeePage extends Page {
     private void pageLogic() throws IOException, PersistentException {
         Page page;
         switch (dataInputStream.readUTF()) {
-            case "INFO":{
+            case "INFO": {
                 page = new EmployeeInformationPage(modelFacade, dataInputStream, dataOutputStream);
                 break;
             }
             case "EVENT_MANAGER": {
                 page = new TimekeepingEventManagerPage(modelFacade, dataInputStream, dataOutputStream);
+                break;
+            }
+            case "TIMEKEEPER": {
+                page = new TimekeeperPage(modelFacade, dataInputStream, dataOutputStream);
+                break;
+            }
+            case "SUPERVISOR": {
+                page = new SupervisorPage(modelFacade, dataInputStream, dataOutputStream);
                 break;
             }
             case "EXIT": {

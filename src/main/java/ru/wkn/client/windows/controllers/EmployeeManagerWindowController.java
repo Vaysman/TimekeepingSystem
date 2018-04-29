@@ -3,7 +3,10 @@ package ru.wkn.client.windows.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import ru.wkn.client.windows.SupervisorWindow;
 import ru.wkn.client.windows.Window;
 import ru.wkn.client.windows.container.Container;
@@ -15,19 +18,77 @@ public class EmployeeManagerWindowController {
     @FXML
     public AnchorPane employeeManager;
     @FXML
-    public Button searchEmployeeButton;
+    public GridPane creatorGridPane;
     @FXML
-    public Button editEmployeeButton;
+    public GridPane deleteGridPane;
     @FXML
-    public Button deleteAllButton;
+    public GridPane updateGridPane;
     @FXML
-    public Button deleteEmployeeButton;
+    public RadioButton searchEmployeeButton;
+    @FXML
+    public RadioButton editEmployeeButton;
+    @FXML
+    public RadioButton deleteEmployeeButton;
     @FXML
     public Button exitButton;
     @FXML
-    public Button createEmployeeButton;
+    public RadioButton createEmployeeButton;
     @FXML
-    public Button allEmployeeButton;
+    public RadioButton allEmployeeButton;
+    @FXML
+    public TextField deleteTextField;
+    @FXML
+    public Button deleteButton;
+    @FXML
+    public RadioButton deleteAllEmployeesButton;
+    @FXML
+    public TextField branchOfficeTextField;
+    @FXML
+    public TextField nameTextField;
+    @FXML
+    public TextField departmentTextField;
+    @FXML
+    public TextField passwordTextField;
+    @FXML
+    public TextField loginTextField;
+    @FXML
+    public TextField telephoneNumberTextField;
+    @FXML
+    public TextField surnameTextField;
+    @FXML
+    public RadioButton supervisorButton;
+    @FXML
+    public RadioButton timekeeperButton;
+    @FXML
+    public RadioButton employeeButton;
+    @FXML
+    public Button createButton;
+    @FXML
+    public TextField newBranchOfficeTextField;
+    @FXML
+    public TextField newNameTextField;
+    @FXML
+    public TextField newDepartmentTextField;
+    @FXML
+    public TextField newPasswordTextField;
+    @FXML
+    public TextField newLoginTextField;
+    @FXML
+    public TextField newTelephoneNumberTextField;
+    @FXML
+    public TextField newSurnameTextField;
+    @FXML
+    public RadioButton newSupervisorButton;
+    @FXML
+    public RadioButton newTimekeeperButton;
+    @FXML
+    public RadioButton newEmployeeButton;
+    @FXML
+    public Button editButton;
+    @FXML
+    public TextField currentIDTextField;
+    @FXML
+    public Button deleteAllButton;
 
     private void hide() {
         employeeManager.getScene().getWindow().hide();
@@ -92,5 +153,26 @@ public class EmployeeManagerWindowController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void allEmployeeClick(ActionEvent actionEvent) {
+        try {
+            Container.getDataOutputStream().writeUTF("GET_ALL");
+            //
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteClick(ActionEvent actionEvent) {
+        //
+    }
+
+    public void deleteAllEmployeesClick(ActionEvent actionEvent) {
+        //
+    }
+
+    public void editClick(ActionEvent actionEvent) {
+        //
     }
 }

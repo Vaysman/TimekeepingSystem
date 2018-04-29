@@ -23,6 +23,7 @@ public class AuthorizationWindowController {
     public void logInClick(ActionEvent actionEvent) {
         try {
             if ((!loginField.getText().equals("")) && (!passwordField.getText().equals(""))) {
+                Container.clearContainerStrings();
                 Container.getStrings().add(loginField.getText());
                 Container.getStrings().add(passwordField.getText());
                 authorization.getScene().getWindow().hide();

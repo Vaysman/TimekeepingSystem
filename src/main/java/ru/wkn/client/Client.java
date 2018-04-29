@@ -50,7 +50,6 @@ public class Client {
 
             Container.setDataInputStream(dataInputStream);
             Container.setDataOutputStream(dataOutputStream);
-            Container.clearContainerStrings();
 
             try {
                 logIn(dataInputStream, dataOutputStream);

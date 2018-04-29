@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Contract;
 
 public class HibernateUtil {
 
-    public static final Log logger = (Log) LogFactory.getLog(HibernateUtil.class.getName());
+    private static final Log logger = (Log) LogFactory.getLog(HibernateUtil.class.getName());
 
     private static final SessionFactory sessionFactory;
 
@@ -17,7 +17,7 @@ public class HibernateUtil {
 
     static {
         try {
-            sessionFactory = new AnnotationConfiguration().configure("/META-INF/hibernate.cfg.xml")
+            sessionFactory = new AnnotationConfiguration().configure()
                     .buildSessionFactory();
             ejb3Configuration = new Ejb3Configuration()
                     .configure("/META-INF/hibernate.cfg.xml");

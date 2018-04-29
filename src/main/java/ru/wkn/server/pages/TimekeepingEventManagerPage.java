@@ -10,8 +10,8 @@ import java.io.IOException;
 public class TimekeepingEventManagerPage extends Page {
 
     private ModelFacade modelFacade;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     public TimekeepingEventManagerPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
@@ -29,7 +29,9 @@ public class TimekeepingEventManagerPage extends Page {
         Page page;
         String action;
         do {
-            action = dataInputStream.readUTF();
+            synchronized (dataInputStream) {
+                action = dataInputStream.readUTF();
+            }
             switch (action) {
                 case "CREATE_EVENT": {
                     createEvent();
@@ -46,7 +48,7 @@ public class TimekeepingEventManagerPage extends Page {
         } while (!action.equals("EXIT"));
     }
 
-    private void createEvent() throws IOException {
+    private synchronized void createEvent() throws IOException {
         int employeeID = modelFacade.getEmployee().getEmployeeID();
         String type = dataInputStream.readUTF();
         String time = dataInputStream.readUTF();

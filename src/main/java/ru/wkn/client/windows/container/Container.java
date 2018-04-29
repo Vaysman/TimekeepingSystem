@@ -11,7 +11,7 @@ public class Container {
         return strings;
     }
 
-    public static void clearComtainer() {
+    public static void clearContainer() {
         strings = new ArrayList<>();
     }
 }

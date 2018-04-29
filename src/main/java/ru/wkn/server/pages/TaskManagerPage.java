@@ -11,8 +11,8 @@ import java.io.IOException;
 public class TaskManagerPage extends Page {
 
     private ModelFacade modelFacade;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     public TaskManagerPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
@@ -26,11 +26,13 @@ public class TaskManagerPage extends Page {
         }
     }
 
-    private void pageLogic() throws IOException, PersistentException {
+    private synchronized void pageLogic() throws IOException, PersistentException {
         Page page;
         String action;
         do {
-            action = dataInputStream.readUTF();
+            synchronized (dataInputStream) {
+                action = dataInputStream.readUTF();
+            }
             switch (action) {
                 case "CREATE_TASK": {
                     createTask();
@@ -59,7 +61,7 @@ public class TaskManagerPage extends Page {
         } while (!action.equals("EXIT"));
     }
 
-    private void createTask() throws IOException, PersistentException {
+    private synchronized void createTask() throws IOException, PersistentException {
         int employeeID = dataInputStream.readInt();
         String definition = dataInputStream.readUTF();
         String startTime = dataInputStream.readUTF();
@@ -69,19 +71,19 @@ public class TaskManagerPage extends Page {
         modelFacade.getTimekeeper().getTaskManager().createTask(employeeID, definition, startTime, endTime, date, isAccomplished);
     }
 
-    private void deleteTask() throws IOException, PersistentException {
+    private synchronized void deleteTask() throws IOException, PersistentException {
         modelFacade.getTimekeeper().getTaskManager().deleteTask(getTask());
     }
 
-    private void deleteAllTasks() throws PersistentException {
+    private synchronized void deleteAllTasks() throws PersistentException {
         modelFacade.getTimekeeper().getTaskManager().deleteAll();
     }
 
-    private void updateTask() throws IOException, PersistentException {
+    private synchronized void updateTask() throws IOException, PersistentException {
         modelFacade.getTimekeeper().getTaskManager().editTask(getTask(), getTask());
     }
 
-    private Task getTask() throws IOException {
+    private synchronized Task getTask() throws IOException {
         int taskID = dataInputStream.readInt();
         int employeeID = dataInputStream.readInt();
         String definition = dataInputStream.readUTF();

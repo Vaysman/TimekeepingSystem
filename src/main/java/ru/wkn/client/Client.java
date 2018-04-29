@@ -56,6 +56,7 @@ public class Client {
         String login = Container.getStrings().get(0);
         dataOutputStream.writeUTF(login);
         String password = Container.getStrings().get(1);
+        Container.clearContainer();
         dataOutputStream.writeUTF(password);
         String status = dataInputStream.readUTF();
         switch (status) {

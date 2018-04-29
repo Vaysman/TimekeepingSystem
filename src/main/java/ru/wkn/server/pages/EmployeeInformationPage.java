@@ -11,8 +11,8 @@ import java.io.IOException;
 public class EmployeeInformationPage extends Page {
 
     private ModelFacade modelFacade;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     public EmployeeInformationPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
@@ -27,9 +27,15 @@ public class EmployeeInformationPage extends Page {
     }
 
     private void pageLogic() throws IOException, PersistentException {
-        dataOutputStream.writeUTF(Container.readEmployeeInformation(modelFacade.getEmployee()));
+        synchronized (dataOutputStream) {
+            dataOutputStream.writeUTF(Container.readEmployeeInformation(modelFacade.getEmployee()));
+        }
+        String action;
         Page page;
-        switch (dataInputStream.readUTF()) {
+        synchronized (dataInputStream) {
+            action = dataInputStream.readUTF();
+        }
+        switch (action) {
             case "EXIT":{
                 page = new EmployeePage(modelFacade, dataInputStream, dataOutputStream);
                 break;

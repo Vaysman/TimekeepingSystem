@@ -8,8 +8,8 @@ import java.io.DataOutputStream;
 public abstract class Page {
 
     private ModelFacade modelFacade;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     public Page(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         this.modelFacade = modelFacade;

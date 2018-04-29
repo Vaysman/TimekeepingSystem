@@ -10,8 +10,8 @@ import java.io.IOException;
 public class EmployeePage extends Page {
 
     private ModelFacade modelFacade;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     public EmployeePage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
@@ -26,8 +26,12 @@ public class EmployeePage extends Page {
     }
 
     private void pageLogic() throws IOException, PersistentException {
+        String action;
         Page page;
-        switch (dataInputStream.readUTF()) {
+        synchronized (dataInputStream) {
+            action = dataInputStream.readUTF();
+        }
+        switch (action) {
             case "INFO": {
                 page = new EmployeeInformationPage(modelFacade, dataInputStream, dataOutputStream);
                 break;

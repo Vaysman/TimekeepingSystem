@@ -12,8 +12,8 @@ import java.io.IOException;
 public class AuthorizationPage extends Page {
 
     private ModelFacade modelFacade;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     public AuthorizationPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
@@ -32,7 +32,9 @@ public class AuthorizationPage extends Page {
         if (employee != null) {
             modelFacade = new ModelFacade(employee.getEmployeeAuthorizationData());
             String status = employee.getEmployeeStatusEnum().toString();
-            dataOutputStream.writeUTF(status);
+            synchronized (dataOutputStream) {
+                dataOutputStream.writeUTF(status);
+            }
             switch (status) {
                 case "EMPLOYEE": {
                     page = new EmployeePage(modelFacade, dataInputStream, dataOutputStream);
@@ -52,7 +54,9 @@ public class AuthorizationPage extends Page {
             }
         }
         else {
-            dataOutputStream.writeUTF("NOT_EXIST");
+            synchronized (dataOutputStream) {
+                dataOutputStream.writeUTF("NOT_EXIST");
+            }
         }
     }
 

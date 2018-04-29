@@ -12,8 +12,8 @@ import java.util.Date;
 public class TimekeepingReportPage extends Page {
 
     private ModelFacade modelFacade;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     public TimekeepingReportPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
@@ -30,7 +30,9 @@ public class TimekeepingReportPage extends Page {
     private void pageLogic() throws IOException, PersistentException {
         String action;
         do {
-            action = dataInputStream.readUTF();
+            synchronized (dataInputStream) {
+                action = dataInputStream.readUTF();
+            }
             switch (action) {
                 case "GET_DAY": {
                     writeDayReport();
@@ -45,7 +47,7 @@ public class TimekeepingReportPage extends Page {
         } while (!action.equals("EXIT"));
     }
 
-    private void writeDayReport() throws PersistentException, IOException {
+    private synchronized void writeDayReport() throws PersistentException, IOException {
         Date dateNow = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
         dataOutputStream.writeUTF(modelFacade.getSupervisor().getTimekeepingReport().getDayReport(formatForDateNow.format(dateNow)).toString());

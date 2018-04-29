@@ -12,8 +12,8 @@ import java.io.IOException;
 public class EmployeeManagerPage extends Page {
 
     private ModelFacade modelFacade;
-    private DataInputStream dataInputStream;
-    private DataOutputStream dataOutputStream;
+    private final DataInputStream dataInputStream;
+    private final DataOutputStream dataOutputStream;
 
     public EmployeeManagerPage(ModelFacade modelFacade, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
         super(modelFacade, dataInputStream, dataOutputStream);
@@ -28,58 +28,35 @@ public class EmployeeManagerPage extends Page {
     }
 
     private void pageLogic() throws IOException, PersistentException {
-        Page page;
         String action;
+        Page page;
         do {
-            action = dataInputStream.readUTF();
+            synchronized (dataInputStream) {
+                action = dataInputStream.readUTF();
+            }
             switch (action) {
                 case "CREATE": {
-                    try {
-                        createEmployee();
-                    } catch (PersistentException e) {
-                        e.printStackTrace();
-                    }
+                    createEmployee();
                     break;
                 }
                 case "DELETE": {
-                    try {
-                        deleteEmployee(modelFacade.getSearcher().getEmployeeByID(dataInputStream.readInt()));
-                    } catch (PersistentException e) {
-                        e.printStackTrace();
-                    }
+                    deleteEmployee(modelFacade.getSearcher().getEmployeeByID(dataInputStream.readInt()));
                     break;
                 }
                 case "READ": {
-                    int employeeID = dataInputStream.readInt();
-                    try {
-                        dataOutputStream.writeUTF(Container.readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(employeeID)));
-                    } catch (PersistentException e) {
-                        e.printStackTrace();
-                    }
+                    readEmployee();
                     break;
                 }
                 case "UPDATE": {
-                    try {
-                        update();
-                    } catch (PersistentException e) {
-                        e.printStackTrace();
-                    }
+                    update();
                     break;
                 }
                 case "DELETE_ALL": {
-                    try {
-                        modelFacade.getEmployeeManager().deleteAll();
-                    } catch (PersistentException e) {
-                        e.printStackTrace();
-                    }
+                    deleteAllEmployees();
                     break;
                 }
                 case "GET_ALL": {
-                    try {
-                        sendEmployeesInformation();
-                    } catch (PersistentException e) {
-                        e.printStackTrace();
-                    }
+                    sendEmployeesInformation();
                     break;
                 }
                 case "EXIT": {
@@ -93,7 +70,7 @@ public class EmployeeManagerPage extends Page {
         } while (!action.equals("EXIT"));
     }
 
-    private void sendEmployeesInformation() throws PersistentException, IOException {
+    private synchronized void sendEmployeesInformation() throws PersistentException, IOException {
         String employees = "";
         int size = modelFacade.getEmployeeManager().getAll().size();
         for (int i = 0; i < size; i++) {
@@ -102,7 +79,7 @@ public class EmployeeManagerPage extends Page {
         dataOutputStream.writeUTF(employees);
     }
 
-    private void createEmployee() throws PersistentException, IOException {
+    private synchronized void createEmployee() throws PersistentException, IOException {
         String name = dataInputStream.readUTF();
         String surname = dataInputStream.readUTF();
         String telephoneNumber = dataInputStream.readUTF();
@@ -114,11 +91,20 @@ public class EmployeeManagerPage extends Page {
         modelFacade.getEmployeeManager().createEmployee(name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, null);
     }
 
-    private void deleteEmployee(Employee persistentEmployee) throws PersistentException {
+    private synchronized void readEmployee() throws IOException, PersistentException {
+        int employeeID = dataInputStream.readInt();
+        dataOutputStream.writeUTF(Container.readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(employeeID)));
+    }
+
+    private synchronized void deleteEmployee(Employee persistentEmployee) throws PersistentException {
         modelFacade.getEmployeeManager().deleteEmployee(persistentEmployee);
     }
 
-    private void update() throws PersistentException, IOException {
+    private synchronized void deleteAllEmployees() throws PersistentException {
+        modelFacade.getEmployeeManager().deleteAll();
+    }
+
+    private synchronized void update() throws PersistentException, IOException {
         int employeeID = dataInputStream.readInt();
         String name = dataInputStream.readUTF();
         String surname = dataInputStream.readUTF();

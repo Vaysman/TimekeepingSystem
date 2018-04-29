@@ -2,7 +2,6 @@ package ru.wkn.client.windows.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import ru.wkn.client.windows.AuthorizationWindow;
@@ -37,18 +36,10 @@ public class EmployeeWindowController {
     public void aboutMeClick(ActionEvent actionEvent) {
         try {
             Container.getDataOutputStream().writeUTF("INFO");
-            writeMessage("Информация о пользователе", Container.getDataInputStream().readUTF());
+            Information.writeMessage("Информация о пользователе", Container.getDataInputStream().readUTF());
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void writeMessage(String name, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(name);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     @FXML

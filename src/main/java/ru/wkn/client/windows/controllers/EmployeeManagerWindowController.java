@@ -2,6 +2,7 @@ package ru.wkn.client.windows.controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -94,6 +95,43 @@ public class EmployeeManagerWindowController {
         employeeManager.getScene().getWindow().hide();
     }
 
+    private void setVisibleForGridPanes(boolean[] flag) {
+        creatorGridPane.setVisible(flag[0]);
+        deleteGridPane.setVisible(flag[1]);
+        updateGridPane.setVisible(flag[2]);
+        deleteAllButton.setVisible(flag[3]);
+    }
+
+    @FXML
+    public void createEmployeeClick(ActionEvent actionEvent) {
+        try {
+            Container.getDataOutputStream().writeUTF("CREATE");
+            setVisibleForGridPanes(new boolean[]{true, false, false, false});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void deleteEmployeeClick(ActionEvent actionEvent) {
+        try {
+            Container.getDataOutputStream().writeUTF("DELETE");
+            setVisibleForGridPanes(new boolean[]{false, true, false, false});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void editEmployeeClick(ActionEvent actionEvent) {
+        try {
+            Container.getDataOutputStream().writeUTF("UPDATE");
+            setVisibleForGridPanes(new boolean[]{false, false, true, false});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     public void searchEmployeeClick(ActionEvent actionEvent) {
         try {
@@ -105,9 +143,9 @@ public class EmployeeManagerWindowController {
     }
 
     @FXML
-    public void editEmployeeClick(ActionEvent actionEvent) {
+    public void allEmployeeClick(ActionEvent actionEvent) {
         try {
-            Container.getDataOutputStream().writeUTF("UPDATE");
+            Container.getDataOutputStream().writeUTF("GET_ALL");
             //
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,23 +153,8 @@ public class EmployeeManagerWindowController {
     }
 
     @FXML
-    public void deleteAllClick(ActionEvent actionEvent) {
-        try {
-            Container.getDataOutputStream().writeUTF("DELETE_ALL");
-            //
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void deleteEmployeeClick(ActionEvent actionEvent) {
-        try {
-            Container.getDataOutputStream().writeUTF("DELETE");
-            //
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void deleteAllEmployeesClick(ActionEvent actionEvent) {
+        setVisibleForGridPanes(new boolean[]{false, false, false, true});
     }
 
     @FXML
@@ -146,33 +169,60 @@ public class EmployeeManagerWindowController {
     }
 
     @FXML
-    public void createEmployeeClick(ActionEvent actionEvent) {
+    public void deleteAllClick(ActionEvent actionEvent) {
         try {
-            Container.getDataOutputStream().writeUTF("CREATE");
-            //
+            Container.getDataOutputStream().writeUTF("DELETE_ALL");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void allEmployeeClick(ActionEvent actionEvent) {
-        try {
-            Container.getDataOutputStream().writeUTF("GET_ALL");
-            //
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
+    @FXML
     public void deleteClick(ActionEvent actionEvent) {
-        //
+        try {
+            if (!deleteTextField.getText().equals("")) {
+                Container.getDataOutputStream().writeUTF("DELETE");
+                Container.getDataOutputStream().writeUTF(deleteTextField.getText());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void deleteAllEmployeesClick(ActionEvent actionEvent) {
-        //
-    }
-
+    @FXML
     public void editClick(ActionEvent actionEvent) {
-        //
+        try {
+            String status = null;
+            //
+            if ((!newNameTextField.getText().equals("")) &&(!newSurnameTextField.getText().equals("")) &&
+                    (!newTelephoneNumberTextField.getText().equals("")) && (status.equals(""))  &&
+                    (!newLoginTextField.getText().equals("")) && (!newPasswordTextField.getText().equals("")) &&
+                    (!newDepartmentTextField.getText().equals("")) && (!newBranchOfficeTextField.getText().equals(""))) {
+                Container.getDataOutputStream().writeUTF(currentIDTextField.getText());
+                Container.getDataOutputStream().writeUTF(newNameTextField.getText());
+                Container.getDataOutputStream().writeUTF(newSurnameTextField.getText());
+                Container.getDataOutputStream().writeUTF(newTelephoneNumberTextField.getText());
+                Container.getDataOutputStream().writeUTF(status);
+                Container.getDataOutputStream().writeUTF(newLoginTextField.getText());
+                Container.getDataOutputStream().writeUTF(newPasswordTextField.getText());
+                Container.getDataOutputStream().writeUTF(newDepartmentTextField.getText());
+                Container.getDataOutputStream().writeUTF(newBranchOfficeTextField.getText());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createClick(ActionEvent actionEvent) {
+        try {
+            if ((!nameTextField.getText().equals("")) &&(!surnameTextField.getText().equals("")) &&
+                    (!telephoneNumberTextField.getText().equals("")) && (!nameTextField.getText().equals("")) &&
+                    (!nameTextField.getText().equals("")) &&(!nameTextField.getText().equals("")) &&
+                    (!nameTextField.getText().equals("")) && (!nameTextField.getText().equals(""))) {
+                Container.getDataOutputStream().writeUTF(deleteTextField.getText());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

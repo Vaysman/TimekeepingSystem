@@ -6,6 +6,7 @@ import ru.wkn.client.windows.TimekeeperWindow;
 import ru.wkn.client.windows.Window;
 import ru.wkn.client.windows.container.Container;
 import ru.wkn.client.windows.EmployeeWindow;
+import ru.wkn.client.windows.controllers.Information;
 import ru.wkn.core.communication.MessageReader;
 import ru.wkn.core.communication.MessageReader.UniqueMessage;
 import ru.wkn.core.communication.MessageWriter;
@@ -58,7 +59,7 @@ public class Client {
             }
 
         } catch (IOException e) {
-            writeMessage("Error", e.getMessage());
+            Information.writeMessage("Error", e.getMessage());
         }
     }
 
@@ -84,16 +85,8 @@ public class Client {
                 break;
             }
             default: {
-                writeMessage("Ошибка", "Данной записи не существует");
+                Information.writeMessage("Ошибка", "Данной записи не существует");
             }
         }
-    }
-
-    private void writeMessage(String name, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(name);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

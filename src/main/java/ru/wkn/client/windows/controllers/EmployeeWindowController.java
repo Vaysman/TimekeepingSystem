@@ -8,7 +8,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import ru.wkn.client.windows.AuthorizationWindow;
-import ru.wkn.client.windows.TimekeepingEventManagerWindow;
 import ru.wkn.client.windows.Window;
 import ru.wkn.client.windows.container.Container;
 
@@ -69,7 +68,7 @@ public class EmployeeWindowController {
         try {
             Container.getDataOutputStream().writeUTF("EVENT_MANAGER");
             hide();
-            Window window = new TimekeepingEventManagerWindow();
+            //
         } catch (IOException e) {
             e.printStackTrace();
         }

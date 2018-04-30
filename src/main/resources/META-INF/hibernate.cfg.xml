@@ -6,8 +6,8 @@
         <property name="hibernate.archive.autodetection" value="class" />
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">manager</property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password">root</property>
 
         <package scan = "ru.wkn.server.model.branchoffice.department.employee.Employee"/>
         <package scan = "ru.wkn.server.model.branchoffice.department.Department"/>

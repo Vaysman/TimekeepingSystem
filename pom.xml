@@ -93,12 +93,13 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>8.1.10.v20130312</version>
                 <configuration>
-                <systemProperties>
-                <systemProperty>
-                    <name>log4j.configuration</name>
-                    <value>file:///${basedir}/src/main/resources/log4j.properties</value>
-                </systemProperty>
-                <configuration>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>log4j.configuration</name>
+                            <value>file:///${basedir}/src/main/resources/log4j.properties</value>
+                        </systemProperty>
+                    </systemProperties>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.slf4j</groupId>

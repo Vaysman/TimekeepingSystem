@@ -17,7 +17,7 @@ public class HibernateUtil {
 
     static {
         try {
-            sessionFactory = new AnnotationConfiguration().configure()
+            sessionFactory = new AnnotationConfiguration().configure("/META-INF/hibernate.cfg.xml")
                     .buildSessionFactory();
             ejb3Configuration = new Ejb3Configuration()
                     .configure("/META-INF/hibernate.cfg.xml");

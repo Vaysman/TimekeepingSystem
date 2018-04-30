@@ -3,7 +3,10 @@ package ru.wkn.client.windows.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import ru.wkn.client.windows.AuthorizationWindow;
 import ru.wkn.client.windows.TimekeepingEventManagerWindow;
 import ru.wkn.client.windows.Window;
@@ -16,17 +19,25 @@ public class EmployeeWindowController {
     @FXML
     public AnchorPane employee;
     @FXML
-    public Button aboutMeButton;
+    public GridPane creatorEventGridPane;
     @FXML
-    public Button createEventButton;
+    public Label aboutMeLabel;
     @FXML
-    public Button myTasksButton;
+    public RadioButton aboutMeButton;
     @FXML
-    public Button searchEmployeeButton;
+    public RadioButton createEventButton;
     @FXML
-    public Button calendarEventsButton;
+    public RadioButton myTasksButton;
+    @FXML
+    public RadioButton searchEmployeeButton;
+    @FXML
+    public RadioButton calendarEventsButton;
     @FXML
     public Button exitButton;
+    public Button startShiftButton;
+    public Button startBreakButton;
+    public Button endBreakButton;
+    public Button endShiftButton;
 
     private void hide() {
         employee.getScene().getWindow().hide();
@@ -95,5 +106,21 @@ public class EmployeeWindowController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void startShiftClick(ActionEvent actionEvent) {
+        //
+    }
+
+    public void startBreakClick(ActionEvent actionEvent) {
+        //
+    }
+
+    public void endBreakClick(ActionEvent actionEvent) {
+        //
+    }
+
+    public void endShiftClick(ActionEvent actionEvent) {
+        //
     }
 }

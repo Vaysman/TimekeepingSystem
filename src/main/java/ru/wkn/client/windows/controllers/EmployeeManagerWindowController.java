@@ -181,7 +181,6 @@ public class EmployeeManagerWindowController {
     public void deleteClick(ActionEvent actionEvent) {
         try {
             if (!deleteTextField.getText().equals("")) {
-                Container.getDataOutputStream().writeUTF("DELETE");
                 Container.getDataOutputStream().writeUTF(deleteTextField.getText());
             }
         } catch (IOException e) {
@@ -192,12 +191,12 @@ public class EmployeeManagerWindowController {
     @FXML
     public void editClick(ActionEvent actionEvent) {
         try {
-            String status = null;
-            //
+            String status = supervisorButton.isSelected() ? "SUPERVISOR":
+                    timekeeperButton.isSelected() ? "TIMEKEEPER": "EMPLOYEE";
             if ((!newNameTextField.getText().equals("")) &&(!newSurnameTextField.getText().equals("")) &&
-                    (!newTelephoneNumberTextField.getText().equals("")) && (status.equals(""))  &&
-                    (!newLoginTextField.getText().equals("")) && (!newPasswordTextField.getText().equals("")) &&
-                    (!newDepartmentTextField.getText().equals("")) && (!newBranchOfficeTextField.getText().equals(""))) {
+                    (!newTelephoneNumberTextField.getText().equals("")) && (!newLoginTextField.getText().equals("")) &&
+                    (!newPasswordTextField.getText().equals("")) && (!newDepartmentTextField.getText().equals("")) &&
+                    (!newBranchOfficeTextField.getText().equals(""))) {
                 Container.getDataOutputStream().writeUTF(currentIDTextField.getText());
                 Container.getDataOutputStream().writeUTF(newNameTextField.getText());
                 Container.getDataOutputStream().writeUTF(newSurnameTextField.getText());
@@ -213,13 +212,23 @@ public class EmployeeManagerWindowController {
         }
     }
 
+    @FXML
     public void createClick(ActionEvent actionEvent) {
+        String status = newSupervisorButton.isSelected() ? "SUPERVISOR":
+                newTimekeeperButton.isSelected() ? "TIMEKEEPER": "EMPLOYEE";
         try {
             if ((!nameTextField.getText().equals("")) &&(!surnameTextField.getText().equals("")) &&
-                    (!telephoneNumberTextField.getText().equals("")) && (!nameTextField.getText().equals("")) &&
-                    (!nameTextField.getText().equals("")) &&(!nameTextField.getText().equals("")) &&
-                    (!nameTextField.getText().equals("")) && (!nameTextField.getText().equals(""))) {
-                Container.getDataOutputStream().writeUTF(deleteTextField.getText());
+                    (!telephoneNumberTextField.getText().equals("")) && (!loginTextField.getText().equals("")) &&
+                    (!passwordTextField.getText().equals("")) &&(!departmentTextField.getText().equals("")) &&
+                    (!branchOfficeTextField.getText().equals(""))) {
+                Container.getDataOutputStream().writeUTF(nameTextField.getText());
+                Container.getDataOutputStream().writeUTF(surnameTextField.getText());
+                Container.getDataOutputStream().writeUTF(telephoneNumberTextField.getText());
+                Container.getDataOutputStream().writeUTF(status);
+                Container.getDataOutputStream().writeUTF(loginTextField.getText());
+                Container.getDataOutputStream().writeUTF(passwordTextField.getText());
+                Container.getDataOutputStream().writeUTF(departmentTextField.getText());
+                Container.getDataOutputStream().writeUTF(branchOfficeTextField.getText());
             }
         } catch (IOException e) {
             e.printStackTrace();

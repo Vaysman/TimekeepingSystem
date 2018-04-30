@@ -65,8 +65,4 @@ public class ModelFacade {
     public Searcher getSearcher() {
         return searcher;
     }
-
-    public EmployeeManager getEmployeeManager() {
-        return employeeManager;
-    }
 }

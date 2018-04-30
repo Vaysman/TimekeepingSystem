@@ -72,9 +72,9 @@ public class EmployeeManagerPage extends Page {
 
     private synchronized void sendEmployeesInformation() throws PersistentException, IOException {
         String employees = "";
-        int size = modelFacade.getEmployeeManager().getAll().size();
+        int size = modelFacade.getSupervisor().getEmployeeManager().getAll().size();
         for (int i = 0; i < size; i++) {
-            employees.concat("\n" + Container.readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(i)));
+            employees.concat("\n" + Container.readEmployeeInformation(modelFacade.getSupervisor().getEmployeeManager().readEmployee(i)));
         }
         dataOutputStream.writeUTF(employees);
     }
@@ -88,20 +88,20 @@ public class EmployeeManagerPage extends Page {
         String password = dataInputStream.readUTF();
         String department = dataInputStream.readUTF();
         String branchOffice = dataInputStream.readUTF();
-        modelFacade.getEmployeeManager().createEmployee(name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, null);
+        modelFacade.getSupervisor().getEmployeeManager().createEmployee(name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, null);
     }
 
     private synchronized void readEmployee() throws IOException, PersistentException {
         int employeeID = dataInputStream.readInt();
-        dataOutputStream.writeUTF(Container.readEmployeeInformation(modelFacade.getEmployeeManager().readEmployee(employeeID)));
+        dataOutputStream.writeUTF(Container.readEmployeeInformation(modelFacade.getSupervisor().getEmployeeManager().readEmployee(employeeID)));
     }
 
     private synchronized void deleteEmployee(Employee persistentEmployee) throws PersistentException {
-        modelFacade.getEmployeeManager().deleteEmployee(persistentEmployee);
+        modelFacade.getSupervisor().getEmployeeManager().deleteEmployee(persistentEmployee);
     }
 
     private synchronized void deleteAllEmployees() throws PersistentException {
-        modelFacade.getEmployeeManager().deleteAll();
+        modelFacade.getSupervisor().getEmployeeManager().deleteAll();
     }
 
     private synchronized void update() throws PersistentException, IOException {
@@ -114,6 +114,6 @@ public class EmployeeManagerPage extends Page {
         String password = dataInputStream.readUTF();
         String department = dataInputStream.readUTF();
         String branchOffice = dataInputStream.readUTF();
-        modelFacade.getEmployeeManager().updateEmployee(new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, null));
+        modelFacade.getSupervisor().getEmployeeManager().updateEmployee(new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, null));
     }
 }

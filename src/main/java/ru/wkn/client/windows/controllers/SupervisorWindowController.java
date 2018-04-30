@@ -63,7 +63,6 @@ public class SupervisorWindowController {
     public void baseClientClick(ActionEvent actionEvent) {
         try {
             Container.getDataOutputStream().writeUTF("EMPLOYEE");
-            hide();
             Window window = new EmployeeWindow();
         } catch (IOException e) {
             e.printStackTrace();

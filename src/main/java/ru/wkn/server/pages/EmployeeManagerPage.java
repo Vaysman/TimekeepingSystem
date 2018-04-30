@@ -114,6 +114,6 @@ public class EmployeeManagerPage extends Page {
         String password = dataInputStream.readUTF();
         String department = dataInputStream.readUTF();
         String branchOffice = dataInputStream.readUTF();
-        modelFacade.getSupervisor().getEmployeeManager().updateEmployee(new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice, null));
+        modelFacade.getSupervisor().getEmployeeManager().updateEmployee(new Employee(employeeID, name, surname, telephoneNumber, employeeStatus, login, password, department, branchOffice));
     }
 }

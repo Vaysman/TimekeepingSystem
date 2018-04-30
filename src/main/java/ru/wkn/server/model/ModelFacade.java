@@ -54,6 +54,10 @@ public class ModelFacade {
         return searcher.getEmployeeByEmployeeAuthorizationData(employeeAuthorizationData);
     }
 
+    public TimekeepingEventManager getTimekeepingEventManager() {
+        return timekeepingEventManager;
+    }
+
     public Supervisor getSupervisor() {
         return new Supervisor(getEmployee(), employeeManager, timekeepingReport);
     }

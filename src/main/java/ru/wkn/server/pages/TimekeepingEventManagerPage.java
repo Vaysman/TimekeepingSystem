@@ -53,6 +53,6 @@ public class TimekeepingEventManagerPage extends Page {
         String type = dataInputStream.readUTF();
         String time = dataInputStream.readUTF();
         String date = dataInputStream.readUTF();
-        modelFacade.getEmployee().getTimekeepingEventManager().createEvent(employeeID, type, time, date);
+        modelFacade.getTimekeepingEventManager().createEvent(employeeID, type, time, date);
     }
 }

@@ -27,6 +27,7 @@ public class HibernateUtil {
         }
     }
 
+    @Contract(pure = true)
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }

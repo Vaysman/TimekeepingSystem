@@ -2,13 +2,8 @@ package ru.wkn.server.model.branchoffice.department;
 
 import ru.wkn.server.model.branchoffice.BranchOffice;
 
-import javax.persistence.Column;
-import javax.persistence.Table;
-
-@Table(name = "employees")
 public class Department {
 
-    @Column(name = "department")
     private String departmentName;
     private BranchOffice branchOffice;
 

@@ -110,9 +110,6 @@ public class Searcher {
         } catch (PersistentException e) {
             e.printStackTrace();
         }
-        if (employee != null) {
-            employee.setTimekeepingEventManager(new TimekeepingEventManager(eventDao, new EventFactory()));
-        }
         return employee;
     }
 

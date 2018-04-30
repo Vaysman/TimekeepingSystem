@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Task {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "task_id")
     private int taskID;
     @Column(name = "employee_id")
@@ -22,6 +22,8 @@ public class Task {
     private String date;
     @Column(name = "status_task")
     private boolean isAccomplished;
+
+    public Task() {}
 
     public Task(int employeeID, String definition, String startTime, String endTime, String date, boolean isAccomplished) {
         this.employeeID = employeeID;

@@ -1,18 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect" />
-        <property name="hibernate.connection.url" value="jdbc:ucanaccess://localhost:5432/timekeeping_system" />
-        <property name="hibernate.connection.driver_class" value="net.ucanaccess.jdbc.UcanaccessDriver"/>
-        <property name="hibernate.archive.autodetection" value="class" />
+        <property name="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</property>
+        <property name="hibernate.connection.url">jdbc:ucanaccess://localhost:5432/timekeeping_system</property>
+        <property name="hibernate.connection.driver_class">net.ucanaccess.jdbc.UcanaccessDriver</property>
+        <property name="hibernate.archive.autodetection">class</property>
+        <property name="hibernate.connection.pool_size">1</property>
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
 
-        <package scan = "ru.wkn.server.model.branchoffice.department.employee.Employee"/>
-        <package scan = "ru.wkn.server.model.branchoffice.department.Department"/>
-        <package scan = "ru.wkn.server.model.branchoffice.BranchOffice"/>
-        <package scan = "ru.wkn.server.model.timekeeping.timekeepingunits.task.Task"/>
-        <package scan = "ru.wkn.server.model.timekeeping.timekeepingunits.event.TimekeepingEvent"/>
+        <mapping class="ru.wkn.server.model.branchoffice.department.employee.Employee"/>
+        <mapping class="ru.wkn.server.model.timekeeping.timekeepingunits.task.Task"/>
+        <mapping class="ru.wkn.server.model.timekeeping.timekeepingunits.event.TimekeepingEvent"/>
     </session-factory>
 </hibernate-configuration>

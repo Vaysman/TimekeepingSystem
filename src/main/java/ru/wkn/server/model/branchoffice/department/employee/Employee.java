@@ -6,18 +6,14 @@ import ru.wkn.server.model.branchoffice.BranchOffice;
 import ru.wkn.server.model.branchoffice.department.Department;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Column;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "employees")
 public class Employee {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "employee_id")
     private int employeeID;
     @Column(name = "name")
@@ -28,29 +24,38 @@ public class Employee {
     private String telephoneNumber;
     @Column(name = "employee_status")
     private EmployeeStatusEnum employeeStatusEnum;
-    private EmployeeAuthorizationData employeeAuthorizationData;
-    private Department department;
-    private TimekeepingEventManager timekeepingEventManager;
+    @Column(name = "login")
+    private String login;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "department")
+    private String department;
+    @Column(name = "branch_office")
+    private String branchOffice;
 
-    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager) {
+    public Employee() {}
+
+    public Employee(String name, String surname, String telephoneNumber, EmployeeStatusEnum employeeStatusEnum, String login, String password, String department, String branchOffice) {
+        this.name = name;
+        this.surname = surname;
+        this.telephoneNumber = telephoneNumber;
+        this.employeeStatusEnum = employeeStatusEnum;
+        this.login = login;
+        this.password = password;
+        this.department = department;
+        this.branchOffice = branchOffice;
+    }
+
+    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice) {
         this.employeeID = employeeID;
         this.name = name;
         this.surname = surname;
         this.telephoneNumber = telephoneNumber;
-        this.employeeStatusEnum = EmployeeStatusEnum.valueOf(employeeStatus);
-        this.employeeAuthorizationData = new EmployeeAuthorizationData(login, password);
-        this.department = new Department(department, new BranchOffice(branchOffice));
-        this.timekeepingEventManager = timekeepingEventManager;
-    }
-
-    public Employee(String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice, TimekeepingEventManager timekeepingEventManager) {
-        this.name = name;
-        this.surname = surname;
-        this.telephoneNumber = telephoneNumber;
-        this.employeeStatusEnum = EmployeeStatusEnum.valueOf(employeeStatus);
-        this.employeeAuthorizationData = new EmployeeAuthorizationData(login, password);
-        this.department = new Department(department, new BranchOffice(branchOffice));
-        this.timekeepingEventManager = timekeepingEventManager;
+        this.employeeStatusEnum = employeeStatusEnum;
+        this.login = login;
+        this.password = password;
+        this.department = department;
+        this.branchOffice = branchOffice;
     }
 
     public int getEmployeeID() {
@@ -94,26 +99,26 @@ public class Employee {
     }
 
     public EmployeeAuthorizationData getEmployeeAuthorizationData() {
-        return employeeAuthorizationData;
+        return new EmployeeAuthorizationData(login, password);
     }
 
-    public void setEmployeeAuthorizationData(EmployeeAuthorizationData employeeAuthorizationData) {
-        this.employeeAuthorizationData = new EmployeeAuthorizationData(employeeAuthorizationData.getLogin(), employeeAuthorizationData.getPassword());
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Department getDepartment() {
-        return department;
+        return new Department(department, new BranchOffice(branchOffice));
     }
 
-    public void setDepartment(Department department) {
+    public void setDepartment(String department) {
         this.department = department;
     }
 
-    public TimekeepingEventManager getTimekeepingEventManager() {
-        return timekeepingEventManager;
-    }
-
-    public void setTimekeepingEventManager(TimekeepingEventManager timekeepingEventManager) {
-        this.timekeepingEventManager = timekeepingEventManager;
+    public void setBranchOffice(String branchOffice) {
+        this.branchOffice = branchOffice;
     }
 }

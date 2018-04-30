@@ -7,7 +7,7 @@ import javax.persistence.*;
 public abstract class TimekeepingEvent {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "event_id")
     private int eventID;
     @Column(name = "employee_id")
@@ -18,6 +18,8 @@ public abstract class TimekeepingEvent {
     private String time;
     @Column(name = "date_event")
     private String date;
+
+    public TimekeepingEvent() {}
 
     public TimekeepingEvent(int employeeID, String type, String time, String date) {
         this.employeeID = employeeID;

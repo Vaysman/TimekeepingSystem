@@ -10,7 +10,7 @@ public class Container {
         StringJoiner stringJoiner = new StringJoiner("\n");
         stringJoiner.add(employee.getName());
         stringJoiner.add(employee.getSurname());
-        stringJoiner.add(employee.getTelephoneNumber());
+        stringJoiner.add(employee.getPatronymic());
         stringJoiner.add(employee.getEmployeeStatusEnum().toString());
         stringJoiner.add(employee.getEmployeeAuthorizationData().getLogin());
         stringJoiner.add(employee.getEmployeeAuthorizationData().getPassword());

@@ -9,26 +9,26 @@ public class EmployeeDao implements Dao<Employee, Employee, Integer> {
 
     @Override
     public Employee create(Employee newInstance) throws PersistentException {
-        return (Employee) new DaoTool().createObject(newInstance);
+        return (Employee) new DaoTool(Employee.class).createObject(newInstance);
     }
 
     @Override
     public Employee read(Integer id) throws PersistentException {
-        return new DaoTool<Employee>().read(id);
+        return new DaoTool<>(Employee.class).read(id);
     }
 
     @Override
     public void update(Employee transientObject) throws PersistentException {
-        new DaoTool<>().update(transientObject);
+        new DaoTool<>(Employee.class).update(transientObject);
     }
 
     @Override
     public void delete(Employee persistentObject) throws PersistentException {
-        new DaoTool<>().delete(persistentObject);
+        new DaoTool<>(Employee.class).delete(persistentObject);
     }
 
     @Override
     public List<Employee> getAll() throws PersistentException {
-        return new DaoTool<Employee>().getAll();
+        return new DaoTool<>(Employee.class).getAll();
     }
 }

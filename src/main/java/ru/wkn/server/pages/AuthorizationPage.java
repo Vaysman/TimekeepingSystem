@@ -49,7 +49,9 @@ public class AuthorizationPage extends Page {
                     break;
                 }
                 default: {
-                    throw new PersistentException("TYPE_NOT_EXIST");
+                    synchronized (dataOutputStream) {
+                        dataOutputStream.writeUTF("EMPLOYEE_NOT_EXIST");
+                    }
                 }
             }
         }

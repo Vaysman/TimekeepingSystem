@@ -9,26 +9,26 @@ public class EventDao implements Dao<TimekeepingEvent, List<TimekeepingEvent>, I
 
     @Override
     public TimekeepingEvent create(TimekeepingEvent newInstance) throws PersistentException {
-        return (TimekeepingEvent) new DaoTool().createObject(newInstance);
+        return (TimekeepingEvent) new DaoTool(TimekeepingEvent.class).createObject(newInstance);
     }
 
     @Override
     public List<TimekeepingEvent> read(Integer id) throws PersistentException {
-        return new DaoTool<TimekeepingEvent>().read("from timekeeping_events where id = :employeeID", "employeeID", id);
+        return new DaoTool<>(TimekeepingEvent.class).read("from timekeeping_events where id = :employeeID", "employeeID", id);
     }
 
     @Override
     public void update(TimekeepingEvent transientObject) throws PersistentException {
-        new DaoTool<>().update(transientObject);
+        new DaoTool<>(TimekeepingEvent.class).update(transientObject);
     }
 
     @Override
     public void delete(TimekeepingEvent persistentObject) throws PersistentException {
-        new DaoTool<>().delete(persistentObject);
+        new DaoTool<>(TimekeepingEvent.class).delete(persistentObject);
     }
 
     @Override
     public List<TimekeepingEvent> getAll() throws PersistentException {
-        return new DaoTool<TimekeepingEvent>().getAll();
+        return new DaoTool<>(TimekeepingEvent.class).getAll();
     }
 }

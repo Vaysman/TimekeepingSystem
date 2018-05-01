@@ -1,7 +1,6 @@
 package ru.wkn.server.model.branchoffice.department.employee;
 
 import ru.wkn.server.model.branchoffice.department.employee.status.EmployeeStatusEnum;
-import ru.wkn.server.model.timekeeping.managers.TimekeepingEventManager;
 import ru.wkn.server.model.branchoffice.BranchOffice;
 import ru.wkn.server.model.branchoffice.department.Department;
 import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
@@ -9,19 +8,19 @@ import ru.wkn.server.model.timekeeping.data.EmployeeAuthorizationData;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "employees")
+@Table(name = "Кадры")
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "employee_id")
+    @Column(name = "Табельный номер")
     private int employeeID;
-    @Column(name = "name")
+    @Column(name = "Имя")
     private String name;
-    @Column(name = "surname")
+    @Column(name = "Фамилия")
     private String surname;
-    @Column(name = "telephone_number")
-    private String telephoneNumber;
+    @Column(name = "Отчество")
+    private String patronymic;
     @Column(name = "employee_status")
     private EmployeeStatusEnum employeeStatusEnum;
     @Column(name = "login")
@@ -35,10 +34,10 @@ public class Employee {
 
     public Employee() {}
 
-    public Employee(String name, String surname, String telephoneNumber, EmployeeStatusEnum employeeStatusEnum, String login, String password, String department, String branchOffice) {
+    public Employee(String name, String surname, String patronymic, EmployeeStatusEnum employeeStatusEnum, String login, String password, String department, String branchOffice) {
         this.name = name;
         this.surname = surname;
-        this.telephoneNumber = telephoneNumber;
+        this.patronymic = patronymic;
         this.employeeStatusEnum = employeeStatusEnum;
         this.login = login;
         this.password = password;
@@ -46,11 +45,11 @@ public class Employee {
         this.branchOffice = branchOffice;
     }
 
-    public Employee(int employeeID, String name, String surname, String telephoneNumber, String employeeStatus, String login, String password, String department, String branchOffice) {
+    public Employee(int employeeID, String name, String surname, String patronymic, String employeeStatus, String login, String password, String department, String branchOffice) {
         this.employeeID = employeeID;
         this.name = name;
         this.surname = surname;
-        this.telephoneNumber = telephoneNumber;
+        this.patronymic = patronymic;
         this.employeeStatusEnum = employeeStatusEnum;
         this.login = login;
         this.password = password;
@@ -82,12 +81,12 @@ public class Employee {
         this.surname = surname;
     }
 
-    public String getTelephoneNumber() {
-        return telephoneNumber;
+    public String getPatronymic() {
+        return patronymic;
     }
 
-    public void setTelephoneNumber(String telephoneNumber) {
-        this.telephoneNumber = telephoneNumber;
+    public void setPatronymic(String telephoneNumber) {
+        this.patronymic = telephoneNumber;
     }
 
     public EmployeeStatusEnum getEmployeeStatusEnum() {

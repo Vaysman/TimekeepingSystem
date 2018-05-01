@@ -5,9 +5,16 @@ import org.hibernate.Session;
 import ru.wkn.server.model.datasource.HibernateUtil;
 import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class DaoTool<T> {
+
+    private Class<T> typeClass;
+
+    public DaoTool(Class<T> typeClass) {
+        this.typeClass = typeClass;
+    }
 
     private void closeSession(Session session) {
         if (session != null && session.isOpen()) {
@@ -32,10 +39,10 @@ class DaoTool<T> {
 
     T read(Integer id) throws PersistentException {
         Session session = null;
-        T object = null;
+        T object;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            object = (T) session.load(object.getClass(), id);
+            object = (T) session.load(typeClass, id);
         } catch (Exception e) {
             throw new PersistentException("Ошибка при чтении: ", e);
         } finally {
@@ -91,15 +98,18 @@ class DaoTool<T> {
 
     List<T> getAll() throws PersistentException {
         Session session = null;
-        List<T> ts = null;
+        List<T> ts;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            ts = session.createCriteria(ts.getClass()).list();
+            if (session != null) {
+                ts = session.createCriteria(typeClass).list();
+                return ts;
+            }
         } catch (Exception e) {
             throw new PersistentException("Ошибка при чтении: ", e);
         } finally {
             closeSession(session);
         }
-        return ts;
+        return new ArrayList<>();
     }
 }

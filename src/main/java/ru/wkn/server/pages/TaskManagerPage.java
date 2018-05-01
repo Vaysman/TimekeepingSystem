@@ -1,5 +1,6 @@
 package ru.wkn.server.pages;
 
+import org.jetbrains.annotations.NotNull;
 import ru.wkn.server.model.ModelFacade;
 import ru.wkn.server.model.datasource.dao.persistent.PersistentException;
 import ru.wkn.server.model.timekeeping.timekeepingunits.task.Task;
@@ -83,6 +84,7 @@ public class TaskManagerPage extends Page {
         modelFacade.getTimekeeper().getTaskManager().editTask(getTask(), getTask());
     }
 
+    @NotNull
     private synchronized Task getTask() throws IOException {
         int taskID = dataInputStream.readInt();
         int employeeID = dataInputStream.readInt();

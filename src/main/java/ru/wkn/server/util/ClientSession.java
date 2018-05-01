@@ -41,6 +41,7 @@ public class ClientSession extends Thread {
                 }
             }
             createConnection();
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,6 +57,5 @@ public class ClientSession extends Thread {
 
     private void workLogic(DataInputStream dataInputStream, DataOutputStream dataOutputStream) throws IOException {
         Page page = new AuthorizationPage(modelFacade, dataInputStream, dataOutputStream);
-        socket.close();
     }
 }

@@ -100,7 +100,9 @@ class DaoTool<T> {
         Session session = null;
         List<T> ts;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            if (HibernateUtil.getSessionFactory() != null) {
+                session = HibernateUtil.getSessionFactory().openSession();
+            }
             if (session != null) {
                 ts = session.createCriteria(typeClass).list();
                 return ts;

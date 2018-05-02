@@ -50,14 +50,14 @@ public class AuthorizationPage extends Page {
                 }
                 default: {
                     synchronized (dataOutputStream) {
-                        dataOutputStream.writeUTF("EMPLOYEE_NOT_EXIST");
+                        dataOutputStream.writeUTF("TYPE_NOT_EXIST");
                     }
                 }
             }
         }
         else {
             synchronized (dataOutputStream) {
-                dataOutputStream.writeUTF("NOT_EXIST");
+                dataOutputStream.writeUTF("EMPLOYEE_NOT_EXIST");
             }
         }
     }
